@@ -9,6 +9,7 @@ import { ProblemSection } from "@/components/home/ProblemSection"
 import { ProductCardsSection } from "@/components/home/ProductCardsSection"
 import { RoadmapSection } from "@/components/home/RoadmapSection"
 import { SiteHeader } from "@/components/home/SiteHeader"
+import { SystemMapSection } from "@/components/home/SystemMapSection"
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <SiteHeader />
       <main>
         <HeroSection />
+        <SystemMapSection />
         <ProblemSection />
         <EcosystemSection />
         <ProductCardsSection />

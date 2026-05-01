@@ -11,7 +11,7 @@ export function EcosystemSection() {
   const productItems = products.filter((product) => product.id !== "agent-core")
 
   return (
-    <section id="platform" className="border-b border-border bg-[#FBFBFB] py-20">
+    <section id="ecosystem" className="border-b border-border bg-[#FBFBFB] py-20">
       <div className="section-shell">
         <SectionHeading
           eyebrow="Ecosystem"
