@@ -100,7 +100,16 @@ export function CampaignLifecycleSection() {
           <SectionHeading
             eyebrow="Campaign Lifecycle"
             title="캠페인 운영의 전 과정을 하나의 흐름으로"
-            description="AdMate는 캠페인 운영 단계를 따로 떼어놓지 않습니다. 기획 단계의 예측, 집행 전 정책 확인, 시작 전 세팅 검수, 운영 중 이상 감지, 보고용 캡처, 다음 캠페인 학습까지 하나의 캠페인 흐름으로 연결합니다."
+            description={
+              <>
+                <span className="block">
+                  AdMate는 캠페인 운영 단계를 따로 떼어놓지 않습니다.
+                </span>
+                <span className="block">
+                  예측, 정책 확인, 세팅 검수, 이상 감지, 보고용 캡처, 다음 캠페인 학습까지 하나의 흐름으로 연결합니다.
+                </span>
+              </>
+            }
             className="mb-0"
           />
           <Button
@@ -214,19 +223,22 @@ export function CampaignLifecycleSection() {
                     }}
                   />
                 </div>
-                <div className="mt-4 grid grid-cols-2 gap-2 text-xs text-white/60 sm:grid-cols-6">
+                <div className="mt-4 grid grid-cols-6 gap-1.5 text-[11px] text-white/55">
                   {lifecycleSteps.map((step, index) => {
                     const isActive = index === activeIndex
+                    const isComplete = index < activeIndex
 
                     return (
                       <button
                         key={step.step}
                         type="button"
                         className={cn(
-                          "rounded-lg border px-2 py-2 text-left font-semibold transition",
+                          "min-h-[46px] rounded-md border px-2 py-2 text-left font-semibold transition",
                           isActive
-                            ? "border-white/30 bg-white text-[#111827]"
-                            : "border-white/10 bg-white/10 hover:bg-white/15"
+                            ? "border-white/40 bg-white text-[#111827]"
+                            : isComplete
+                              ? "border-emerald-300/20 bg-emerald-300/10 text-white/70 hover:bg-emerald-300/15"
+                              : "border-white/10 bg-white/[0.08] hover:bg-white/[0.12]"
                         )}
                         onClick={() => setActiveIndex(index)}
                         onFocus={() => {
@@ -235,7 +247,8 @@ export function CampaignLifecycleSection() {
                         }}
                         onBlur={() => setInteractionPaused(false)}
                       >
-                        {step.title}
+                        <span className="block text-[10px] opacity-55">{step.step}</span>
+                        <span className="mt-0.5 block leading-4">{lifecycleRoles[index]}</span>
                       </button>
                     )
                   })}
