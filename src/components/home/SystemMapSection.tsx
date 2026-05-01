@@ -21,7 +21,7 @@ export function SystemMapSection() {
     <section id="platform" className="relative overflow-hidden border-b border-border bg-[#F7F7F7] py-14 sm:py-16">
       <div className="absolute inset-0 soft-grid opacity-60" aria-hidden="true" />
       <div className="section-shell relative">
-        <div className="mb-8 grid gap-4 lg:grid-cols-[minmax(0,520px)_minmax(0,440px)] lg:items-end lg:gap-12">
+        <div className="mb-8 grid gap-4 lg:grid-cols-[minmax(0,520px)_minmax(0,440px)] lg:items-end lg:justify-between lg:gap-12">
           <div>
             <Badge variant="outline" className="mb-3 bg-card text-muted-foreground">
               Live System Map
@@ -31,7 +31,7 @@ export function SystemMapSection() {
               <span className="block sm:whitespace-nowrap">한 화면에서 연결됩니다.</span>
             </h2>
           </div>
-          <p className="max-w-[440px] text-sm leading-7 text-muted-foreground">
+          <p className="max-w-[440px] text-sm leading-7 text-muted-foreground lg:justify-self-end">
             <span className="block">기획, 정책 확인, 검수, 모니터링, 캡처, 학습은</span>
             <span className="block">분리된 도구가 아니라 하나의 Agent 운영 흐름으로 이어집니다.</span>
           </p>
@@ -60,10 +60,10 @@ export function SystemMapSection() {
                 preserveAspectRatio="none"
                 aria-hidden="true"
               >
-                <path className="system-signal-line system-signal-line-1" d="M30 35 C34 39 39 42 45 45" />
-                <path className="system-signal-line system-signal-line-2" d="M70 35 C66 39 61 42 55 45" />
-                <path className="system-signal-line system-signal-line-3" d="M30 65 C34 61 39 58 45 55" />
-                <path className="system-signal-line system-signal-line-4" d="M70 65 C66 61 61 58 55 55" />
+                <path className="system-signal-line system-signal-line-1" d="M37 40 L47 48" />
+                <path className="system-signal-line system-signal-line-2" d="M63 40 L53 48" />
+                <path className="system-signal-line system-signal-line-3" d="M37 60 L47 52" />
+                <path className="system-signal-line system-signal-line-4" d="M63 60 L53 52" />
                 <circle className="system-signal-core-ring" cx="50" cy="50" r="5" />
               </svg>
 
