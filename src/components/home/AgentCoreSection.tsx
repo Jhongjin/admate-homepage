@@ -7,6 +7,8 @@ import { corePillars } from "@/lib/admate-content"
 
 import { SectionHeading } from "./SectionHeading"
 
+const loopSteps = ["실행", "기록", "학습", "다음 판단"]
+
 export function AgentCoreSection() {
   return (
     <section id="agent-core" className="border-b border-border bg-background py-20">
@@ -14,7 +16,7 @@ export function AgentCoreSection() {
         <SectionHeading
           eyebrow="Agent Core"
           title="AdMate Agent Core: 실행하고, 기록하고, 학습하는 중심 엔진"
-          description="AdMate Agent Core는 네 개의 플랫폼을 하나의 운영 흐름으로 연결합니다. Openclaw는 스케줄과 조건에 따라 업무를 실행하고, Hermes는 AI와 사용자 이벤트를 학습해 운영 지식과 판단 기준을 축적합니다."
+          description="AdMate Agent Core는 네 개의 제품을 하나의 운영 흐름으로 연결합니다. 자동화 실행과 지능/메모리 엔진을 기반으로 캠페인 단위의 실행, 기록, 피드백, 학습을 이어줍니다."
         />
 
         <div className="grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
@@ -24,12 +26,12 @@ export function AgentCoreSection() {
                 Intelligence + Automation
               </Badge>
               <h3 className="mt-6 text-3xl font-semibold leading-tight">
-                Openclaw는 움직이는 손과 발,
-                <br />
-                Hermes는 기억하고 판단하는 두뇌입니다.
+                <span className="block">자동화는 업무를 실행하고,</span>
+                <span className="block">지능은 기억하고 판단합니다.</span>
               </h3>
               <p className="mt-5 text-sm leading-7 text-white/70">
-                두 엔진은 외부 제품처럼 앞에 서기보다 AdMate Agent Core 안에서 캠페인 단위의 실행, 기록, 피드백, 학습을 조용히 연결합니다.
+                AdMate Agent Core 안에서 자동화 실행 엔진(Openclaw)은 움직이는 손과 발처럼 업무를 실행하고,
+                지능/메모리 엔진(Hermes)은 두뇌처럼 운영 지식과 판단 기준을 축적합니다.
               </p>
 
               <div className="mt-8 grid gap-3">
@@ -57,7 +59,10 @@ export function AgentCoreSection() {
                     </div>
                     <div>
                       <div className="text-sm font-semibold text-muted-foreground">{pillar.subtitle}</div>
-                      <h3 className="mt-1 text-xl font-semibold">{pillar.title}</h3>
+                      <h3 className="mt-1 text-xl font-semibold">
+                        {pillar.subtitle === "Automation Execution" ? "자동화 실행 엔진" : "지능/메모리 엔진"}
+                        <span className="ml-2 text-sm font-medium text-muted-foreground">({pillar.title})</span>
+                      </h3>
                       <p className="mt-3 text-sm leading-7 text-muted-foreground">{pillar.description}</p>
                     </div>
                   </div>
@@ -66,17 +71,28 @@ export function AgentCoreSection() {
             ))}
 
             <Card className="p-5">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-                <div className="flex-1">
-                  <div className="text-sm font-semibold">Agent loop</div>
-                  <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                    실행 결과와 운영자 판단은 다음 캠페인의 알림 기준, 정책 판단, 예측 보정의 후보가 됩니다.
-                  </p>
-                </div>
-                <Separator className="hidden h-12 sm:block" orientation="vertical" />
-                <div className="flex items-center gap-2 text-sm font-semibold text-[#5E6AD2]">
-                  실행 <ArrowRight className="h-4 w-4" /> 기록 <ArrowRight className="h-4 w-4" /> 학습
-                </div>
+              <div>
+                <div className="text-sm font-semibold">Agent operating loop</div>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  실행된 작업은 이력으로 남고, 운영자 판단은 학습되어 다음 캠페인의 기준 후보가 됩니다.
+                </p>
+              </div>
+              <Separator className="my-5" />
+              <div className="grid gap-2 sm:grid-cols-4">
+                {loopSteps.map((step, index) => (
+                  <div key={step} className="flex items-center gap-2">
+                    <div className="flex min-h-10 flex-1 items-center justify-center rounded-md border border-border bg-muted px-3 text-sm font-semibold text-foreground">
+                      {step}
+                    </div>
+                    {index < loopSteps.length - 1 ? (
+                      <ArrowRight className="hidden h-4 w-4 shrink-0 text-[#5E6AD2] sm:block" aria-hidden="true" />
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 rounded-lg border border-border bg-muted/50 p-3 text-xs leading-6 text-muted-foreground">
+                Agent Core는 모든 실행을 자동으로 대체하기보다, 감사 가능한 기록과 운영자 피드백을 남겨
+                다음 판단을 더 정확하게 만드는 기반입니다.
               </div>
             </Card>
           </div>
