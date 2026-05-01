@@ -9,17 +9,36 @@ import { SectionHeading } from "./SectionHeading"
 
 const loopSteps = ["실행", "기록", "학습", "다음 판단"]
 
+const engineCopy: Record<string, string> = {
+  Openclaw: "정해진 스케줄과 조건에 따라 업무를 실행하고, 필요한 외부 시스템을 연결합니다.",
+  Hermes: "AI 응답과 사용자 피드백을 학습해 운영 지식과 판단 기준을 축적합니다.",
+}
+
 export function AgentCoreSection() {
   return (
     <section id="agent-core" className="border-b border-border bg-background py-20">
       <div className="section-shell">
         <SectionHeading
           eyebrow="Agent Core"
-          title="AdMate Agent Core: 실행하고, 기록하고, 학습하는 중심 엔진"
-          description="AdMate Agent Core는 네 개의 제품을 하나의 운영 흐름으로 연결합니다. 자동화 실행과 지능/메모리 엔진을 기반으로 캠페인 단위의 실행, 기록, 피드백, 학습을 이어줍니다."
+          title={
+            <>
+              <span className="block">AdMate Agent Core:</span>
+              <span className="block">실행하고, 기록하고, 학습하는 중심 엔진</span>
+            </>
+          }
+          description={
+            <>
+              <span className="block">
+                AdMate Agent Core는 네 개의 제품을 하나의 운영 흐름으로 연결합니다.
+              </span>
+              <span className="block">
+                자동화 실행과 지능/메모리 엔진을 기반으로 캠페인 단위의 실행, 기록, 피드백, 학습을 이어줍니다.
+              </span>
+            </>
+          }
         />
 
-        <div className="grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="grid gap-4 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
           <Card className="overflow-hidden bg-[#111827] text-white">
             <CardContent className="p-6">
               <Badge variant="outline" className="border-white/20 bg-white/10 text-white">
@@ -34,7 +53,7 @@ export function AgentCoreSection() {
                 지능/메모리 엔진(Hermes)은 두뇌처럼 운영 지식과 판단 기준을 축적합니다.
               </p>
 
-              <div className="mt-8 grid gap-3">
+              <div className="mt-8 grid gap-2">
                 {[
                   { label: "모든 Agent action은 감사 가능한 이력으로 기록", icon: History },
                   { label: "위험하거나 비용이 큰 작업은 운영자 승인 기준으로 제어", icon: ShieldCheck },
@@ -63,7 +82,9 @@ export function AgentCoreSection() {
                         {pillar.subtitle === "Automation Execution" ? "자동화 실행 엔진" : "지능/메모리 엔진"}
                         <span className="ml-2 text-sm font-medium text-muted-foreground">({pillar.title})</span>
                       </h3>
-                      <p className="mt-3 text-sm leading-7 text-muted-foreground">{pillar.description}</p>
+                      <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                        {engineCopy[pillar.title] ?? pillar.description}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
