@@ -56,12 +56,16 @@ export function HeroSection() {
             <br />
             광고 운영의 전 과정을 AI Agent가 연결합니다.
           </p>
-          <p className="mt-6 max-w-2xl text-sm leading-7 text-white/70 sm:text-base">
-            AdMate는 광고 캠페인의 정책 확인, 세팅 검수, 실시간 모니터링,
-            <br />
-            캡처 자동화, 성과 예측을 하나의 Agent 운영 흐름으로 연결해 반복 업무를
-            <br />
-            줄이고 캠페인 판단을 더 정확하게 만듭니다.
+          <p className="mt-6 max-w-[660px] text-sm leading-7 text-white/70 sm:text-base">
+            <span className="block">
+              AdMate는 광고 캠페인의 정책 확인, 세팅 검수, 실시간 모니터링,
+            </span>
+            <span className="block">
+              캡처 자동화, 성과 예측을 하나의 Agent 운영 흐름으로 연결합니다.
+            </span>
+            <span className="block">
+              반복 업무를 줄이고 캠페인 판단을 더 정확하게 만듭니다.
+            </span>
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
