@@ -14,6 +14,21 @@ const engineCopy: Record<string, string> = {
   Hermes: "AI 응답과 사용자 피드백을 학습해 운영 지식과 판단 기준을 축적합니다.",
 }
 
+const corePrinciples = [
+  {
+    label: "Audit-ready",
+    description: "모든 실행은 추적 가능한 이력으로 남깁니다.",
+  },
+  {
+    label: "Human-approved",
+    description: "비용·위험이 큰 작업은 운영자 기준으로 제어합니다.",
+  },
+  {
+    label: "Knowledge-backed",
+    description: "반복 판단은 운영 지식으로 축적됩니다.",
+  },
+]
+
 export function AgentCoreSection() {
   return (
     <section id="agent-core" className="border-b border-border bg-background py-20">
@@ -62,6 +77,15 @@ export function AgentCoreSection() {
                   <div key={item.label} className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 p-3 text-sm">
                     <item.icon className="h-4 w-4 text-white/70" aria-hidden="true" />
                     {item.label}
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-6 grid gap-2 border-t border-white/10 pt-5 sm:grid-cols-3">
+                {corePrinciples.map((principle) => (
+                  <div key={principle.label} className="rounded-lg border border-white/10 bg-white/[0.06] p-3">
+                    <div className="text-xs font-semibold text-white">{principle.label}</div>
+                    <p className="mt-2 text-[11px] leading-5 text-white/58">{principle.description}</p>
                   </div>
                 ))}
               </div>
