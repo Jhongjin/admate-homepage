@@ -1,4 +1,4 @@
-import { BrainCircuit, CheckCircle2 } from "lucide-react"
+import { BrainCircuit } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
@@ -32,7 +32,16 @@ export function EcosystemSection() {
         <SectionHeading
           eyebrow="Ecosystem"
           title="Agent Core가 광고 운영 제품군을 하나로 연결합니다"
-          description="AdMate는 정책, 검수, 캡처, 예측을 담당하는 네 개의 전문 플랫폼과 이를 연결하는 Agent Core로 구성됩니다. 각 제품은 독립적으로 업무를 줄이고, Core를 통해 캠페인 단위의 실행·기록·학습 흐름으로 이어집니다."
+          description={
+            <>
+              <span className="block">
+                AdMate는 정책, 검수, 캡처, 예측을 담당하는 네 개의 전문 플랫폼과 이를 연결하는 Agent Core로 구성됩니다.
+              </span>
+              <span className="block">
+                각 제품은 독립적으로 업무를 줄이고, Core를 통해 캠페인 단위의 실행·기록·학습 흐름으로 이어집니다.
+              </span>
+            </>
+          }
           align="center"
         />
 
@@ -72,9 +81,12 @@ export function EcosystemSection() {
                   </div>
                 ))}
               </div>
-              <div className="mt-5 inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-white/62">
-                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-300" aria-hidden="true" />
-                제품 신호 → Agent Core → 운영 지식
+              <div className="mt-5 flex items-center justify-center gap-1.5 rounded-md border border-white/10 bg-white/5 px-2 py-2 text-[11px] font-semibold text-white/70">
+                <span className="whitespace-nowrap">제품 신호</span>
+                <span className="text-emerald-300" aria-hidden="true">→</span>
+                <span className="whitespace-nowrap">Agent Core</span>
+                <span className="text-emerald-300" aria-hidden="true">→</span>
+                <span className="whitespace-nowrap">운영 지식</span>
               </div>
             </div>
           </Card>

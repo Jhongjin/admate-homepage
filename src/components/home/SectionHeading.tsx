@@ -1,10 +1,12 @@
+import type { ReactNode } from "react"
+
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 
 type SectionHeadingProps = {
   eyebrow: string
   title: string
-  description?: string
+  description?: ReactNode
   align?: "left" | "center"
   className?: string
 }
