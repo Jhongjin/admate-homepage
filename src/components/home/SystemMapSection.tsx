@@ -21,18 +21,19 @@ export function SystemMapSection() {
     <section id="platform" className="relative overflow-hidden border-b border-border bg-[#F7F7F7] py-14 sm:py-16">
       <div className="absolute inset-0 soft-grid opacity-60" aria-hidden="true" />
       <div className="section-shell relative">
-        <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-2xl">
             <Badge variant="outline" className="mb-3 bg-card text-muted-foreground">
               Live System Map
             </Badge>
             <h2 className="text-balance text-3xl font-semibold tracking-normal sm:text-4xl">
-              AdMate 생태계가 한 화면에서 연결됩니다.
+              <span className="block">AdMate 생태계가</span>
+              <span className="block sm:whitespace-nowrap">한 화면에서 연결됩니다.</span>
             </h2>
           </div>
           <p className="max-w-xl text-sm leading-7 text-muted-foreground">
-            기획, 정책 확인, 검수, 모니터링, 캡처, 학습이 분리된 도구가 아니라
-            하나의 Agent 운영 흐름 안에서 이어지는 구조를 보여줍니다.
+            <span className="block">기획, 정책 확인, 검수, 모니터링, 캡처, 학습은</span>
+            <span className="block">분리된 도구가 아니라 하나의 Agent 운영 흐름으로 이어집니다.</span>
           </p>
         </div>
 
@@ -53,13 +54,25 @@ export function SystemMapSection() {
             <div className="relative overflow-hidden rounded-lg border border-border bg-[#FAFAFA] p-3 sm:p-4">
               <div className="absolute inset-x-8 top-1/2 h-px bg-border" aria-hidden="true" />
               <div className="absolute inset-y-8 left-1/2 w-px bg-border" aria-hidden="true" />
+              <svg
+                className="pointer-events-none absolute inset-5 z-0 text-[#8EA2FF]"
+                viewBox="0 0 100 100"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <path className="system-signal-line system-signal-line-1" d="M22 22 C25 42 38 47 50 50" />
+                <path className="system-signal-line system-signal-line-2" d="M78 22 C75 42 62 47 50 50" />
+                <path className="system-signal-line system-signal-line-3" d="M22 78 C25 58 38 53 50 50" />
+                <path className="system-signal-line system-signal-line-4" d="M78 78 C75 58 62 53 50 50" />
+                <circle className="system-signal-core-ring" cx="50" cy="50" r="5" />
+              </svg>
 
               <div className="relative z-10 grid min-h-[430px] grid-cols-2 grid-rows-[1fr_auto_1fr] gap-3">
-                {satelliteProducts.slice(0, 2).map((product) => (
-                  <SystemMapProductNode key={product.id} product={product} />
+                {satelliteProducts.slice(0, 2).map((product, index) => (
+                  <SystemMapProductNode key={product.id} product={product} signalIndex={index} />
                 ))}
 
-                <div className="col-span-2 mx-auto w-full max-w-[260px] rounded-lg border border-[#CFCFE8] bg-white p-4 text-center shadow-soft">
+                <div className="system-core-node relative col-span-2 mx-auto w-full max-w-[260px] overflow-hidden rounded-lg border border-[#CFCFE8] bg-white p-4 text-center shadow-soft">
                   <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-[#111827] text-white">
                     <Network className="h-5 w-5" aria-hidden="true" />
                   </div>
@@ -69,8 +82,8 @@ export function SystemMapSection() {
                   </div>
                 </div>
 
-                {satelliteProducts.slice(2, 4).map((product) => (
-                  <SystemMapProductNode key={product.id} product={product} />
+                {satelliteProducts.slice(2, 4).map((product, index) => (
+                  <SystemMapProductNode key={product.id} product={product} signalIndex={index + 2} />
                 ))}
               </div>
             </div>
@@ -118,8 +131,10 @@ export function SystemMapSection() {
 
 function SystemMapProductNode({
   product,
+  signalIndex,
 }: {
   product: (typeof products)[number]
+  signalIndex: number
 }) {
   const Icon = product.icon
 
@@ -127,8 +142,11 @@ function SystemMapProductNode({
     <Tooltip>
       <TooltipTrigger asChild>
         <div
-          className="flex min-h-[124px] flex-col justify-between rounded-lg border bg-white p-3 shadow-sm"
-          style={{ borderColor: product.borderColor }}
+          className="system-map-node flex min-h-[124px] flex-col justify-between rounded-lg border bg-white p-3 shadow-sm"
+          style={{
+            animationDelay: `${signalIndex * 0.65}s`,
+            borderColor: product.borderColor,
+          }}
         >
           <div
             className="flex h-8 w-8 items-center justify-center rounded-md"
