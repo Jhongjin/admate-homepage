@@ -13,6 +13,17 @@ import { SectionHeading } from "./SectionHeading"
 
 const CYCLE_INTERVAL = 2800
 
+const lifecycleRoles = ["예측", "정책", "검수", "모니터링", "캡처", "학습"]
+
+const lifecycleSignals = [
+  "성과 기준 확인",
+  "정책 근거 연결",
+  "세팅 오류 검수",
+  "운영 이상 감지",
+  "보고 증빙 생성",
+  "피드백 학습",
+]
+
 const lifecycleTones: Record<
   string,
   {
@@ -109,16 +120,51 @@ export function CampaignLifecycleSection() {
           </Button>
         </div>
 
+        <div className="mt-8 overflow-x-auto pb-1">
+          <div className="flex min-w-max items-center rounded-lg border border-border bg-card p-2 shadow-sm">
+            {lifecycleSteps.map((step, index) => {
+              const isActive = index === activeIndex
+              const tone = lifecycleTones[step.product] ?? lifecycleTones["Agent Core"]
+
+              return (
+                <div key={step.step} className="flex items-center">
+                  <button
+                    type="button"
+                    className={cn(
+                      "rounded-md px-3 py-2 text-left text-xs font-semibold transition",
+                      isActive ? "bg-[#111827] text-white" : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    )}
+                    onClick={() => setActiveIndex(index)}
+                    style={isActive ? { boxShadow: `0 0 0 1px ${tone.borderColor}` } : undefined}
+                  >
+                    <span className={cn("mr-2", isActive ? "text-white/50" : "text-muted-foreground")}>{step.step}</span>
+                    <span>{lifecycleRoles[index]}</span>
+                  </button>
+                  {index < lifecycleSteps.length - 1 ? (
+                    <ArrowRight className="mx-1 h-3.5 w-3.5 text-muted-foreground/45" aria-hidden="true" />
+                  ) : null}
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
         <div className="mt-10 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
           <Card className="relative overflow-hidden bg-[#111827] p-5 text-white shadow-soft sm:p-6">
             <div className="hero-panel-grid absolute inset-0" aria-hidden="true" />
             <div className="relative">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <Badge variant="outline" className="w-fit border-white/20 bg-white/10 text-white">
-                  Live Campaign Loop
-                </Badge>
-                <div className="text-xs font-semibold text-white/50">
-                  {activeStep.step} / 06
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge variant="outline" className="w-fit border-white/20 bg-white/10 text-white">
+                    Live Campaign Loop
+                  </Badge>
+                  <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-semibold text-white/60">
+                    Selected step · {activeStep.step}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 text-xs font-semibold text-white/50">
+                  <span className={cn("h-1.5 w-1.5 rounded-full", isPaused ? "bg-white/35" : "bg-emerald-300")} />
+                  {isPaused ? "Paused" : "Live demo"}
                 </div>
               </div>
 
@@ -134,7 +180,19 @@ export function CampaignLifecycleSection() {
                   <ActiveIcon className="h-6 w-6" aria-hidden="true" />
                 </div>
                 <div>
-                  <div className="text-sm font-semibold text-white/50">{activeStep.product}</div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <div className="text-sm font-semibold text-white/50">{activeStep.product}</div>
+                    <span
+                      className="rounded-md border px-2 py-0.5 text-[11px] font-semibold"
+                      style={{
+                        borderColor: `${activeTone.color}55`,
+                        backgroundColor: `${activeTone.color}18`,
+                        color: activeTone.color === "#111827" ? "#C7D2FE" : activeTone.color,
+                      }}
+                    >
+                      {lifecycleRoles[activeIndex]}
+                    </span>
+                  </div>
                   <h3 className="mt-2 text-3xl font-semibold leading-tight">{activeStep.title}</h3>
                   <p className="mt-4 max-w-xl text-sm leading-7 text-white/70">
                     {activeStep.description}
@@ -143,6 +201,10 @@ export function CampaignLifecycleSection() {
               </div>
 
               <div className="mt-8">
+                <div className="mb-2 flex items-center justify-between text-xs font-semibold text-white/45">
+                  <span>Loop progress</span>
+                  <span>{activeIndex + 1} of {lifecycleSteps.length}</span>
+                </div>
                 <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
                   <div
                     key={activeStep.step}
@@ -182,8 +244,8 @@ export function CampaignLifecycleSection() {
 
               <div className="mt-8 grid gap-3 sm:grid-cols-3">
                 {[
-                  { label: "현재 단계", value: activeStep.product },
-                  { label: "다음 연결", value: nextStep.product },
+                  { label: "현재 신호", value: lifecycleSignals[activeIndex] },
+                  { label: "다음 연결", value: `${nextStep.step} · ${nextStep.product}` },
                   { label: "운영 방식", value: "Human-in-the-loop" },
                 ].map((item) => (
                   <div key={item.label} className="rounded-lg border border-white/10 bg-white/10 p-3">
@@ -264,7 +326,19 @@ function LifecycleStepButton({
       ) : null}
 
       <div className="flex items-center justify-between gap-3">
-        <Badge variant={isActive ? "default" : "muted"}>{item.step}</Badge>
+        <div className="flex items-center gap-2">
+          <Badge variant={isActive ? "default" : "muted"}>{item.step}</Badge>
+          <span
+            className="rounded-md border px-2 py-0.5 text-[11px] font-semibold"
+            style={{
+              borderColor: isActive ? tone.borderColor : "#E5E7EB",
+              color: tone.color,
+              backgroundColor: isActive ? "#FFFFFF" : tone.softColor,
+            }}
+          >
+            {lifecycleRoles[Number(item.step) - 1]}
+          </span>
+        </div>
         <div
           className="flex h-9 w-9 items-center justify-center rounded-lg border"
           style={{
