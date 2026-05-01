@@ -3,12 +3,13 @@ import { ArrowRight, BookOpenText, MonitorCog } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import { SiteLinksDropdown } from "@/components/home/SiteLinksDropdown"
 
 export function FinalCTASection() {
   return (
     <section className="bg-background py-20">
       <div className="section-shell">
-        <Card className="overflow-hidden bg-[#111827] p-8 text-white sm:p-10 lg:p-12">
+        <Card className="bg-[#111827] p-8 text-white sm:p-10 lg:p-12">
           <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
               <div className="text-sm font-semibold text-white/60">AdMate Platform</div>
@@ -35,6 +36,7 @@ export function FinalCTASection() {
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
               </Button>
+              <SiteLinksDropdown dark size="lg" />
             </div>
           </div>
         </Card>

@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import { BrandMark } from "@/components/home/BrandMark"
 import { SheetlessMobileNav } from "@/components/home/SheetlessMobileNav"
+import { SiteLinksDropdown } from "@/components/home/SiteLinksDropdown"
 import { navLinks } from "@/lib/admate-content"
 import { cn } from "@/lib/utils"
 
@@ -47,6 +48,7 @@ export function SiteHeader() {
           <Button asChild size="sm">
             <Link href="#operations">운영 콘솔 보기</Link>
           </Button>
+          <SiteLinksDropdown />
         </div>
 
         <div className="sm:hidden">
