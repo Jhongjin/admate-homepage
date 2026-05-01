@@ -95,6 +95,18 @@
     animation: hero-flow-pulse 4s ease-in-out infinite;
   }
 
+  .lifecycle-progress-fill {
+    width: 100%;
+    transform-origin: left;
+    animation: lifecycle-progress 2.8s linear forwards;
+  }
+
+  .lifecycle-signal-pulse {
+    opacity: 0.85;
+    box-shadow: 0 0 18px currentColor;
+    animation: lifecycle-signal 2.8s ease-in-out infinite;
+  }
+
   @keyframes hero-scanline {
     0% {
       transform: translateY(-140px);
@@ -121,9 +133,30 @@
     }
   }
 
+  @keyframes lifecycle-progress {
+    0% {
+      transform: scaleX(0);
+    }
+    100% {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes lifecycle-signal {
+    0%,
+    100% {
+      opacity: 0.35;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .hero-scanline,
-    .hero-flow-pulse {
+    .hero-flow-pulse,
+    .lifecycle-progress-fill,
+    .lifecycle-signal-pulse {
       animation: none;
     }
   }
