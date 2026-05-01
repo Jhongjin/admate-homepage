@@ -42,18 +42,20 @@ const siteLinks: SiteLink[] = [
 type SiteLinksDropdownProps = {
   dark?: boolean
   size?: "sm" | "lg"
+  className?: string
 }
 
-export function SiteLinksDropdown({ dark = false, size = "sm" }: SiteLinksDropdownProps) {
+export function SiteLinksDropdown({ className, dark = false, size = "sm" }: SiteLinksDropdownProps) {
   return (
     <details className="group relative">
       <summary
         className={cn(
-          "inline-flex cursor-pointer list-none items-center justify-center gap-2 rounded-md border font-semibold transition [&::-webkit-details-marker]:hidden",
-          size === "lg" ? "h-11 min-w-[158px] px-5 text-sm" : "h-9 min-w-[112px] px-3 text-sm",
+          "inline-flex cursor-pointer list-none items-center justify-center gap-2 whitespace-nowrap rounded-md border font-semibold transition [&::-webkit-details-marker]:hidden",
+          size === "lg" ? "h-11 min-w-[176px] px-5 text-sm" : "h-8 min-w-[104px] px-3 text-[13px]",
           dark
             ? "border-white/20 bg-transparent text-white hover:bg-white/10"
-            : "border-border bg-background text-foreground hover:bg-muted"
+            : "border-border bg-background text-foreground hover:bg-muted",
+          className
         )}
       >
         사이트 이동

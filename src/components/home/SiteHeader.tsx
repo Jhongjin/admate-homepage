@@ -39,16 +39,16 @@ export function SiteHeader() {
         </NavigationMenu>
 
         <div className="hidden items-center gap-2 sm:flex">
-          <Button asChild variant="outline" size="sm">
+          <Button asChild variant="outline" size="sm" className="w-[96px] text-[13px]">
             <Link href="https://github.com/Jhongjin/admate-homepage/tree/main/docs/strategy" target="_blank" rel="noreferrer">
               전략 문서
               <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
             </Link>
           </Button>
-          <Button asChild size="sm">
+          <Button asChild size="sm" className="w-[118px] text-[13px]">
             <Link href="#operations">운영 콘솔 보기</Link>
           </Button>
-          <SiteLinksDropdown />
+          <SiteLinksDropdown className="w-[110px]" />
         </div>
 
         <div className="sm:hidden">
