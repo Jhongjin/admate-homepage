@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowUpRight, Box, Menu } from "lucide-react"
+import { ArrowUpRight, Menu } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -11,6 +11,7 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+import { BrandMark } from "@/components/home/BrandMark"
 import { SheetlessMobileNav } from "@/components/home/SheetlessMobileNav"
 import { navLinks } from "@/lib/admate-content"
 import { cn } from "@/lib/utils"
@@ -20,9 +21,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur">
       <div className="section-shell flex h-14 items-center justify-between gap-4">
         <Link href="#top" className="flex items-center gap-2">
-          <span className="flex h-7 w-7 items-center justify-center rounded-md bg-foreground text-background">
-            <Box className="h-4 w-4" aria-hidden="true" />
-          </span>
+          <BrandMark className="h-7 w-7" />
           <span className="text-sm font-semibold">AdMate</span>
         </Link>
 

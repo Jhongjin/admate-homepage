@@ -1,0 +1,104 @@
+<svg width="1320" height="620" viewBox="0 0 1320 620" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="navyPanel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07101D"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="blueSignal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#C8D2FF"/>
+      <stop offset="1" stop-color="#8EA2FF"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="22" stdDeviation="20" flood-color="#07101D" flood-opacity="0.16"/>
+    </filter>
+    <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse">
+      <path d="M 28 0 L 0 0 0 28" stroke="#111827" stroke-opacity="0.06" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1320" height="620" fill="#F7F7F7"/>
+  <rect width="1320" height="620" fill="url(#grid)"/>
+
+  <text x="60" y="68" fill="#111827" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="32" font-weight="700">AdMate logo / favicon directions</text>
+  <text x="60" y="101" fill="#64748B" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="16">Three vector-first concepts for an AI Agent based advertising operations platform.</text>
+
+  <g transform="translate(60 142)" filter="url(#softShadow)">
+    <rect width="380" height="408" rx="18" fill="white" stroke="#E5E7EB"/>
+    <text x="28" y="48" fill="#111827" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">A. Core A</text>
+    <text x="28" y="76" fill="#64748B" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="13">Agent Core node inside a precise A mark</text>
+
+    <g transform="translate(102 112)">
+      <rect width="176" height="176" rx="38" fill="url(#navyPanel)"/>
+      <path d="M55 128L88 48L121 128" stroke="white" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M71 96H105" stroke="#8EA2FF" stroke-width="10" stroke-linecap="round"/>
+      <circle cx="88" cy="96" r="8" fill="#34D399"/>
+      <path d="M88 96V68" stroke="#34D399" stroke-width="4" stroke-linecap="round" stroke-opacity="0.75"/>
+      <circle cx="88" cy="68" r="4" fill="#C8D2FF"/>
+    </g>
+
+    <g transform="translate(84 318)">
+      <rect x="0" y="0" width="44" height="44" rx="10" fill="url(#navyPanel)"/>
+      <path d="M14 32L22 12L30 32" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M18 24H26" stroke="#8EA2FF" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="22" cy="24" r="2.6" fill="#34D399"/>
+      <text x="62" y="29" fill="#111827" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">AdMate</text>
+    </g>
+
+    <text x="28" y="382" fill="#64748B" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="13">Best for: strong favicon, simple brand memory</text>
+  </g>
+
+  <g transform="translate(470 142)" filter="url(#softShadow)">
+    <rect width="380" height="408" rx="18" fill="white" stroke="#E5E7EB"/>
+    <text x="28" y="48" fill="#111827" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">B. Flow Cube</text>
+    <text x="28" y="76" fill="#64748B" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="13">Current cube refined into connected execution flow</text>
+
+    <g transform="translate(102 112)">
+      <rect width="176" height="176" rx="38" fill="url(#navyPanel)"/>
+      <path d="M88 42L126 64V108L88 130L50 108V64L88 42Z" stroke="white" stroke-width="9" stroke-linejoin="round"/>
+      <path d="M50 64L88 86L126 64" stroke="#C8D2FF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M88 86V130" stroke="#C8D2FF" stroke-width="7" stroke-linecap="round"/>
+      <circle cx="50" cy="64" r="6" fill="#8EA2FF"/>
+      <circle cx="126" cy="64" r="6" fill="#8EA2FF"/>
+      <circle cx="88" cy="130" r="6" fill="#34D399"/>
+      <path d="M44 121C31 109 31 73 44 55" stroke="#34D399" stroke-width="5" stroke-linecap="round" stroke-opacity="0.75"/>
+      <path d="M132 55C145 73 145 109 132 121" stroke="#34D399" stroke-width="5" stroke-linecap="round" stroke-opacity="0.75"/>
+    </g>
+
+    <g transform="translate(84 318)">
+      <rect x="0" y="0" width="44" height="44" rx="10" fill="url(#navyPanel)"/>
+      <path d="M22 10L32 16V28L22 34L12 28V16L22 10Z" stroke="white" stroke-width="2.8" stroke-linejoin="round"/>
+      <path d="M12 16L22 22L32 16M22 22V34" stroke="#8EA2FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="22" cy="34" r="2" fill="#34D399"/>
+      <text x="62" y="29" fill="#111827" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">AdMate</text>
+    </g>
+
+    <text x="28" y="382" fill="#64748B" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="13">Best for: continuity with the current header icon</text>
+  </g>
+
+  <g transform="translate(880 142)" filter="url(#softShadow)">
+    <rect width="380" height="408" rx="18" fill="white" stroke="#E5E7EB"/>
+    <text x="28" y="48" fill="#111827" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">C. Signal Gate</text>
+    <text x="28" y="76" fill="#64748B" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="13">Campaign lifecycle as a controlled signal gateway</text>
+
+    <g transform="translate(102 112)">
+      <rect width="176" height="176" rx="38" fill="url(#navyPanel)"/>
+      <path d="M51 122V74C51 59 62 48 77 48H99C114 48 125 59 125 74V122" stroke="white" stroke-width="12" stroke-linecap="round"/>
+      <path d="M66 95H110" stroke="#8EA2FF" stroke-width="9" stroke-linecap="round"/>
+      <circle cx="66" cy="95" r="6" fill="#8EA2FF"/>
+      <circle cx="88" cy="95" r="8" fill="#34D399"/>
+      <circle cx="110" cy="95" r="6" fill="#8EA2FF"/>
+      <path d="M88 95V132" stroke="#34D399" stroke-width="5" stroke-linecap="round"/>
+      <path d="M71 132H105" stroke="#34D399" stroke-width="5" stroke-linecap="round"/>
+    </g>
+
+    <g transform="translate(84 318)">
+      <rect x="0" y="0" width="44" height="44" rx="10" fill="url(#navyPanel)"/>
+      <path d="M13 31V19C13 14.5 16.5 11 21 11H23C27.5 11 31 14.5 31 19V31" stroke="white" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M16 24H28" stroke="#8EA2FF" stroke-width="2.8" stroke-linecap="round"/>
+      <circle cx="22" cy="24" r="2.6" fill="#34D399"/>
+      <text x="62" y="29" fill="#111827" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">AdMate</text>
+    </g>
+
+    <text x="28" y="382" fill="#64748B" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="13">Best for: enterprise control, lifecycle governance</text>
+  </g>
+</svg>

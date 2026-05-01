@@ -8,6 +8,11 @@ export const metadata: Metadata = {
   title: "AdMate - AI Agent 기반 광고 운영 자동화 플랫폼",
   description:
     "AdMate는 광고 캠페인의 정책 확인, 세팅 검수, 실시간 모니터링, 캡처 자동화, 성과 예측을 하나의 AI Agent 운영 흐름으로 연결하는 광고 운영 자동화 플랫폼입니다.",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/brand/admate-mark.svg",
+  },
   keywords: [
     "AdMate",
     "광고 운영 자동화",

@@ -1,0 +1,19 @@
+<svg width="420" height="120" viewBox="0 0 420 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="admate-wordmark-bg" x1="10" y1="10" x2="86" y2="86" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#07101D"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="76" height="76" rx="18" fill="url(#admate-wordmark-bg)"/>
+  <path d="M48 25L67 36V58L48 69L29 58V36L48 25Z" stroke="#FFFFFF" stroke-width="5.6" stroke-linejoin="round"/>
+  <path d="M29 36L48 47L67 36" stroke="#C8D2FF" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M48 47V69" stroke="#C8D2FF" stroke-width="4.2" stroke-linecap="round"/>
+  <circle cx="29" cy="36" r="3.5" fill="#8EA2FF"/>
+  <circle cx="67" cy="36" r="3.5" fill="#8EA2FF"/>
+  <circle cx="48" cy="69" r="3.5" fill="#34D399"/>
+  <path d="M25 64C18.5 56.8 18.5 39.2 25 31" stroke="#34D399" stroke-width="2.8" stroke-linecap="round" opacity="0.8"/>
+  <path d="M71 31C77.5 39.2 77.5 56.8 71 64" stroke="#34D399" stroke-width="2.8" stroke-linecap="round" opacity="0.8"/>
+  <text x="106" y="62" fill="#111827" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="38" font-weight="750" letter-spacing="-0.5">AdMate</text>
+  <text x="108" y="86" fill="#64748B" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="13" font-weight="600">AI Agent Advertising Operations Platform</text>
+</svg>
