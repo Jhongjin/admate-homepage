@@ -54,18 +54,13 @@ export function SystemMapSection() {
             <div className="relative overflow-hidden rounded-lg border border-border bg-[#FAFAFA] p-3 sm:p-4">
               <div className="absolute inset-x-8 top-1/2 h-px bg-border" aria-hidden="true" />
               <div className="absolute inset-y-8 left-1/2 w-px bg-border" aria-hidden="true" />
-              <svg
-                className="pointer-events-none absolute inset-5 z-0 text-[#8EA2FF]"
-                viewBox="0 0 100 100"
-                preserveAspectRatio="none"
-                aria-hidden="true"
-              >
-                <path className="system-signal-line system-signal-line-1" d="M37 40 L47 48" />
-                <path className="system-signal-line system-signal-line-2" d="M63 40 L53 48" />
-                <path className="system-signal-line system-signal-line-3" d="M37 60 L47 52" />
-                <path className="system-signal-line system-signal-line-4" d="M63 60 L53 52" />
-                <circle className="system-signal-core-ring" cx="50" cy="50" r="5" />
-              </svg>
+              <div className="pointer-events-none absolute inset-0 z-0 hidden sm:block" aria-hidden="true">
+                <span className="system-link-segment system-link-segment-tl" />
+                <span className="system-link-segment system-link-segment-tr" />
+                <span className="system-link-segment system-link-segment-bl" />
+                <span className="system-link-segment system-link-segment-br" />
+                <span className="system-core-pulse" />
+              </div>
 
               <div className="relative z-10 grid min-h-[430px] grid-cols-2 grid-rows-[1fr_auto_1fr] gap-3">
                 {satelliteProducts.slice(0, 2).map((product, index) => (
