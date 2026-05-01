@@ -60,10 +60,10 @@ export function SystemMapSection() {
                 preserveAspectRatio="none"
                 aria-hidden="true"
               >
-                <path className="system-signal-line system-signal-line-1" d="M22 22 C25 42 38 47 50 50" />
-                <path className="system-signal-line system-signal-line-2" d="M78 22 C75 42 62 47 50 50" />
-                <path className="system-signal-line system-signal-line-3" d="M22 78 C25 58 38 53 50 50" />
-                <path className="system-signal-line system-signal-line-4" d="M78 78 C75 58 62 53 50 50" />
+                <path className="system-signal-line system-signal-line-1" d="M30 35 C34 39 39 42 45 45" />
+                <path className="system-signal-line system-signal-line-2" d="M70 35 C66 39 61 42 55 45" />
+                <path className="system-signal-line system-signal-line-3" d="M30 65 C34 61 39 58 45 55" />
+                <path className="system-signal-line system-signal-line-4" d="M70 65 C66 61 61 58 55 55" />
                 <circle className="system-signal-core-ring" cx="50" cy="50" r="5" />
               </svg>
 

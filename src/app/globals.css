@@ -135,10 +135,10 @@
   .system-signal-line {
     fill: none;
     stroke: currentColor;
-    stroke-dasharray: 8 12;
+    stroke-dasharray: 5 8;
     stroke-linecap: round;
-    stroke-width: 1.4;
-    opacity: 0.72;
+    stroke-width: 1.2;
+    opacity: 0.58;
     vector-effect: non-scaling-stroke;
     animation: system-signal-flow 5.6s linear infinite;
   }
@@ -276,15 +276,15 @@
   @keyframes system-signal-flow {
     0% {
       stroke-dashoffset: 0;
-      opacity: 0.42;
+      opacity: 0.26;
     }
     35%,
     70% {
-      opacity: 0.82;
+      opacity: 0.68;
     }
     100% {
-      stroke-dashoffset: -40;
-      opacity: 0.42;
+      stroke-dashoffset: -26;
+      opacity: 0.26;
     }
   }
 
