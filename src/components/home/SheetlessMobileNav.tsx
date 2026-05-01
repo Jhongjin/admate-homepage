@@ -1,0 +1,46 @@
+"use client"
+
+import { useState } from "react"
+import type { ReactNode } from "react"
+import Link from "next/link"
+
+import { Button } from "@/components/ui/button"
+import { navLinks } from "@/lib/admate-content"
+
+export function SheetlessMobileNav({ trigger }: { trigger: ReactNode }) {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <div className="relative">
+      <span onClick={() => setOpen((value) => !value)}>{trigger}</span>
+      {open ? (
+        <div className="absolute right-0 top-11 w-64 rounded-lg border border-border bg-card p-2 shadow-soft">
+          <nav className="grid gap-1">
+            {navLinks.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+          <div className="mt-2 grid gap-2 border-t border-border pt-2">
+            <Button asChild size="sm" variant="outline">
+              <Link href="https://github.com/Jhongjin/admate-homepage/tree/main/docs/strategy" target="_blank" rel="noreferrer">
+                전략 문서
+              </Link>
+            </Button>
+            <Button asChild size="sm">
+              <Link href="#operations" onClick={() => setOpen(false)}>
+                운영 콘솔 보기
+              </Link>
+            </Button>
+          </div>
+        </div>
+      ) : null}
+    </div>
+  )
+}
