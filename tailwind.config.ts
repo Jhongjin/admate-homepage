@@ -54,7 +54,16 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
+        sans: [
+          "var(--font-inter)",
+          "var(--font-noto-sans-kr)",
+          "Inter",
+          "Noto Sans KR",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "system-ui",
+          "sans-serif",
+        ],
         mono: ["SFMono-Regular", "Consolas", "Liberation Mono", "monospace"],
       },
       boxShadow: {

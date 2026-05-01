@@ -1,8 +1,22 @@
 import type { Metadata } from "next"
+import { Inter, Noto_Sans_KR } from "next/font/google"
 
 import { TooltipProvider } from "@/components/ui/tooltip"
 
 import "./globals.css"
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+})
+
+const notoSansKr = Noto_Sans_KR({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-noto-sans-kr",
+  display: "swap",
+})
 
 export const metadata: Metadata = {
   title: "AdMate - AI Agent 기반 광고 운영 자동화 플랫폼",
@@ -32,7 +46,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" className={`${inter.variable} ${notoSansKr.variable}`}>
       <body>
         <TooltipProvider delayDuration={120}>{children}</TooltipProvider>
       </body>
