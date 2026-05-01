@@ -95,6 +95,31 @@
     animation: hero-flow-pulse 4s ease-in-out infinite;
   }
 
+  .hero-status-dot {
+    animation: hero-status-pulse 1.8s ease-in-out infinite;
+    box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.5);
+  }
+
+  .hero-metric-bar {
+    background-image: linear-gradient(90deg, #8ea2ff, #c8d2ff, #8ea2ff);
+    background-size: 180% 100%;
+    animation: hero-bar-sheen 4.8s ease-in-out infinite;
+  }
+
+  .hero-flow-tile {
+    animation: hero-tile-glow 7.2s ease-in-out infinite;
+  }
+
+  .hero-core-card::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background: linear-gradient(115deg, transparent 0%, rgba(142, 162, 255, 0.16) 45%, transparent 72%);
+    transform: translateX(-120%);
+    animation: hero-core-sweep 7.2s ease-in-out infinite;
+    pointer-events: none;
+  }
+
   .lifecycle-progress-fill {
     width: 100%;
     transform-origin: left;
@@ -133,6 +158,55 @@
     }
   }
 
+  @keyframes hero-status-pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.45);
+      opacity: 0.9;
+    }
+    50% {
+      box-shadow: 0 0 0 6px rgba(52, 211, 153, 0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes hero-bar-sheen {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  @keyframes hero-tile-glow {
+    0%,
+    82%,
+    100% {
+      border-color: rgba(255, 255, 255, 0.2);
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    12%,
+    24% {
+      border-color: rgba(169, 183, 255, 0.55);
+      background-color: rgba(142, 162, 255, 0.14);
+    }
+  }
+
+  @keyframes hero-core-sweep {
+    0%,
+    58% {
+      transform: translateX(-120%);
+    }
+    76% {
+      transform: translateX(120%);
+    }
+    100% {
+      transform: translateX(120%);
+    }
+  }
+
   @keyframes lifecycle-progress {
     0% {
       transform: scaleX(0);
@@ -155,6 +229,10 @@
   @media (prefers-reduced-motion: reduce) {
     .hero-scanline,
     .hero-flow-pulse,
+    .hero-status-dot,
+    .hero-metric-bar,
+    .hero-flow-tile,
+    .hero-core-card::after,
     .lifecycle-progress-fill,
     .lifecycle-signal-pulse {
       animation: none;

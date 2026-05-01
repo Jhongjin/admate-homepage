@@ -48,7 +48,7 @@ export function HeroSection() {
             AdMate
           </h1>
           <p className="mt-4 text-balance text-2xl font-semibold leading-tight text-white sm:text-3xl">
-            AI Agent 기반 광고 운영 자동화 플랫폼
+            AI Agent 기반 광고 <span className="inline-block whitespace-nowrap">운영 자동화 플랫폼</span>
           </p>
           <p className="mt-7 text-balance text-xl font-medium leading-snug text-white/90 sm:text-2xl">
             기획부터 운영, 검수, 캡처, 학습까지
@@ -116,7 +116,7 @@ function AgentCommandBanner() {
               </div>
             </div>
             <div className="flex items-center gap-2 rounded-lg border border-emerald-300/20 bg-emerald-300/10 px-3 py-2 text-xs font-semibold text-emerald-100">
-              <span className="h-2 w-2 rounded-full bg-emerald-300" aria-hidden="true" />
+              <span className="hero-status-dot h-2 w-2 rounded-full bg-emerald-300" aria-hidden="true" />
               Agent Core Online
             </div>
           </div>
@@ -140,7 +140,7 @@ function AgentCommandBanner() {
                   ].map((item) => (
                     <div key={item.label} className="flex items-center gap-3">
                       <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/10">
-                        <div className="h-full rounded-full bg-[#8EA2FF]" style={{ width: item.width }} />
+                        <div className="hero-metric-bar h-full rounded-full bg-[#8EA2FF]" style={{ width: item.width }} />
                       </div>
                       <span className="w-16 text-xs font-medium text-white/70">{item.label}</span>
                     </div>
@@ -171,12 +171,12 @@ function AgentCommandBanner() {
               <div className="absolute inset-y-8 left-1/2 w-px bg-white/10" aria-hidden="true" />
 
               <div className="relative grid gap-3 sm:grid-cols-3">
-                {heroFlow.slice(0, 3).map((item) => (
-                  <HeroFlowTile key={item.label} item={item} />
+                {heroFlow.slice(0, 3).map((item, index) => (
+                  <HeroFlowTile key={item.label} index={index} item={item} />
                 ))}
               </div>
 
-              <div className="relative z-10 mx-auto my-4 max-w-[280px] rounded-lg border border-white/20 bg-white p-4 text-center text-[#07101D] shadow-[0_18px_60px_rgba(0,0,0,0.22)]">
+              <div className="hero-core-card relative z-10 mx-auto my-4 max-w-[280px] overflow-hidden rounded-lg border border-white/20 bg-white p-4 text-center text-[#07101D] shadow-[0_18px_60px_rgba(0,0,0,0.22)]">
                 <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-[#111827] text-white">
                   <BrainCircuit className="h-5 w-5" aria-hidden="true" />
                 </div>
@@ -187,8 +187,8 @@ function AgentCommandBanner() {
               </div>
 
               <div className="relative grid gap-3 sm:grid-cols-3">
-                {heroFlow.slice(3).map((item) => (
-                  <HeroFlowTile key={item.label} item={item} />
+                {heroFlow.slice(3).map((item, index) => (
+                  <HeroFlowTile key={item.label} index={index + 3} item={item} />
                 ))}
               </div>
             </div>
@@ -209,8 +209,10 @@ function AgentCommandBanner() {
 }
 
 function HeroFlowTile({
+  index,
   item,
 }: {
+  index: number
   item: {
     label: string
     product: string
@@ -218,7 +220,10 @@ function HeroFlowTile({
   }
 }) {
   return (
-    <div className="min-h-[106px] rounded-lg border border-white/20 bg-white/10 p-3">
+    <div
+      className="hero-flow-tile min-h-[106px] rounded-lg border border-white/20 bg-white/10 p-3"
+      style={{ animationDelay: `${index * 0.55}s` }}
+    >
       <item.icon className="h-4 w-4 text-[#A9B7FF]" aria-hidden="true" />
       <div className="mt-5 text-sm font-semibold text-white">{item.label}</div>
       <div className="mt-1 text-xs leading-4 text-white/50">{item.product}</div>
