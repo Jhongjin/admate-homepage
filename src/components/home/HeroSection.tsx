@@ -94,54 +94,31 @@ export function HeroSection() {
             </Badge>
           </div>
 
-          <div className="grid gap-4 lg:grid-cols-[1fr_260px]">
-            <div className="relative min-h-[420px] overflow-hidden rounded-lg border border-border bg-[#FAFAFA] p-4">
-              <div className="absolute inset-x-4 top-1/2 h-px bg-border" aria-hidden="true" />
-              <div className="absolute inset-y-4 left-1/2 w-px bg-border" aria-hidden="true" />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(94,106,210,0.10),transparent_42%)]" aria-hidden="true" />
+          <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_260px]">
+            <div className="relative overflow-hidden rounded-lg border border-border bg-[#FAFAFA] p-3 sm:p-4">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(94,106,210,0.12),transparent_58%)]" aria-hidden="true" />
+              <div className="absolute inset-x-8 top-1/2 h-px bg-border" aria-hidden="true" />
+              <div className="absolute inset-y-8 left-1/2 w-px bg-border" aria-hidden="true" />
 
-              <div className="absolute left-1/2 top-1/2 z-10 w-[178px] -translate-x-1/2 -translate-y-1/2 rounded-xl border border-[#CFCFE8] bg-white p-4 text-center shadow-soft">
-                <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-[#111827] text-white">
-                  <Network className="h-5 w-5" aria-hidden="true" />
+              <div className="relative z-10 grid min-h-[430px] grid-cols-2 grid-rows-[1fr_auto_1fr] gap-3">
+                {satelliteProducts.slice(0, 2).map((product) => (
+                  <HeroProductNode key={product.id} product={product} />
+                ))}
+
+                <div className="col-span-2 mx-auto w-full max-w-[260px] rounded-xl border border-[#CFCFE8] bg-white p-4 text-center shadow-soft">
+                  <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-[#111827] text-white">
+                    <Network className="h-5 w-5" aria-hidden="true" />
+                  </div>
+                  <div className="text-sm font-semibold">AdMate Agent Core</div>
+                  <div className="mt-1 text-xs leading-5 text-muted-foreground">
+                    Intelligence & Automation Engine
+                  </div>
                 </div>
-                <div className="text-sm font-semibold">AdMate Agent Core</div>
-                <div className="mt-1 text-xs leading-5 text-muted-foreground">
-                  Intelligence & Automation Engine
-                </div>
+
+                {satelliteProducts.slice(2, 4).map((product) => (
+                  <HeroProductNode key={product.id} product={product} />
+                ))}
               </div>
-
-              {satelliteProducts.map((product, index) => {
-                const positions = [
-                  "left-1/2 top-5 -translate-x-1/2",
-                  "right-5 top-1/2 -translate-y-1/2",
-                  "left-1/2 bottom-5 -translate-x-1/2",
-                  "left-5 top-1/2 -translate-y-1/2",
-                ]
-                const Icon = product.icon
-
-                return (
-                  <Tooltip key={product.id}>
-                    <TooltipTrigger asChild>
-                      <div
-                        className={`absolute z-20 w-[156px] rounded-lg border bg-white p-3 shadow-sm ${positions[index]}`}
-                        style={{ borderColor: product.borderColor }}
-                      >
-                        <div
-                          className="mb-2 flex h-8 w-8 items-center justify-center rounded-md"
-                          style={{ backgroundColor: product.softColor, color: product.color }}
-                        >
-                          <Icon className="h-4 w-4" aria-hidden="true" />
-                        </div>
-                        <div className="text-sm font-semibold">{product.shortName}</div>
-                        <div className="mt-1 text-[11px] leading-4 text-muted-foreground">
-                          {product.subtitle}
-                        </div>
-                      </div>
-                    </TooltipTrigger>
-                    <TooltipContent>{product.tagline}</TooltipContent>
-                  </Tooltip>
-                )
-              })}
             </div>
 
             <div className="grid gap-3">
@@ -182,5 +159,38 @@ export function HeroSection() {
         </Card>
       </div>
     </section>
+  )
+}
+
+function HeroProductNode({
+  product,
+}: {
+  product: (typeof products)[number]
+}) {
+  const Icon = product.icon
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <div
+          className="flex min-h-[124px] flex-col justify-between rounded-lg border bg-white p-3 shadow-sm"
+          style={{ borderColor: product.borderColor }}
+        >
+          <div
+            className="flex h-8 w-8 items-center justify-center rounded-md"
+            style={{ backgroundColor: product.softColor, color: product.color }}
+          >
+            <Icon className="h-4 w-4" aria-hidden="true" />
+          </div>
+          <div>
+            <div className="text-sm font-semibold">{product.shortName}</div>
+            <div className="mt-1 text-[11px] leading-4 text-muted-foreground">
+              {product.subtitle}
+            </div>
+          </div>
+        </div>
+      </TooltipTrigger>
+      <TooltipContent>{product.tagline}</TooltipContent>
+    </Tooltip>
   )
 }
