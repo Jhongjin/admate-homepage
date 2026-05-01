@@ -27,7 +27,16 @@ export function ImpactSection() {
         <SectionHeading
           eyebrow="Impact"
           title="반복 업무는 줄이고, 광고 운영 지식은 축적합니다"
-          description="AdMate의 기대 효과는 단순한 자동화가 아니라 운영 품질과 조직 지식의 축적입니다. 임원에게는 회사 경쟁력, 미디어플래너에게는 실무 부담 감소가 한 화면에서 이해되어야 합니다."
+          description={
+            <>
+              <span className="block">
+                AdMate의 기대 효과는 단순 자동화가 아니라 운영 품질과 조직 지식의 축적입니다.
+              </span>
+              <span className="block">
+                의사결정권자에게는 경쟁력, 미디어팀에게는 실무 부담 감소로 이어집니다.
+              </span>
+            </>
+          }
           align="center"
         />
 
@@ -67,7 +76,7 @@ export function ImpactSection() {
             <div className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
               For executives
             </div>
-            <p className="mt-3 text-sm font-medium leading-7 text-foreground">
+            <p className="mt-3 text-sm font-medium leading-6 text-foreground">
               캠페인 사고 예방, AI 비용 통제, 회사 고유 운영 지식 축적을 통해 조직 경쟁력을 높입니다.
             </p>
           </div>
@@ -75,8 +84,8 @@ export function ImpactSection() {
             <div className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
               For media teams
             </div>
-            <p className="mt-3 text-sm font-medium leading-7 text-foreground">
-              정책 확인, 세팅 검수, 모니터링, 캡처 같은 반복 업무 부담을 줄이고 근거 있는 판단을 돕습니다.
+            <p className="mt-3 text-sm font-medium leading-6 text-foreground">
+              정책 확인, 세팅 검수, 모니터링, 캡처 부담을 줄이고 판단 근거를 남깁니다.
             </p>
           </div>
         </div>

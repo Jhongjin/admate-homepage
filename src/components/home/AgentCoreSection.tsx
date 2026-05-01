@@ -29,21 +29,6 @@ const corePrinciples = [
   },
 ]
 
-const loopOutputs = [
-  {
-    label: "Audit log",
-    description: "실행 결과를 추적 가능한 이력으로 남김",
-  },
-  {
-    label: "Approval rule",
-    description: "위험·비용 기준에 따라 운영자 승인 요청",
-  },
-  {
-    label: "Learning signal",
-    description: "피드백을 다음 판단 기준으로 반영",
-  },
-]
-
 export function AgentCoreSection() {
   return (
     <section id="agent-core" className="border-b border-border bg-background py-20">
@@ -68,7 +53,7 @@ export function AgentCoreSection() {
           }
         />
 
-        <div className="grid gap-4 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+        <div className="grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
           <Card className="overflow-hidden bg-[#111827] text-white">
             <CardContent className="p-6">
               <Badge variant="outline" className="border-white/20 bg-white/10 text-white">
@@ -107,10 +92,10 @@ export function AgentCoreSection() {
             </CardContent>
           </Card>
 
-          <div className="grid gap-4">
+          <div className="grid h-full gap-4 lg:grid-rows-[auto_auto_1fr]">
             {corePillars.map((pillar) => (
-              <Card key={pillar.title} className="min-h-[140px]">
-                <CardContent className="flex min-h-[140px] items-center p-6">
+              <Card key={pillar.title}>
+                <CardContent className="p-6">
                   <div className="flex items-start gap-4">
                     <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-border bg-muted">
                       <pillar.icon className="h-5 w-5" aria-hidden="true" />
@@ -130,7 +115,7 @@ export function AgentCoreSection() {
               </Card>
             ))}
 
-            <Card className="min-h-[252px] p-5">
+            <Card className="flex flex-col p-5">
               <div>
                 <div className="text-sm font-semibold">Agent operating loop</div>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">
@@ -153,14 +138,6 @@ export function AgentCoreSection() {
               <div className="mt-4 rounded-lg border border-border bg-muted/50 p-3 text-xs leading-6 text-muted-foreground">
                 Agent Core는 모든 실행을 자동으로 대체하기보다, 감사 가능한 기록과 운영자 피드백을 남겨
                 다음 판단을 더 정확하게 만드는 기반입니다.
-              </div>
-              <div className="mt-3 grid gap-2 sm:grid-cols-3">
-                {loopOutputs.map((output) => (
-                  <div key={output.label} className="rounded-lg border border-border bg-card p-3">
-                    <div className="text-xs font-semibold text-foreground">{output.label}</div>
-                    <p className="mt-2 text-[11px] leading-5 text-muted-foreground">{output.description}</p>
-                  </div>
-                ))}
               </div>
             </Card>
           </div>
