@@ -109,8 +109,8 @@ export function AgentCoreSection() {
 
           <div className="grid gap-4">
             {corePillars.map((pillar) => (
-              <Card key={pillar.title}>
-                <CardContent className="p-6">
+              <Card key={pillar.title} className="min-h-[140px]">
+                <CardContent className="flex min-h-[140px] items-center p-6">
                   <div className="flex items-start gap-4">
                     <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-border bg-muted">
                       <pillar.icon className="h-5 w-5" aria-hidden="true" />
@@ -130,7 +130,7 @@ export function AgentCoreSection() {
               </Card>
             ))}
 
-            <Card className="p-5">
+            <Card className="min-h-[252px] p-5">
               <div>
                 <div className="text-sm font-semibold">Agent operating loop</div>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">
