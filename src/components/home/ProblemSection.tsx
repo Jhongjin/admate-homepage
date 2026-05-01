@@ -9,7 +9,7 @@ import { SectionHeading } from "./SectionHeading"
 const problemStages = [
   {
     group: "정책",
-    action: "찾고 해석",
+    action: "정책 검토",
     risk: "기준 확인 지연",
   },
   {
