@@ -16,7 +16,6 @@ import {
   type LucideIcon,
 } from "lucide-react"
 
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 
 const heroFlow: Array<{ label: string; product: string; icon: LucideIcon }> = [
@@ -41,14 +40,16 @@ export function HeroSection() {
       <div className="hero-scanline absolute inset-x-0 top-0" aria-hidden="true" />
       <div className="section-shell relative grid min-h-[calc(100svh-56px)] items-center gap-10 py-16 lg:grid-cols-[0.9fr_1.1fr] lg:py-20">
         <div className="max-w-3xl">
-          <Badge variant="outline" className="mb-5 border-white/20 bg-white/10 text-white/70">
-            나스미디어 데이터분석팀 · AI Agent Platform
-          </Badge>
+          <div className="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#A9B7FF]">
+            Nasmedia Data Analytics Team
+          </div>
           <h1 className="text-balance text-6xl font-semibold tracking-normal text-white sm:text-7xl lg:text-8xl">
-            AdMate
+            Ad<span className="text-[#A9B7FF]">Mate</span>
           </h1>
           <p className="mt-4 text-balance text-2xl font-semibold leading-tight text-white sm:text-3xl">
-            AI Agent 기반 광고 <span className="inline-block whitespace-nowrap">운영 자동화 플랫폼</span>
+            AI Agent 기반 광고
+            <br />
+            <span className="inline-block whitespace-nowrap">운영 자동화 플랫폼</span>
           </p>
           <p className="mt-7 text-balance text-xl font-medium leading-snug text-white/90 sm:text-2xl">
             기획부터 운영, 검수, 캡처, 학습까지
