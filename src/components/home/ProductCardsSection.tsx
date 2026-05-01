@@ -16,12 +16,10 @@ const productRoleTags: Record<string, string[]> = {
 const coreEngines = [
   {
     title: "자동화 실행 엔진",
-    engine: "Openclaw",
     description: "스케줄과 조건에 따라 업무를 실행하고 외부 시스템을 연결합니다.",
   },
   {
     title: "지능/메모리 엔진",
-    engine: "Hermes",
     description: "AI와 사용자 이벤트를 학습해 운영 지식과 판단 기준을 축적합니다.",
   },
 ]
@@ -170,10 +168,8 @@ function AgentCoreFoundation({
 
         <div className="grid gap-3 sm:grid-cols-2">
           {coreEngines.map((engine) => (
-            <div key={engine.engine} className="rounded-lg border border-white/10 bg-white/[0.08] p-4">
-              <div className="text-sm font-semibold text-white">
-                {engine.title} <span className="text-white/45">({engine.engine})</span>
-              </div>
+            <div key={engine.title} className="rounded-lg border border-white/10 bg-white/[0.08] p-4">
+              <div className="text-sm font-semibold text-white">{engine.title}</div>
               <p className="mt-2 text-xs leading-6 text-white/62">{engine.description}</p>
             </div>
           ))}
