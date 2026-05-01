@@ -21,8 +21,8 @@ export function SystemMapSection() {
     <section id="platform" className="relative overflow-hidden border-b border-border bg-[#F7F7F7] py-14 sm:py-16">
       <div className="absolute inset-0 soft-grid opacity-60" aria-hidden="true" />
       <div className="section-shell relative">
-        <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <div className="max-w-2xl">
+        <div className="mb-8 grid gap-4 lg:grid-cols-[minmax(0,520px)_minmax(0,440px)] lg:items-end lg:gap-12">
+          <div>
             <Badge variant="outline" className="mb-3 bg-card text-muted-foreground">
               Live System Map
             </Badge>
@@ -31,7 +31,7 @@ export function SystemMapSection() {
               <span className="block sm:whitespace-nowrap">한 화면에서 연결됩니다.</span>
             </h2>
           </div>
-          <p className="max-w-xl text-sm leading-7 text-muted-foreground">
+          <p className="max-w-[440px] text-sm leading-7 text-muted-foreground">
             <span className="block">기획, 정책 확인, 검수, 모니터링, 캡처, 학습은</span>
             <span className="block">분리된 도구가 아니라 하나의 Agent 운영 흐름으로 이어집니다.</span>
           </p>
