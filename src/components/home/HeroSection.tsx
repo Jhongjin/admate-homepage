@@ -47,9 +47,9 @@ export function HeroSection() {
             Ad<span className="text-[#A9B7FF]">Mate</span>
           </h1>
           <p className="mt-4 text-balance text-2xl font-semibold leading-tight text-white sm:text-3xl">
-            AI Agent 기반 광고
+            AI Agent 기반
             <br />
-            <span className="inline-block whitespace-nowrap">운영 자동화 플랫폼</span>
+            <span className="inline-block whitespace-nowrap">광고 운영 자동화 플랫폼</span>
           </p>
           <p className="mt-7 text-balance text-xl font-medium leading-snug text-white/90 sm:text-2xl">
             기획부터 운영, 검수, 캡처, 학습까지
@@ -58,8 +58,10 @@ export function HeroSection() {
           </p>
           <p className="mt-6 max-w-2xl text-sm leading-7 text-white/70 sm:text-base">
             AdMate는 광고 캠페인의 정책 확인, 세팅 검수, 실시간 모니터링,
-            캡처 자동화, 성과 예측을 하나의 Agent 운영 흐름으로 연결해
-            반복 업무를 줄이고 캠페인 판단을 더 정확하게 만듭니다.
+            <br />
+            캡처 자동화, 성과 예측을 하나의 Agent 운영 흐름으로 연결해 반복 업무를
+            <br />
+            줄이고 캠페인 판단을 더 정확하게 만듭니다.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
