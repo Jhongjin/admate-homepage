@@ -204,7 +204,7 @@ Lens - Agent Core - Sentinel
 또는 캠페인 생애주기 흐름으로 표현한다.
 
 ```text
-Plan → Validate → Monitor → Capture → Learn
+Plan -> Validate -> Monitor -> Capture -> Learn
 ```
 
 ---
@@ -710,4 +710,3 @@ Agent Core는 이 모든 흐름을 연결하고 학습한다.
 ```
 
 이 홈페이지는 AdMate를 단순한 내부 도구가 아니라, 데이터분석팀이 구축하는 AI Agent 기반 광고 운영 자동화 플랫폼으로 인식시키는 첫 관문이 되어야 한다.
-
