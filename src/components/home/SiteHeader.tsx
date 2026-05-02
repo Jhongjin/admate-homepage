@@ -46,7 +46,10 @@ export function SiteHeader() {
             </Link>
           </Button>
           <Button asChild size="sm" className="w-[118px] text-[13px]">
-            <Link href="#operations">운영 콘솔 보기</Link>
+            <Link href="#operations">
+              운영 콘솔
+              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </Link>
           </Button>
           <SiteLinksDropdown className="w-[110px]" />
         </div>
