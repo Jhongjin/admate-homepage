@@ -14,7 +14,7 @@ import {
 import { BrandMark } from "@/components/home/BrandMark"
 import { SheetlessMobileNav } from "@/components/home/SheetlessMobileNav"
 import { SiteLinksDropdown } from "@/components/home/SiteLinksDropdown"
-import { navLinks } from "@/lib/admate-content"
+import { navLinks, officialLinks } from "@/lib/admate-content"
 import { cn } from "@/lib/utils"
 
 export function SiteHeader() {
@@ -46,8 +46,8 @@ export function SiteHeader() {
             </Link>
           </Button>
           <Button asChild size="sm" className="w-[118px] text-[13px]">
-            <Link href="#operations">
-              운영 콘솔
+            <Link href={officialLinks.commandCenter}>
+              대시보드
               <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
             </Link>
           </Button>

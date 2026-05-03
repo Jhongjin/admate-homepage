@@ -1,4 +1,5 @@
-import { CheckCircle2 } from "lucide-react"
+import Link from "next/link"
+import { CheckCircle2, ExternalLink } from "lucide-react"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -126,6 +127,25 @@ function ProductCard({
             </div>
           ))}
         </div>
+        {product.href || product.linkDisabled ? (
+          <div className="mt-5 border-t border-border pt-4">
+            {product.href && !product.linkDisabled ? (
+              <Link
+                href={product.href}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground transition hover:bg-muted"
+              >
+                {product.linkLabel ?? "제품 열기"}
+                <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+              </Link>
+            ) : product.linkDisabled ? (
+              <span className="inline-flex items-center rounded-md border border-[#F5CE8B] bg-[#FFF8EC] px-3 py-2 text-xs font-semibold text-[#9E5700]">
+                {product.linkLabel ?? "연결 예정"}
+              </span>
+            ) : null}
+          </div>
+        ) : null}
       </CardContent>
     </Card>
   )

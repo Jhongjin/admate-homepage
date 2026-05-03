@@ -4,6 +4,7 @@ import { ArrowRight, BookOpenText, MonitorCog } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { SiteLinksDropdown } from "@/components/home/SiteLinksDropdown"
+import { officialLinks } from "@/lib/admate-content"
 
 export function FinalCTASection() {
   return (
@@ -29,9 +30,9 @@ export function FinalCTASection() {
 
             <div className="grid gap-3 sm:grid-cols-3 lg:w-[210px] lg:grid-cols-1">
               <Button asChild variant="secondary" size="lg" className="w-full justify-center">
-                <Link href="#operations">
+                <Link href={officialLinks.commandCenter}>
                   <MonitorCog className="h-4 w-4" aria-hidden="true" />
-                  운영 콘솔 보기
+                  임원 대시보드
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="w-full justify-center border-white/20 bg-transparent text-white hover:bg-white/10 hover:text-white">

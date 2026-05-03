@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Inter, Noto_Sans_KR } from "next/font/google"
 
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { officialLinks } from "@/lib/admate-content"
 
 import "./globals.css"
 
@@ -19,9 +20,22 @@ const notoSansKr = Noto_Sans_KR({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(officialLinks.home),
   title: "AdMate - AI Agent 기반 광고 운영 자동화 플랫폼",
   description:
     "AdMate는 광고 캠페인의 정책 확인, 세팅 검수, 실시간 모니터링, 캡처 자동화, 성과 예측을 하나의 AI Agent 운영 흐름으로 연결하는 광고 운영 자동화 플랫폼입니다.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "AdMate - AI Agent 기반 광고 운영 자동화 플랫폼",
+    description:
+      "AdMate는 광고 캠페인의 정책 확인, 세팅 검수, 실시간 모니터링, 캡처 자동화, 성과 예측을 하나의 AI Agent 운영 흐름으로 연결하는 광고 운영 자동화 플랫폼입니다.",
+    url: officialLinks.home,
+    siteName: "AdMate",
+    type: "website",
+    locale: "ko_KR",
+  },
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",

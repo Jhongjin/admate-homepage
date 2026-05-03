@@ -5,7 +5,7 @@ import type { ReactNode } from "react"
 import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
-import { navLinks } from "@/lib/admate-content"
+import { navLinks, officialLinks } from "@/lib/admate-content"
 
 export function SheetlessMobileNav({ trigger }: { trigger: ReactNode }) {
   const [open, setOpen] = useState(false)
@@ -34,8 +34,8 @@ export function SheetlessMobileNav({ trigger }: { trigger: ReactNode }) {
               </Link>
             </Button>
             <Button asChild size="sm">
-              <Link href="#operations" onClick={() => setOpen(false)}>
-                운영 콘솔 보기
+              <Link href={officialLinks.commandCenter} onClick={() => setOpen(false)}>
+                임원 대시보드
               </Link>
             </Button>
           </div>

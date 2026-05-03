@@ -36,6 +36,9 @@ export type Product = {
   tagline: string
   description: string
   features: string[]
+  href?: string
+  linkLabel?: string
+  linkDisabled?: boolean
   color: string
   softColor: string
   borderColor: string
@@ -51,6 +54,15 @@ export const navLinks = [
   { label: "Roadmap", href: "#roadmap" },
 ]
 
+export const officialLinks = {
+  home: "https://home.admate.ai.kr",
+  commandCenter: "https://home.admate.ai.kr/command-center",
+  compass: "https://compass.admate.ai.kr",
+  sentinel: "https://sentinel.admate.ai.kr",
+  lens: "https://lens.admate.ai.kr",
+  foresight: "",
+}
+
 export const products: Product[] = [
   {
     id: "compass",
@@ -61,6 +73,8 @@ export const products: Product[] = [
     description:
       "Meta, Google, Naver, Kakao, X의 광고 정책과 가이드를 기반으로 캠페인 집행 전 필요한 정책 판단을 빠르게 지원합니다.",
     features: ["매체별 정책/가이드 검색", "RAG 기반 질의응답", "정책 근거 제공", "향후 Multi-LLM 검증"],
+    href: officialLinks.compass,
+    linkLabel: "Compass 열기",
     color: "#4F63D8",
     softColor: "#ECEDF9",
     borderColor: "#CBD0EF",
@@ -75,6 +89,8 @@ export const products: Product[] = [
     description:
       "캠페인 시작 전에는 미디어믹스와 실제 매체 세팅값을 비교하고, 집행 후에는 예산·성과·상태 이상을 실시간으로 감지합니다.",
     features: ["사전 세팅 검수", "예산/기간/타겟/URL 오류 탐지", "실시간 KPI 이상 감지", "Slack/Email 알림"],
+    href: officialLinks.sentinel,
+    linkLabel: "Sentinel 열기",
     color: "#177D4E",
     softColor: "#EFFAF4",
     borderColor: "#9FE5C1",
@@ -89,6 +105,8 @@ export const products: Product[] = [
     description:
       "광고 게재 화면과 지면 노출 이미지를 자동 생성해 캡처·증빙·보고 업무에 투입되는 반복 리소스를 줄입니다.",
     features: ["광고 게재 화면 캡처", "모바일/데스크톱 광고 UI 렌더링", "보고서용 증빙 이미지 생성", "캡처 이력 관리"],
+    href: officialLinks.lens,
+    linkLabel: "Lens 열기",
     color: "#7C3AED",
     softColor: "#F3E8FF",
     borderColor: "#DDD6FE",
@@ -103,6 +121,8 @@ export const products: Product[] = [
     description:
       "과거 캠페인 데이터와 시장 트렌드를 기반으로 캠페인 기획 단계에서 예상 성과와 전략 방향을 제안합니다.",
     features: ["예상 CPM/CPC/CTR/VTR 제공", "업종/목표별 벤치마크", "예산 대비 성과 시뮬레이션", "Meta PoC 후 타 매체 확장"],
+    linkLabel: "연결 예정",
+    linkDisabled: true,
     color: "#B45309",
     softColor: "#FFF8EC",
     borderColor: "#F5CE8B",

@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { ChevronDown, ExternalLink } from "lucide-react"
 
+import { officialLinks } from "@/lib/admate-content"
 import { cn } from "@/lib/utils"
 
 type SiteLink = {
@@ -14,27 +15,32 @@ const siteLinks: SiteLink[] = [
   {
     label: "AdMate Home",
     description: "브랜드 메인 페이지",
-    href: "/",
+    href: officialLinks.home,
+  },
+  {
+    label: "Command Center",
+    description: "임원 대시보드",
+    href: officialLinks.commandCenter,
   },
   {
     label: "AdMate Compass",
     description: "정책/가이드 확인",
-    href: "https://guide.admate.ai.kr/",
+    href: officialLinks.compass,
+  },
+  {
+    label: "AdMate Sentinel",
+    description: "운영 콘솔",
+    href: officialLinks.sentinel,
   },
   {
     label: "AdMate Lens",
     description: "캡처 자동화",
-    href: "https://admate-capture-pro.vercel.app/",
-  },
-  {
-    label: "Agent Core Console",
-    description: "운영 모니터링",
-    href: "https://openclaw-monitor-seven.vercel.app/",
+    href: officialLinks.lens,
   },
   {
     label: "AdMate Foresight",
     description: "성과 예측 / 준비중",
-    href: "",
+    href: officialLinks.foresight,
     disabled: true,
   },
 ]
