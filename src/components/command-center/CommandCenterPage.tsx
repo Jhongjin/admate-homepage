@@ -4,10 +4,11 @@ import { ArrowLeft, LayoutDashboard } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ProjectProgressCard } from "@/components/command-center/ProjectProgressCard"
 import { SummaryCards } from "@/components/command-center/SummaryCards"
-import { commandCenterData, getCommandCenterSummary } from "@/lib/command-center-data"
+import { commandCenterData, getCommandCenterSummary, type CommandCenterData } from "@/lib/command-center-data"
 
-export function CommandCenterPage() {
-  const summary = getCommandCenterSummary(commandCenterData.projects)
+export function CommandCenterPage({ data = commandCenterData }: { data?: CommandCenterData }) {
+  const summary = getCommandCenterSummary(data.projects)
+  const sourceLabel = data.source === "openclaw" ? "Openclaw live" : "Static fallback"
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-[#F7F7F7] text-[#0D0D0D]">
@@ -35,7 +36,7 @@ export function CommandCenterPage() {
         <section className="mb-5 grid gap-3 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
           <div>
             <div className="mb-2 inline-flex rounded-md border border-[#E5E5E5] bg-white px-2.5 py-1 text-[11px] font-semibold text-[#5E5E5E]">
-              Weekly Executive View
+              Weekly Executive View · {sourceLabel}
             </div>
             <h1 className="max-w-full text-balance break-words text-2xl font-semibold tracking-normal text-[#0D0D0D] sm:text-4xl">
               AdMate Command Center
@@ -52,8 +53,8 @@ export function CommandCenterPage() {
         </section>
 
         <SummaryCards
-          weekLabel={commandCenterData.weekLabel}
-          updatedAt={commandCenterData.updatedAt}
+          weekLabel={data.weekLabel}
+          updatedAt={data.updatedAt}
           overallProgress={summary.overallProgress}
           normalCount={summary.normalCount}
           needsReviewCount={summary.needsReviewCount}
@@ -61,7 +62,7 @@ export function CommandCenterPage() {
         />
 
         <section className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {commandCenterData.projects.map((project) => (
+          {data.projects.map((project) => (
             <ProjectProgressCard key={project.id} project={project} />
           ))}
         </section>

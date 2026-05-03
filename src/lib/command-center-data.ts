@@ -1,7 +1,7 @@
-export type CommandCenterStatus = "normal" | "needs-review" | "delayed" | "done"
+export type CommandCenterStatus = "normal" | "needs_review" | "delayed" | "completed"
 
 export type CommandCenterProject = {
-  id: "compass" | "sentinel" | "lens" | "foresight"
+  id: "compass" | "sentinel" | "lens" | "foresight" | "agent_core" | string
   name: string
   role: string
   owner: string
@@ -15,9 +15,18 @@ export type CommandCenterProject = {
   updatedAt: string
 }
 
-export const commandCenterData = {
+export type CommandCenterData = {
+  weekLabel: string
+  updatedAt: string
+  projects: CommandCenterProject[]
+  source?: "openclaw" | "static"
+  generatedAt?: string | null
+}
+
+export const commandCenterData: CommandCenterData = {
   weekLabel: "2026년 5월 1주차",
   updatedAt: "2026-05-03",
+  source: "static",
   projects: [
     {
       id: "compass",
@@ -66,7 +75,7 @@ export const commandCenterData = {
       name: "AdMate Foresight",
       role: "미디어 플래닝/성과 예측",
       owner: "Foresight 담당",
-      status: "needs-review",
+      status: "needs_review",
       statusLabel: "검토 필요",
       progress: 25,
       weeklyFocus: "Meta PoC 데이터 기준과 예측 지표 범위 정의",
@@ -75,7 +84,7 @@ export const commandCenterData = {
       nextMilestone: "예측 화면 IA와 입력 데이터 기준 정리",
       updatedAt: "2026-05-03",
     },
-  ] satisfies CommandCenterProject[],
+  ],
 }
 
 export function getCommandCenterSummary(projects: CommandCenterProject[]) {
@@ -87,17 +96,102 @@ export function getCommandCenterSummary(projects: CommandCenterProject[]) {
     },
     {
       normal: 0,
-      "needs-review": 0,
+      needs_review: 0,
       delayed: 0,
-      done: 0,
+      completed: 0,
     } satisfies Record<CommandCenterStatus, number>,
   )
 
   return {
-    overallProgress: Math.round(totalProgress / projects.length),
+    overallProgress: projects.length === 0 ? 0 : Math.round(totalProgress / projects.length),
     normalCount: countByStatus.normal,
-    needsReviewCount: countByStatus["needs-review"],
+    needsReviewCount: countByStatus.needs_review,
     delayedCount: countByStatus.delayed,
-    doneCount: countByStatus.done,
+    doneCount: countByStatus.completed,
+  }
+}
+
+function commandCenterEndpoint() {
+  const explicit = String(process.env.COMMAND_CENTER_API_URL || "").trim()
+  if (explicit) return explicit
+
+  const baseUrl = String(
+    process.env.OPENCLAW_MONITOR_URL ||
+    process.env.ADMATE_OPENCLAW_MONITOR_URL ||
+    "",
+  ).trim()
+
+  if (!baseUrl) return ""
+
+  return `${baseUrl.replace(/\/+$/, "")}/api/public/command-center`
+}
+
+function commandCenterReadKey() {
+  return String(
+    process.env.COMMAND_CENTER_READ_KEY ||
+    process.env.ADMATE_COMMAND_CENTER_READ_KEY ||
+    "",
+  ).trim()
+}
+
+function normalizeStatus(value: unknown): CommandCenterStatus {
+  if (value === "normal" || value === "delayed") return value
+  if (value === "needs_review" || value === "needs-review") return "needs_review"
+  if (value === "completed" || value === "done") return "completed"
+  return "needs_review"
+}
+
+function normalizeProject(raw: Record<string, unknown>): CommandCenterProject {
+  return {
+    id: String(raw.id || ""),
+    name: String(raw.name || "AdMate Project"),
+    role: String(raw.role || ""),
+    owner: String(raw.owner || "담당자 미지정"),
+    status: normalizeStatus(raw.status),
+    statusLabel: String(raw.statusLabel || "검토 필요"),
+    progress: Number.isFinite(Number(raw.progress)) ? Number(raw.progress) : 0,
+    weeklyFocus: String(raw.weeklyFocus || ""),
+    deliverable: String(raw.deliverable || ""),
+    blockedIssue: String(raw.blockedIssue || ""),
+    nextMilestone: String(raw.nextMilestone || ""),
+    updatedAt: String(raw.updatedAt || ""),
+  }
+}
+
+export async function getCommandCenterData(): Promise<CommandCenterData> {
+  const endpoint = commandCenterEndpoint()
+  const readKey = commandCenterReadKey()
+
+  if (!endpoint || !readKey) {
+    return commandCenterData
+  }
+
+  try {
+    const response = await fetch(endpoint, {
+      headers: {
+        "x-admate-command-center-read-key": readKey,
+      },
+      cache: "no-store",
+    })
+
+    if (!response.ok) {
+      throw new Error(`Command Center API returned ${response.status}`)
+    }
+
+    const json = await response.json()
+    const projects = Array.isArray(json.projects)
+      ? json.projects.map((project: Record<string, unknown>) => normalizeProject(project))
+      : commandCenterData.projects
+
+    return {
+      weekLabel: String(json.weekLabel || commandCenterData.weekLabel),
+      updatedAt: String(json.updatedAt || json.generatedAt || commandCenterData.updatedAt),
+      generatedAt: String(json.generatedAt || ""),
+      source: "openclaw",
+      projects,
+    }
+  } catch (error) {
+    console.error("[command-center][getCommandCenterData]", error)
+    return commandCenterData
   }
 }

@@ -14,7 +14,6 @@ import {
   Flag,
   Gauge,
   GitBranch,
-  Layers3,
   Lightbulb,
   LineChart,
   Megaphone,

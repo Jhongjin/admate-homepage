@@ -6,11 +6,12 @@ import { StatusBadge } from "@/components/command-center/StatusBadge"
 import type { CommandCenterProject } from "@/lib/command-center-data"
 import { cn } from "@/lib/utils"
 
-const accentStyles: Record<CommandCenterProject["id"], string> = {
+const accentStyles: Record<string, string> = {
   compass: "bg-[#ECEDF9] text-[#5E6AD2]",
   sentinel: "bg-[#EFFAF4] text-[#177D4E]",
   lens: "bg-[#F7EEFF] text-[#8A46D6]",
   foresight: "bg-[#FFF8EC] text-[#9E5700]",
+  agent_core: "bg-[#ECECEC] text-[#111827]",
 }
 
 function CardField({
@@ -37,7 +38,10 @@ export function ProjectProgressCard({ project }: { project: CommandCenterProject
     <Card className="flex min-h-[420px] min-w-0 flex-col overflow-hidden p-4 shadow-none">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <div className={cn("mb-3 flex h-9 w-9 items-center justify-center rounded-lg", accentStyles[project.id])}>
+          <div className={cn(
+            "mb-3 flex h-9 w-9 items-center justify-center rounded-lg",
+            accentStyles[project.id] || "bg-[#F7F7F7] text-[#5E5E5E]",
+          )}>
             <PackageCheck className="h-4 w-4" aria-hidden="true" />
           </div>
           <h2 className="text-lg font-semibold leading-tight text-[#0D0D0D]">{project.name}</h2>
