@@ -4,11 +4,17 @@ import { ArrowLeft, LayoutDashboard } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ProjectProgressCard } from "@/components/command-center/ProjectProgressCard"
 import { SummaryCards } from "@/components/command-center/SummaryCards"
-import { commandCenterData, getCommandCenterSummary, type CommandCenterData } from "@/lib/command-center-data"
+import {
+  commandCenterData,
+  getCommandCenterSummary,
+  hasCommandCenterSmokeMarker,
+  type CommandCenterData,
+} from "@/lib/command-center-data"
 
 export function CommandCenterPage({ data = commandCenterData }: { data?: CommandCenterData }) {
   const summary = getCommandCenterSummary(data.projects)
-  const sourceLabel = data.source === "openclaw" ? "Openclaw live" : "Static fallback"
+  const sourceLabel = data.source === "openclaw" ? "Openclaw live" : "백업 스냅샷"
+  const hasSmokeMarker = hasCommandCenterSmokeMarker(data)
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-[#F7F7F7] text-[#0D0D0D]">
@@ -35,8 +41,15 @@ export function CommandCenterPage({ data = commandCenterData }: { data?: Command
       <div className="mx-auto w-full max-w-[1440px] px-4 py-6 sm:px-6 lg:px-8">
         <section className="mb-5 grid gap-3 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
           <div>
-            <div className="mb-2 inline-flex rounded-md border border-[#E5E5E5] bg-white px-2.5 py-1 text-[11px] font-semibold text-[#5E5E5E]">
-              Weekly Executive View · {sourceLabel}
+            <div className="mb-2 flex flex-wrap items-center gap-2">
+              <div className="inline-flex rounded-md border border-[#E5E5E5] bg-white px-2.5 py-1 text-[11px] font-semibold text-[#5E5E5E]">
+                Weekly Executive View · {sourceLabel}
+              </div>
+              {hasSmokeMarker ? (
+                <div className="inline-flex rounded-md border border-[#F5CE8B] bg-[#FFF8EC] px-2.5 py-1 text-[11px] font-semibold text-[#9E5700]">
+                  운영 확인용 데이터
+                </div>
+              ) : null}
             </div>
             <h1 className="max-w-full text-balance break-words text-2xl font-semibold tracking-normal text-[#0D0D0D] sm:text-4xl">
               AdMate Command Center

@@ -111,6 +111,29 @@ export function getCommandCenterSummary(projects: CommandCenterProject[]) {
   }
 }
 
+export function hasCommandCenterSmokeMarker(data: CommandCenterData) {
+  const markerPattern = /CC-SMOKE-\d{8}/
+  const values = [
+    data.weekLabel,
+    data.updatedAt,
+    data.generatedAt || "",
+    ...data.projects.flatMap((project) => [
+      project.id,
+      project.name,
+      project.role,
+      project.owner,
+      project.statusLabel,
+      project.weeklyFocus,
+      project.deliverable,
+      project.blockedIssue,
+      project.nextMilestone,
+      project.updatedAt,
+    ]),
+  ]
+
+  return values.some((value) => markerPattern.test(String(value)))
+}
+
 function commandCenterEndpoint() {
   const explicit = String(process.env.COMMAND_CENTER_API_URL || "").trim()
   if (explicit) return explicit

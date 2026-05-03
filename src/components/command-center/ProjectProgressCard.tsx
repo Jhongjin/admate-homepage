@@ -26,7 +26,7 @@ function CardField({
   return (
     <div className="rounded-lg border border-[#E5E5E5] bg-[#FAFAFA] p-3">
       <div className="text-[11px] font-semibold text-[#9A9A9A]">{label}</div>
-      <div className={cn("mt-1 text-[13px] leading-5 text-[#0D0D0D]", muted && "text-[#5E5E5E]")}>
+      <div className={cn("mt-1 min-w-0 break-words text-[13px] leading-5 text-[#0D0D0D]", muted && "text-[#5E5E5E]")}>
         {value}
       </div>
     </div>
@@ -44,8 +44,8 @@ export function ProjectProgressCard({ project }: { project: CommandCenterProject
           )}>
             <PackageCheck className="h-4 w-4" aria-hidden="true" />
           </div>
-          <h2 className="text-lg font-semibold leading-tight text-[#0D0D0D]">{project.name}</h2>
-          <p className="mt-1 min-h-10 text-[13px] leading-5 text-[#5E5E5E]">{project.role}</p>
+          <h2 className="break-words text-lg font-semibold leading-tight text-[#0D0D0D]">{project.name}</h2>
+          <p className="mt-1 min-h-10 break-words text-[13px] leading-5 text-[#5E5E5E]">{project.role}</p>
         </div>
         <StatusBadge status={project.status} label={project.statusLabel} />
       </div>
@@ -77,7 +77,7 @@ export function ProjectProgressCard({ project }: { project: CommandCenterProject
         </div>
         <div className="flex items-center gap-2 sm:justify-end">
           <CalendarDays className="h-3.5 w-3.5 shrink-0 text-[#9A9A9A]" aria-hidden="true" />
-          <span>{project.updatedAt}</span>
+          <span className="break-words">{project.updatedAt}</span>
         </div>
       </div>
     </Card>
