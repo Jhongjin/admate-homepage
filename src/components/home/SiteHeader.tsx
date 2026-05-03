@@ -40,8 +40,8 @@ export function SiteHeader() {
 
         <div className="hidden items-center gap-2 sm:flex">
           <Button asChild variant="outline" size="sm" className="w-[96px] text-[13px]">
-            <Link href="https://github.com/Jhongjin/admate-homepage/tree/main/docs/strategy" target="_blank" rel="noreferrer">
-              전략 문서
+            <Link href={officialLinks.accessRequest} target="_blank" rel="noreferrer">
+              접근 요청
               <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
             </Link>
           </Button>

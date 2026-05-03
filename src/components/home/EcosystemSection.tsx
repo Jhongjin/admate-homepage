@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { BrainCircuit } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
@@ -153,6 +154,20 @@ function EcosystemProduct({ product }: { product: (typeof products)[number] }) {
         <p className="mt-2 text-xs font-medium leading-5" style={{ color: product.color }}>
           {connection}
         </p>
+        {product.href && !product.linkDisabled ? (
+          <Link
+            href={product.href}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-3 inline-flex text-xs font-semibold text-foreground underline-offset-4 hover:underline"
+          >
+            공식 서비스 열기
+          </Link>
+        ) : product.linkDisabled ? (
+          <span className="mt-3 inline-flex rounded-md border border-[#F5CE8B] bg-[#FFF8EC] px-2 py-1 text-[11px] font-semibold text-[#9E5700]">
+            연결 예정
+          </span>
+        ) : null}
       </div>
     </Card>
   )

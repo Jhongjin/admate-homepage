@@ -29,8 +29,8 @@ export function SheetlessMobileNav({ trigger }: { trigger: ReactNode }) {
           </nav>
           <div className="mt-2 grid gap-2 border-t border-border pt-2">
             <Button asChild size="sm" variant="outline">
-              <Link href="https://github.com/Jhongjin/admate-homepage/tree/main/docs/strategy" target="_blank" rel="noreferrer">
-                전략 문서
+              <Link href={officialLinks.accessRequest} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>
+                접근 요청
               </Link>
             </Button>
             <Button asChild size="sm">

@@ -61,6 +61,9 @@ export const officialLinks = {
   sentinel: "https://sentinel.admate.ai.kr",
   lens: "https://lens.admate.ai.kr",
   foresight: "",
+  accessRequest: "https://sentinel.admate.ai.kr/access-request",
+  commandCenterInput: "https://sentinel.admate.ai.kr/command-center/input",
+  accessRequestsAdmin: "https://sentinel.admate.ai.kr/users/access-requests",
 }
 
 export const products: Product[] = [

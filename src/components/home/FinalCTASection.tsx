@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ArrowRight, BookOpenText, MonitorCog } from "lucide-react"
+import { ArrowRight, MonitorCog, UserPlus } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -36,9 +36,9 @@ export function FinalCTASection() {
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="w-full justify-center border-white/20 bg-transparent text-white hover:bg-white/10 hover:text-white">
-                <Link href="https://github.com/Jhongjin/admate-homepage/tree/main/docs/strategy" target="_blank" rel="noreferrer">
-                  <BookOpenText className="h-4 w-4" aria-hidden="true" />
-                  전략 문서 보기
+                <Link href={officialLinks.accessRequest} target="_blank" rel="noreferrer">
+                  <UserPlus className="h-4 w-4" aria-hidden="true" />
+                  접근 요청
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
               </Button>

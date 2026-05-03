@@ -23,6 +23,11 @@ const siteLinks: SiteLink[] = [
     href: officialLinks.commandCenter,
   },
   {
+    label: "접근 요청",
+    description: "AdMate 사용 권한 신청",
+    href: officialLinks.accessRequest,
+  },
+  {
     label: "AdMate Compass",
     description: "정책/가이드 확인",
     href: officialLinks.compass,
