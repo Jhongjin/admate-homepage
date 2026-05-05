@@ -84,6 +84,20 @@ export const commandCenterData: CommandCenterData = {
       nextMilestone: "예측 화면 IA와 입력 데이터 기준 정리",
       updatedAt: "2026-05-03",
     },
+    {
+      id: "agent_core",
+      name: "AdMate Engine",
+      role: "Agent Core 실행/학습/자동화 엔진",
+      owner: "Engine 담당",
+      status: "normal",
+      statusLabel: "정상",
+      progress: 70,
+      weeklyFocus: "Agent Core 운영 이벤트와 학습 권한 흐름 정리",
+      deliverable: "audit/operator log와 Command Center 연결 기준",
+      blockedIssue: "없음",
+      nextMilestone: "LLM/API 비용 및 운영 이벤트 추적 고도화",
+      updatedAt: "2026-05-03",
+    },
   ],
 }
 
