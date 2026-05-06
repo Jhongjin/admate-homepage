@@ -39,9 +39,9 @@ export function SiteHeader() {
         </NavigationMenu>
 
         <div className="hidden items-center gap-2 sm:flex">
-          <Button asChild variant="outline" size="sm" className="w-[96px] text-[13px]">
+          <Button asChild variant="outline" size="sm" className="w-[124px] text-[13px]">
             <Link href={officialLinks.accessRequest} target="_blank" rel="noreferrer">
-              접근 요청
+              AdMate 시작하기
               <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
             </Link>
           </Button>

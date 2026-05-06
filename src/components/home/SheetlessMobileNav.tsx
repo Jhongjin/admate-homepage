@@ -30,7 +30,7 @@ export function SheetlessMobileNav({ trigger }: { trigger: ReactNode }) {
           <div className="mt-2 grid gap-2 border-t border-border pt-2">
             <Button asChild size="sm" variant="outline">
               <Link href={officialLinks.accessRequest} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>
-                접근 요청
+                AdMate 시작하기
               </Link>
             </Button>
             <Button asChild size="sm">

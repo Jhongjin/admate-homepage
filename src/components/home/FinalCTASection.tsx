@@ -25,6 +25,9 @@ export function FinalCTASection() {
                 <span className="block">
                   운영자 피드백 학습과 함께 하나의 캠페인 운영 사이클로 연결합니다.
                 </span>
+                <span className="block">
+                  필요한 AdMate 제품 권한을 신청하고 승인 후 이용할 수 있습니다.
+                </span>
               </p>
             </div>
 
@@ -38,7 +41,7 @@ export function FinalCTASection() {
               <Button asChild variant="outline" size="lg" className="w-full justify-center border-white/20 bg-transparent text-white hover:bg-white/10 hover:text-white">
                 <Link href={officialLinks.accessRequest} target="_blank" rel="noreferrer">
                   <UserPlus className="h-4 w-4" aria-hidden="true" />
-                  접근 요청
+                  AdMate 시작하기
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
               </Button>

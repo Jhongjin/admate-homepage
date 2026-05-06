@@ -23,8 +23,8 @@ const siteLinks: SiteLink[] = [
     href: officialLinks.commandCenter,
   },
   {
-    label: "접근 요청",
-    description: "AdMate 사용 권한 신청",
+    label: "AdMate 이용 신청",
+    description: "필요한 제품 권한 신청",
     href: officialLinks.accessRequest,
   },
   {
