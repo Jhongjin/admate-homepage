@@ -62,8 +62,6 @@ export const officialLinks = {
   lens: "https://lens.admate.ai.kr",
   foresight: "",
   accessRequest: "https://sentinel.admate.ai.kr/access-request",
-  commandCenterInput: "https://sentinel.admate.ai.kr/command-center/input",
-  accessRequestsAdmin: "https://sentinel.admate.ai.kr/users/access-requests",
 }
 
 export const products: Product[] = [
@@ -74,8 +72,8 @@ export const products: Product[] = [
     subtitle: "Policy Intelligence Agent",
     tagline: "정책과 가이드의 방향을 잡다",
     description:
-      "Meta, Google, Naver, Kakao, X의 광고 정책과 가이드를 기반으로 캠페인 집행 전 필요한 정책 판단을 빠르게 지원합니다.",
-    features: ["매체별 정책/가이드 검색", "RAG 기반 질의응답", "정책 근거 제공", "향후 Multi-LLM 검증"],
+      "Meta, Google, Naver, Kakao, X의 광고 정책과 가이드를 RAG로 검색하고, 검증된 출처를 바탕으로 캠페인 집행 전 필요한 정책 판단을 지원합니다.",
+    features: ["매체별 정책/가이드 검색", "검증된 출처 기반 RAG 질의응답", "정책 근거와 출처 표시", "향후 Multi-LLM 검증"],
     href: officialLinks.compass,
     linkLabel: "Compass 열기",
     color: "#4F63D8",
