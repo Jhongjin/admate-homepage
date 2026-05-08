@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "check:command-center-contract": "node scripts/check-command-center-contract.mjs",
+    "smoke:command-center": "node scripts/smoke-command-center.mjs",
+    "verify:harness": "npm run check:command-center-contract"
   },
   "dependencies": {
     "@radix-ui/react-navigation-menu": "^1.2.14",
