@@ -15,11 +15,11 @@ import {
   type CommandCenterProject,
 } from "@/lib/command-center-data"
 
-const engineBadges = ["Openclaw", "Hermes", "Audit", "Automation", "Learning Governance"]
+const engineBadges = ["워크스페이스 상태", "제품 신호", "운영 기준", "자동화", "거버넌스"]
 
 export function CommandCenterPage({ data = commandCenterData }: { data?: CommandCenterData }) {
   const summary = getCommandCenterSummary(data.projects)
-  const sourceLabel = data.source === "openclaw" ? "Openclaw live" : "백업 스냅샷"
+  const sourceLabel = data.source === "live" ? "최신 운영 데이터" : "기본 운영 데이터"
   const hasSmokeMarker = hasCommandCenterSmokeMarker(data)
   const engineProject = data.projects.find((project) => project.id === "agent_core")
   const productProjects = data.projects.filter((project) => project.id !== "agent_core")
@@ -106,7 +106,7 @@ function EngineProgressCard({ project }: { project: CommandCenterProject }) {
                   <Cpu className="h-5 w-5" aria-hidden="true" />
                 </div>
                 <div className="min-w-0">
-                  <div className="text-[11px] font-semibold uppercase text-[#9A9A9A]">Agent Core Foundation</div>
+                  <div className="text-[11px] font-semibold uppercase text-[#9A9A9A]">Workspace Status</div>
                   <h2 className="mt-1 break-words text-2xl font-semibold leading-tight text-[#0D0D0D]">
                     {project.name}
                   </h2>

@@ -7,7 +7,7 @@ repo: admate-homepage
 
 ## In Progress
 
-- Command Center MVP 검증 및 향후 admate-agent-core API 연동 준비
+- Command Center public wording/guard patch validation
 - repo-local harness / skills 정리
 
 ---
@@ -34,3 +34,4 @@ repo: admate-homepage
 - `/command-center` MVP route 생성
 - Command Center components 분리
 - `src/lib/command-center-data.ts` fallback data 구성
+- Homepage-CommandCenter-2 public wording/guard patch applied

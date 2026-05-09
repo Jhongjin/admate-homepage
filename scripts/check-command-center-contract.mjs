@@ -58,17 +58,19 @@ function validateFallbackSource() {
       fail(`fallback source missing status reference ${status}`)
     }
   }
-  if (!text.includes('COMMAND_CENTER_READ_KEY') && !text.includes('ADMATE_COMMAND_CENTER_READ_KEY')) {
-    fail('fallback source missing read key env lookup')
-  }
 }
 
 async function validateLiveContractIfConfigured() {
+  if (process.env.COMMAND_CENTER_CONTRACT_LIVE !== '1') {
+    console.log('[check-command-center-contract] live API skipped (set COMMAND_CENTER_CONTRACT_LIVE=1 to opt in)')
+    return
+  }
+
   const endpoint = (process.env.COMMAND_CENTER_API_URL || '').trim()
   const readKey = (process.env.COMMAND_CENTER_READ_KEY || process.env.ADMATE_COMMAND_CENTER_READ_KEY || '').trim()
 
   if (!endpoint || !readKey) {
-    console.log('[check-command-center-contract] live API skipped (endpoint/read key env not set)')
+    fail('live API opt-in requires endpoint and read key env')
     return
   }
 

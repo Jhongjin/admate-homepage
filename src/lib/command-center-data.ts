@@ -19,7 +19,7 @@ export type CommandCenterData = {
   weekLabel: string
   updatedAt: string
   projects: CommandCenterProject[]
-  source?: "openclaw" | "static"
+  source?: "live" | "static"
   generatedAt?: string | null
 }
 
@@ -86,16 +86,16 @@ export const commandCenterData: CommandCenterData = {
     },
     {
       id: "agent_core",
-      name: "AdMate Engine",
-      role: "Agent Core 실행/학습/자동화 엔진",
-      owner: "Engine 담당",
+      name: "AdMate Workspace Status",
+      role: "제품군 운영 상태와 연결 신호 관리",
+      owner: "운영 담당",
       status: "normal",
       statusLabel: "정상",
       progress: 70,
-      weeklyFocus: "Agent Core 운영 이벤트와 학습 권한 흐름 정리",
-      deliverable: "audit/operator log와 Command Center 연결 기준",
+      weeklyFocus: "운영 상태 기준과 권한 확인 흐름 정리",
+      deliverable: "운영 기록과 Command Center 표시 기준",
       blockedIssue: "없음",
-      nextMilestone: "LLM/API 비용 및 운영 이벤트 추적 고도화",
+      nextMilestone: "비용 및 운영 신호 추적 고도화",
       updatedAt: "2026-05-03",
     },
   ],
@@ -171,6 +171,10 @@ function commandCenterReadKey() {
   ).trim()
 }
 
+function commandCenterLiveModeEnabled() {
+  return process.env.COMMAND_CENTER_LIVE_DATA === "1"
+}
+
 function normalizeStatus(value: unknown): CommandCenterStatus {
   if (value === "normal" || value === "delayed") return value
   if (value === "needs_review" || value === "needs-review") return "needs_review"
@@ -196,6 +200,10 @@ function normalizeProject(raw: Record<string, unknown>): CommandCenterProject {
 }
 
 export async function getCommandCenterData(): Promise<CommandCenterData> {
+  if (!commandCenterLiveModeEnabled()) {
+    return commandCenterData
+  }
+
   const endpoint = commandCenterEndpoint()
   const readKey = commandCenterReadKey()
 
@@ -224,7 +232,7 @@ export async function getCommandCenterData(): Promise<CommandCenterData> {
       weekLabel: String(json.weekLabel || commandCenterData.weekLabel),
       updatedAt: String(json.updatedAt || json.generatedAt || commandCenterData.updatedAt),
       generatedAt: String(json.generatedAt || ""),
-      source: "openclaw",
+      source: "live",
       projects,
     }
   } catch (error) {
