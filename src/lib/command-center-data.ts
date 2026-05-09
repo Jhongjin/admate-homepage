@@ -53,7 +53,7 @@ export const commandCenterData: CommandCenterData = {
       weeklyFocus: "Live Monitoring 안정화와 Slack action 흐름 점검",
       deliverable: "알림 보류/재개 action 기록 개선안",
       blockedIssue: "없음",
-      nextMilestone: "운영자 action audit log 연결",
+      nextMilestone: "운영자 확인 이력 연결",
       updatedAt: "2026-05-03",
     },
     {
