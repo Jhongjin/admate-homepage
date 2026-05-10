@@ -9,6 +9,7 @@
     "lint": "eslint",
     "check:command-center-contract": "node scripts/check-command-center-contract.mjs",
     "smoke:command-center": "node scripts/smoke-command-center.mjs",
+    "smoke:command-center:states": "node scripts/smoke-command-center.mjs --state=all",
     "verify:harness": "npm run check:command-center-contract"
   },
   "dependencies": {
