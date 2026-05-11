@@ -1,0 +1,193 @@
+{
+  "url": "http://127.0.0.1:3000/command-center",
+  "capturedAt": "2026-05-11T17:46:46.549Z",
+  "console": {
+    "totalEvents": 0,
+    "severeEvents": 0,
+    "note": "Production probe recorded counts only; raw console frames intentionally omitted."
+  },
+  "results": [
+    {
+      "requestedViewport": "320x900",
+      "viewport": {
+        "width": 320,
+        "height": 900
+      },
+      "scrollWidth": 320,
+      "clientWidth": 320,
+      "hasHorizontalOverflow": false,
+      "bodyScrollHeight": 4521,
+      "requiredText": {
+        "compass": true,
+        "sentinel": true,
+        "lens": true,
+        "foresight": true,
+        "fallbackLabel": true
+      },
+      "publicSafetyFlags": {
+        "stackTraceVisible": false,
+        "providerDetailVisible": true
+      },
+      "visibleProviderTerms": [
+        "Slack"
+      ],
+      "overflowingElementCount": 0
+    },
+    {
+      "requestedViewport": "375x900",
+      "viewport": {
+        "width": 375,
+        "height": 900
+      },
+      "scrollWidth": 375,
+      "clientWidth": 375,
+      "hasHorizontalOverflow": false,
+      "bodyScrollHeight": 4359,
+      "requiredText": {
+        "compass": true,
+        "sentinel": true,
+        "lens": true,
+        "foresight": true,
+        "fallbackLabel": true
+      },
+      "publicSafetyFlags": {
+        "stackTraceVisible": false,
+        "providerDetailVisible": true
+      },
+      "visibleProviderTerms": [
+        "Slack"
+      ],
+      "overflowingElementCount": 0
+    },
+    {
+      "requestedViewport": "390x900",
+      "viewport": {
+        "width": 390,
+        "height": 900
+      },
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "hasHorizontalOverflow": false,
+      "bodyScrollHeight": 4359,
+      "requiredText": {
+        "compass": true,
+        "sentinel": true,
+        "lens": true,
+        "foresight": true,
+        "fallbackLabel": true
+      },
+      "publicSafetyFlags": {
+        "stackTraceVisible": false,
+        "providerDetailVisible": true
+      },
+      "visibleProviderTerms": [
+        "Slack"
+      ],
+      "overflowingElementCount": 0
+    },
+    {
+      "requestedViewport": "768x1000",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "scrollWidth": 753,
+      "clientWidth": 753,
+      "hasHorizontalOverflow": false,
+      "bodyScrollHeight": 2628,
+      "requiredText": {
+        "compass": true,
+        "sentinel": true,
+        "lens": true,
+        "foresight": true,
+        "fallbackLabel": true
+      },
+      "publicSafetyFlags": {
+        "stackTraceVisible": false,
+        "providerDetailVisible": true
+      },
+      "visibleProviderTerms": [
+        "Slack"
+      ],
+      "overflowingElementCount": 0
+    },
+    {
+      "requestedViewport": "1024x1100",
+      "viewport": {
+        "width": 1024,
+        "height": 1100
+      },
+      "scrollWidth": 1009,
+      "clientWidth": 1009,
+      "hasHorizontalOverflow": false,
+      "bodyScrollHeight": 2072,
+      "requiredText": {
+        "compass": true,
+        "sentinel": true,
+        "lens": true,
+        "foresight": true,
+        "fallbackLabel": true
+      },
+      "publicSafetyFlags": {
+        "stackTraceVisible": false,
+        "providerDetailVisible": true
+      },
+      "visibleProviderTerms": [
+        "Slack"
+      ],
+      "overflowingElementCount": 0
+    },
+    {
+      "requestedViewport": "1280x1100",
+      "viewport": {
+        "width": 1280,
+        "height": 1100
+      },
+      "scrollWidth": 1265,
+      "clientWidth": 1265,
+      "hasHorizontalOverflow": false,
+      "bodyScrollHeight": 1253,
+      "requiredText": {
+        "compass": true,
+        "sentinel": true,
+        "lens": true,
+        "foresight": true,
+        "fallbackLabel": true
+      },
+      "publicSafetyFlags": {
+        "stackTraceVisible": false,
+        "providerDetailVisible": true
+      },
+      "visibleProviderTerms": [
+        "Slack"
+      ],
+      "overflowingElementCount": 0
+    },
+    {
+      "requestedViewport": "1440x1100",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "scrollWidth": 1425,
+      "clientWidth": 1425,
+      "hasHorizontalOverflow": false,
+      "bodyScrollHeight": 1253,
+      "requiredText": {
+        "compass": true,
+        "sentinel": true,
+        "lens": true,
+        "foresight": true,
+        "fallbackLabel": true
+      },
+      "publicSafetyFlags": {
+        "stackTraceVisible": false,
+        "providerDetailVisible": true
+      },
+      "visibleProviderTerms": [
+        "Slack"
+      ],
+      "overflowingElementCount": 0
+    }
+  ]
+}
