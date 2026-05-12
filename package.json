@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "check:command-center-contract": "node scripts/check-command-center-contract.mjs",
+    "check:command-center-responsive": "node scripts/check-command-center-responsive.mjs",
     "check:command-center-static": "node scripts/check-command-center-static.mjs",
     "smoke:command-center": "node scripts/smoke-command-center.mjs",
     "smoke:command-center:states": "node scripts/smoke-command-center.mjs --state=all",
