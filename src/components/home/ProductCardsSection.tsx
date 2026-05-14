@@ -44,6 +44,55 @@ const productSignals: Record<
   },
 }
 
+const productDesks: Record<
+  string,
+  {
+    desk: string
+    cadence: string
+    surface: Array<{
+      label: string
+      value: string
+    }>
+  }
+> = {
+  compass: {
+    desk: "Evidence desk",
+    cadence: "집행 전 판단",
+    surface: [
+      { label: "Question", value: "정책 가능 여부" },
+      { label: "Source", value: "매체별 근거" },
+      { label: "Gate", value: "승인 기준 확정" },
+    ],
+  },
+  sentinel: {
+    desk: "Control loop",
+    cadence: "검수와 실시간 감시",
+    surface: [
+      { label: "Compare", value: "미디어믹스 대 세팅" },
+      { label: "Watch", value: "예산/KPI 이상" },
+      { label: "Escalate", value: "수정과 알림" },
+    ],
+  },
+  lens: {
+    desk: "Proof desk",
+    cadence: "보고 증빙 준비",
+    surface: [
+      { label: "Render", value: "게재 화면" },
+      { label: "Capture", value: "모바일/데스크톱" },
+      { label: "Archive", value: "보고 이력" },
+    ],
+  },
+  foresight: {
+    desk: "Forecast desk",
+    cadence: "기획 단계 판단",
+    surface: [
+      { label: "Benchmark", value: "업종/목표 기준" },
+      { label: "Simulate", value: "예산 대비 성과" },
+      { label: "Allocate", value: "매체 믹스" },
+    ],
+  },
+}
+
 const coreEngines = [
   {
     title: "업무 근거",
@@ -133,20 +182,49 @@ function ProductCard({
   const Icon = product.icon
   const roles = productRoleTags[product.id] ?? [product.shortName]
   const signals = productSignals[product.id]
+  const desk = productDesks[product.id]
 
   return (
-    <Card className={featured ? "shadow-soft" : "transition duration-300 hover:-translate-y-0.5 hover:shadow-soft"}>
+    <Card
+      className={`overflow-hidden ${
+        featured ? "shadow-soft" : "transition duration-300 hover:-translate-y-0.5 hover:shadow-soft"
+      }`}
+      style={{ borderColor: desk ? product.borderColor : undefined }}
+    >
+      {desk ? <div className="h-1.5" style={{ backgroundColor: product.color }} aria-hidden="true" /> : null}
       <CardHeader className="pb-4">
-        <div className="flex items-start justify-between gap-4">
-          <div
-            className="flex h-11 w-11 items-center justify-center rounded-lg border"
-            style={{
-              backgroundColor: product.softColor,
-              borderColor: product.borderColor,
-              color: product.color,
-            }}
-          >
-            <Icon className="h-5 w-5" aria-hidden="true" />
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="flex min-w-0 items-start gap-3">
+            <div
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border"
+              style={{
+                backgroundColor: product.softColor,
+                borderColor: product.borderColor,
+                color: product.color,
+              }}
+            >
+              <Icon className="h-5 w-5" aria-hidden="true" />
+            </div>
+            <div className="min-w-0">
+              <CardTitle className="text-xl">{product.name}</CardTitle>
+              {desk ? (
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  <span
+                    className="rounded-md border px-2.5 py-1 text-[11px] font-semibold"
+                    style={{
+                      backgroundColor: product.softColor,
+                      borderColor: product.borderColor,
+                      color: product.color,
+                    }}
+                  >
+                    {desk.desk}
+                  </span>
+                  <span className="rounded-md border border-border bg-muted px-2.5 py-1 text-[11px] font-semibold text-foreground">
+                    {desk.cadence}
+                  </span>
+                </div>
+              ) : null}
+            </div>
           </div>
           <div className="flex flex-wrap justify-end gap-1.5">
             {roles.map((role) => (
@@ -159,7 +237,6 @@ function ProductCard({
             ))}
           </div>
         </div>
-        <CardTitle className="pt-3 text-xl">{product.name}</CardTitle>
         <p className="text-sm font-semibold" style={{ color: product.color }}>
           {product.tagline}
         </p>
@@ -167,6 +244,18 @@ function ProductCard({
       </CardHeader>
       <CardContent>
         <p className="text-sm leading-7 text-muted-foreground">{product.description}</p>
+        {desk ? (
+          <div className="mt-5 grid border-y border-border bg-muted/20 sm:grid-cols-3">
+            {desk.surface.map((item) => (
+              <div key={item.label} className="border-b border-border px-3 py-3 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
+                <div className="text-[10px] font-semibold uppercase tracking-[0.14em]" style={{ color: product.color }}>
+                  {item.label}
+                </div>
+                <div className="mt-1 text-xs font-semibold leading-5 text-foreground">{item.value}</div>
+              </div>
+            ))}
+          </div>
+        ) : null}
         {signals ? (
           <div className="mt-5 grid gap-3">
             <SignalRow label="운영 신호" value={signals.signal} color={product.color} />
