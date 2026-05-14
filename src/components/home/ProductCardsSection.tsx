@@ -284,15 +284,18 @@ function ProductCard({
           <div className="mb-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
             원천 입력
           </div>
-          <div className="flex flex-wrap gap-2">
-            {product.features.map((feature) => (
-              <span
+          <div className="grid gap-2 sm:grid-cols-2">
+            {product.features.map((feature, index) => (
+              <div
                 key={feature}
-                className="rounded-md border px-2.5 py-1.5 text-xs font-medium text-foreground"
+                className="grid grid-cols-[3.25rem_1fr] items-start gap-2 rounded-md border px-2.5 py-2 text-xs font-medium text-foreground"
                 style={{ borderColor: product.borderColor, backgroundColor: product.softColor }}
               >
-                {feature}
-              </span>
+                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+                  I-{String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="leading-5">{feature}</span>
+              </div>
             ))}
           </div>
         </div>
@@ -378,16 +381,19 @@ function AgentCoreFoundation({
           ))}
           <div className="rounded-lg border border-[#D5DED8] bg-white p-4 sm:col-span-2">
             <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#587067]">
-              포트폴리오 기록
+              공통 기록 항목
             </div>
-            <div className="flex flex-wrap gap-2">
-              {product.features.map((feature) => (
-                <span
+            <div className="grid gap-2 sm:grid-cols-2">
+              {product.features.map((feature, index) => (
+                <div
                   key={feature}
-                  className="rounded-md border border-[#D5DED8] bg-[#F6F8F7] px-2.5 py-1.5 text-xs font-medium text-foreground"
+                  className="grid grid-cols-[3.25rem_1fr] rounded-md border border-[#D5DED8] bg-[#F6F8F7] px-2.5 py-2 text-xs font-medium text-foreground"
                 >
-                  {feature}
-                </span>
+                  <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[#587067]">
+                    R-{String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="leading-5">{feature}</span>
+                </div>
               ))}
             </div>
           </div>

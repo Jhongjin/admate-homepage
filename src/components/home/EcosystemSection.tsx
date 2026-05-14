@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { BrainCircuit } from "lucide-react"
+import { Waypoints } from "lucide-react"
 
 import { Card } from "@/components/ui/card"
 import { products } from "@/lib/admate-content"
@@ -80,10 +80,10 @@ export function EcosystemSection() {
             <CoreConnector className="-right-4 top-[71%]" reverse />
             <div className="relative z-10">
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg border border-[#B8C7BE] bg-white text-[#2F5D50]">
-                <BrainCircuit className="h-6 w-6" aria-hidden="true" />
+                <Waypoints className="h-6 w-6" aria-hidden="true" />
               </div>
               <div className="text-xs font-semibold uppercase tracking-[0.14em] text-[#587067]">
-                Portfolio router
+                Portfolio routing desk
               </div>
               <h3 className="mt-2 text-2xl font-semibold">{core?.name}</h3>
               <p className="mt-3 text-sm leading-6 text-[#405149]">
@@ -130,7 +130,7 @@ function CoreConnector({ className, reverse = false }: { className: string; reve
       aria-hidden="true"
     >
       <span
-        className={`absolute -top-1 h-2 w-2 animate-pulse rounded-full bg-[#2F5D50] shadow-[0_0_14px_rgba(47,93,80,0.45)] ${
+        className={`absolute -top-1 h-2 w-2 border border-[#2F5D50] bg-[#F6F8F7] ${
           reverse ? "right-0" : "left-0"
         }`}
       />
@@ -174,7 +174,7 @@ function EcosystemProduct({ product }: { product: (typeof products)[number] }) {
       </div>
       <div className="mt-4 border-t border-border pt-4">
         <p className="text-sm font-semibold leading-6" style={{ color: product.color }}>
-          {product.shortName} routing
+          {product.shortName} handoff
         </p>
         <p className="mt-2 text-xs font-medium leading-5 text-muted-foreground">{product.tagline}</p>
         {product.href && !product.linkDisabled ? (
