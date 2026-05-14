@@ -9,6 +9,7 @@ const operationMeta = [
   {
     step: "01",
     label: "비용 신호",
+    boardTitle: "비용 집행 회의",
     role: "비용 구조",
     horizon: "상시",
     workflow: "LLM과 AI API 사용량을 운영 단위로 모아 비용 흐름을 확인하고, 확장 가능한 업무 흐름과 조정이 필요한 흐름을 구분합니다.",
@@ -21,6 +22,7 @@ const operationMeta = [
   {
     step: "02",
     label: "변화 신호",
+    boardTitle: "변화 반영 회의",
     role: "기술 변화",
     horizon: "매주",
     workflow: "매주 들어오는 AI·MarTech·매체 변화를 운영 후보로 정리하고, 제품에 반영할 항목과 보류할 항목을 나눕니다.",
@@ -33,6 +35,7 @@ const operationMeta = [
   {
     step: "03",
     label: "기회 신호",
+    boardTitle: "PoC 투자 회의",
     role: "사업 기회",
     horizon: "장기",
     workflow: "반복되는 내부 업무 문제와 시장 요구를 묶어 신규 솔루션 후보를 만들고, PoC로 검증할 범위를 좁힙니다.",
@@ -52,7 +55,7 @@ export function OperationsSection() {
       <div className="section-shell">
         <SectionHeading
           eyebrow="Executive Rhythm"
-          title="제품 포트폴리오를 계속 조정하는 운영 회의판"
+          title="운영 신호가 다음 투자 회의의 안건이 됩니다"
           description="AdMate는 도구 목록보다 운영 판단에 필요한 신호를 먼저 봅니다. 비용 구조, 기술 변화, 시장 기회를 같은 리듬으로 검토해 다음 투자와 PoC 결정을 빠르게 좁힙니다."
         />
 
@@ -90,9 +93,14 @@ export function OperationsSection() {
                     </span>
                   </div>
                 </div>
-                <h3 className="text-lg font-semibold">{operation.title}</h3>
-                <div className="mt-2 text-sm font-semibold" style={{ color: operationMeta[index].accent }}>
-                  {operationMeta[index].role}
+                <h3 className="text-lg font-semibold">{operationMeta[index].boardTitle}</h3>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  <span className="text-sm font-semibold" style={{ color: operationMeta[index].accent }}>
+                    {operationMeta[index].role}
+                  </span>
+                  <span className="text-sm font-medium text-muted-foreground">
+                    {operation.title}
+                  </span>
                 </div>
                 <p className="mt-4 text-sm leading-7 text-muted-foreground">{operationMeta[index].workflow}</p>
                 <div className="mt-auto grid gap-3 rounded-lg border border-border bg-muted/25 p-3">

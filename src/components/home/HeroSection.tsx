@@ -4,7 +4,6 @@ import {
   ArrowRight,
   BrainCircuit,
   Camera,
-  CheckCircle2,
   Clock3,
   FileCheck2,
   Gauge,
@@ -31,9 +30,9 @@ const portfolioRows: Array<{
 }> = [
   {
     product: "Compass",
-    role: "Policy intelligence",
-    status: "근거 확인",
-    signal: "정책 판단",
+    role: "Evidence desk",
+    status: "집행 가능성",
+    signal: "정책 근거",
     icon: FileCheck2,
     color: "#1F6F8B",
     softColor: "#EAF4F7",
@@ -42,9 +41,9 @@ const portfolioRows: Array<{
   },
   {
     product: "Sentinel",
-    role: "Validation and monitoring",
-    status: "신호 감시",
-    signal: "리스크 보호",
+    role: "Control loop",
+    status: "검수/감시",
+    signal: "세팅 리스크",
     icon: Radar,
     color: "#177D4E",
     softColor: "#EFFAF4",
@@ -53,9 +52,9 @@ const portfolioRows: Array<{
   },
   {
     product: "Lens",
-    role: "Capture evidence",
-    status: "증빙 대기",
-    signal: "보고 준비",
+    role: "Proof desk",
+    status: "증빙 확정",
+    signal: "캡처 이력",
     icon: Camera,
     color: "#2B6D67",
     softColor: "#E8F4F1",
@@ -64,9 +63,9 @@ const portfolioRows: Array<{
   },
   {
     product: "Foresight",
-    role: "Planning forecast",
-    status: "기준 정리",
-    signal: "다음 기획",
+    role: "Forecast desk",
+    status: "기획 기준",
+    signal: "예산 판단",
     icon: LineChart,
     color: "#B45309",
     softColor: "#FFF8EC",
@@ -76,15 +75,15 @@ const portfolioRows: Array<{
 ]
 
 const executiveLedger = [
-  { label: "이번 운영 초점", value: "검수, 모니터링, 증빙 흐름 정렬" },
-  { label: "열린 판단", value: "세팅 검수 승인, 예산 이상 확인" },
-  { label: "기록 기준", value: "정책 근거, 운영 이력, 학습 피드백" },
+  { label: "오늘의 운영 초점", value: "검수 승인, 예산 이상, 증빙 확정" },
+  { label: "열린 판단", value: "집행 가능 여부와 다음 수정 우선순위" },
+  { label: "남겨야 할 기록", value: "정책 근거, 운영 이력, 학습 피드백" },
 ]
 
-const operatingNotes = [
-  "캠페인 운영 판단 순서로 읽히는 포트폴리오 입구",
-  "Compass, Sentinel, Lens, Foresight가 각자의 신호와 책임을 유지",
-  "Agent Core가 실행, 기록, 비용, 학습 기준을 하나의 운영 기억으로 연결",
+const operatingReadouts = [
+  { label: "Board frame", value: "기획 · 정책 · 검수 · 감시 · 증빙" },
+  { label: "Product desks", value: "Evidence · Control · Proof · Forecast" },
+  { label: "Memory layer", value: "실행, 비용, 피드백을 Agent Core로 연결" },
 ]
 
 const boardSignals = [
@@ -106,11 +105,15 @@ export function HeroSection() {
             <OperationsWall />
           </div>
 
-          <div className="grid gap-3 border-y border-[#BAC5BE] bg-[#F7F8F6]/82 px-3 py-3 sm:grid-cols-3">
-            {operatingNotes.map((note) => (
-              <div key={note} className="flex items-start gap-2 text-xs font-semibold leading-5 text-[#405149]">
-                <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#177D4E]" aria-hidden="true" />
-                <span>{note}</span>
+          <div className="grid border-y border-[#BAC5BE] bg-[#F7F8F6]/82 sm:grid-cols-3">
+            {operatingReadouts.map((item) => (
+              <div key={item.label} className="border-b border-[#D3DDD7] px-3 py-3 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
+                <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#66756D]">
+                  {item.label}
+                </div>
+                <div className="mt-1 text-xs font-semibold leading-5 text-[#405149]">
+                  {item.value}
+                </div>
               </div>
             ))}
           </div>
@@ -160,11 +163,11 @@ function HeroEditorial() {
           AdMate
         </h1>
         <p className="mt-5 max-w-[700px] text-balance text-2xl font-semibold leading-tight text-[#27362F] sm:text-3xl">
-          광고 운영의 진행 상황, 위험, 증빙, 다음 판단을 한 화면에 올리는 Command Center.
+          광고 운영의 승인 대기, 위험 신호, 증빙 상태, 다음 판단을 한 화면에 올리는 Command Center.
         </p>
         <p className="mt-5 max-w-[660px] text-base font-medium leading-8 text-[#405149]">
-          기획부터 운영, 검수, 캡처, 학습까지 흩어진 업무를 임원이 바로 읽을 수 있는 운영 보드와
-          제품 포트폴리오로 정리합니다.
+          첫 화면에서 포트폴리오 상태를 읽고, 어떤 제품 데스크가 어떤 판단을 맡는지 바로 파악하도록
+          운영 흐름을 정렬합니다.
         </p>
       </div>
 
