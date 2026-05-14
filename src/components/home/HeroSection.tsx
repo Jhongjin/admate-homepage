@@ -87,6 +87,12 @@ const operatingNotes = [
   "Agent Core가 실행, 기록, 비용, 학습 기준을 하나의 운영 기억으로 연결",
 ]
 
+const boardSignals = [
+  { label: "Gate", value: "집행 전 검수" },
+  { label: "Watch", value: "예산/KPI 이상" },
+  { label: "Proof", value: "보고 증빙" },
+]
+
 export function HeroSection() {
   return (
     <section id="top" className="relative isolate overflow-hidden border-b border-[#BAC5BE] bg-[#ECEFEA]">
@@ -215,9 +221,14 @@ function OperationsWall() {
           </div>
 
           <div className="grid border-t border-[#D3DDD7] bg-[#F1F4F0] sm:grid-cols-3">
-            {["정책 근거", "운영 이력", "학습 피드백"].map((item) => (
-              <div key={item} className="border-b border-[#D3DDD7] px-4 py-3 text-xs font-semibold text-[#405149] last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
-                {item}
+            {boardSignals.map((item) => (
+              <div key={item.label} className="border-b border-[#D3DDD7] px-4 py-3 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
+                <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#66756D]">
+                  {item.label}
+                </div>
+                <div className="mt-1 text-xs font-semibold text-[#405149]">
+                  {item.value}
+                </div>
               </div>
             ))}
           </div>

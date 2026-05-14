@@ -55,6 +55,12 @@ const coreEngines = [
   },
 ]
 
+const portfolioSignals = [
+  { label: "Gate signals", value: "정책 · 검수 · 감시 · 증빙" },
+  { label: "Decision record", value: "근거와 피드백을 Agent Core로 연결" },
+  { label: "Executive view", value: "제품명이 아니라 운영 판단 순서로 탐색" },
+]
+
 export function ProductCardsSection() {
   const core = products.find((product) => product.id === "agent-core")
   const productItems = products.filter((product) => product.id !== "agent-core")
@@ -63,10 +69,21 @@ export function ProductCardsSection() {
     <section id="products" className="border-b border-border bg-background py-20">
       <div className="section-shell">
         <SectionHeading
-          eyebrow="Products"
-          title="Compass, Sentinel, Lens, Foresight, 그리고 Agent Core"
-          description="각 제품은 캠페인 운영에서 확인해야 할 신호, 남겨야 할 근거, 다음 의사결정을 나눠 맡습니다. Agent Core는 결과와 피드백을 연결해 포트폴리오 전체의 운영 기억을 만듭니다."
+          eyebrow="Portfolio Board"
+          title="AdMate 제품군을 운영 신호로 읽는 보드"
+          description="Compass, Sentinel, Lens, Foresight는 캠페인 운영에서 확인해야 할 신호와 남겨야 할 근거를 나눠 맡습니다. Agent Core는 결과와 피드백을 연결해 포트폴리오 전체의 운영 기억을 만듭니다."
         />
+
+        <div className="mb-6 grid border-y border-border bg-card sm:grid-cols-3">
+          {portfolioSignals.map((item) => (
+            <div key={item.label} className="border-b border-border px-4 py-3 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                {item.label}
+              </div>
+              <div className="mt-1 text-sm font-semibold leading-6 text-foreground">{item.value}</div>
+            </div>
+          ))}
+        </div>
 
         <Tabs defaultValue="all" className="w-full">
           <div className="mb-6 overflow-x-auto pb-1">
