@@ -14,13 +14,13 @@
     --secondary-foreground: 0 0% 20%;
     --muted: 0 0% 94.9%;
     --muted-foreground: 0 0% 37%;
-    --accent: 234 56% 60%;
+    --accent: 151 45% 34%;
     --accent-foreground: 0 0% 100%;
     --destructive: 4 69% 50%;
     --destructive-foreground: 0 0% 100%;
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
-    --ring: 234 56% 60%;
+    --ring: 151 45% 34%;
     --radius: 0.5rem;
   }
 
@@ -60,11 +60,45 @@
     background-size: 36px 36px;
   }
 
+  .command-grid {
+    background-image:
+      linear-gradient(rgba(16, 24, 32, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(16, 24, 32, 0.06) 1px, transparent 1px),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(238, 241, 238, 0));
+    background-size: 32px 32px, 32px 32px, 100% 100%;
+  }
+
+  .command-lane::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+    border-top: 3px solid #101820;
+    opacity: 0.9;
+    pointer-events: none;
+  }
+
+  .command-signal-dot {
+    display: inline-flex;
+    height: 9px;
+    width: 9px;
+    flex-shrink: 0;
+    border-radius: 999px;
+    background: #2f7d50;
+  }
+
+  .command-signal-dot.watch {
+    background: #9e5700;
+  }
+
+  .command-signal-dot.hold {
+    background: #d84b3f;
+  }
+
   .hero-grid-dark {
     background-image:
       linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
       linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
-      linear-gradient(135deg, rgba(94, 106, 210, 0.18), transparent 42%);
+      linear-gradient(135deg, rgba(47, 125, 80, 0.16), transparent 42%);
     background-size: 44px 44px, 44px 44px, 100% 100%;
   }
 
@@ -92,7 +126,7 @@
     height: 5px;
     width: 78px;
     border-radius: 999px;
-    background: linear-gradient(90deg, transparent, #8ea2ff, transparent);
+    background: linear-gradient(90deg, transparent, #8fe0b5, transparent);
     animation: hero-flow-pulse 4s ease-in-out infinite;
   }
 
@@ -102,7 +136,7 @@
   }
 
   .hero-metric-bar {
-    background-image: linear-gradient(90deg, #8ea2ff, #c8d2ff, #8ea2ff);
+    background-image: linear-gradient(90deg, #6fcf9f, #c8f0dc, #6fcf9f);
     background-size: 180% 100%;
     animation: hero-bar-sheen 4.8s ease-in-out infinite;
   }
@@ -142,7 +176,7 @@
     height: 1px;
     width: 13%;
     overflow: hidden;
-    border-top: 1px solid rgba(142, 162, 255, 0.42);
+    border-top: 1px solid rgba(47, 125, 80, 0.42);
     transform-origin: center;
   }
 
@@ -153,7 +187,7 @@
     height: 5px;
     width: 44px;
     content: "";
-    background: linear-gradient(90deg, transparent, rgba(142, 162, 255, 0.9), transparent);
+    background: linear-gradient(90deg, transparent, rgba(47, 125, 80, 0.9), transparent);
     animation: system-link-pulse 4.2s ease-in-out infinite;
   }
 
@@ -199,7 +233,7 @@
     top: 50%;
     height: 96px;
     width: 280px;
-    border: 1px solid rgba(142, 162, 255, 0.16);
+    border: 1px solid rgba(47, 125, 80, 0.2);
     border-radius: 8px;
     transform: translate(-50%, -50%);
     animation: system-core-pulse 4.2s ease-in-out infinite;
@@ -209,7 +243,7 @@
     position: absolute;
     inset: 0;
     content: "";
-    background: linear-gradient(115deg, transparent 0%, rgba(142, 162, 255, 0.14) 46%, transparent 72%);
+    background: linear-gradient(115deg, transparent 0%, rgba(47, 125, 80, 0.12) 46%, transparent 72%);
     transform: translateX(-120%);
     animation: system-core-sweep 5.6s ease-in-out infinite;
     pointer-events: none;
@@ -346,7 +380,7 @@
     }
     12%,
     24% {
-      box-shadow: 0 16px 42px rgba(94, 106, 210, 0.14);
+      box-shadow: 0 16px 42px rgba(47, 125, 80, 0.14);
       transform: translateY(-1px);
     }
   }

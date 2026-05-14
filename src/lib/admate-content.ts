@@ -46,12 +46,12 @@ export type Product = {
 }
 
 export const navLinks = [
-  { label: "Platform", href: "#platform" },
-  { label: "Products", href: "#products" },
-  { label: "Lifecycle", href: "#lifecycle" },
+  { label: "운영판", href: "#platform" },
+  { label: "제품 역할", href: "#products" },
+  { label: "운영 루프", href: "#lifecycle" },
   { label: "Agent Core", href: "#agent-core" },
-  { label: "Impact", href: "#impact" },
-  { label: "Roadmap", href: "#roadmap" },
+  { label: "성과 기준", href: "#impact" },
+  { label: "로드맵", href: "#roadmap" },
 ]
 
 export const officialLinks = {
@@ -76,9 +76,9 @@ export const products: Product[] = [
     features: ["매체별 정책/가이드 검색", "검증된 출처 기반 RAG 질의응답", "정책 근거와 출처 표시", "향후 Multi-LLM 검증"],
     href: officialLinks.compass,
     linkLabel: "Compass 열기",
-    color: "#4F63D8",
-    softColor: "#ECEDF9",
-    borderColor: "#CBD0EF",
+    color: "#1F6F8B",
+    softColor: "#EAF4F7",
+    borderColor: "#B9D8E2",
     icon: Compass,
   },
   {
@@ -108,9 +108,9 @@ export const products: Product[] = [
     features: ["광고 게재 화면 캡처", "모바일/데스크톱 광고 UI 렌더링", "보고서용 증빙 이미지 생성", "캡처 이력 관리"],
     href: officialLinks.lens,
     linkLabel: "Lens 열기",
-    color: "#7C3AED",
-    softColor: "#F3E8FF",
-    borderColor: "#DDD6FE",
+    color: "#2B6D67",
+    softColor: "#E8F4F1",
+    borderColor: "#B9D8D3",
     icon: Camera,
   },
   {
