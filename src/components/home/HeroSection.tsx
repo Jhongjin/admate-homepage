@@ -82,9 +82,9 @@ const executiveLedger = [
 ]
 
 const operatingNotes = [
-  "제품별 기능 나열이 아니라 캠페인 운영 판단 순서로 읽히는 구조",
-  "Compass, Sentinel, Lens, Foresight가 각자의 색과 역할을 유지하는 제품군",
-  "Agent Core가 실행, 기록, 비용, 학습 기준을 묶는 운영 중심",
+  "캠페인 운영 판단 순서로 읽히는 포트폴리오 입구",
+  "Compass, Sentinel, Lens, Foresight가 각자의 신호와 책임을 유지",
+  "Agent Core가 실행, 기록, 비용, 학습 기준을 하나의 운영 기억으로 연결",
 ]
 
 export function HeroSection() {
@@ -157,8 +157,8 @@ function HeroEditorial() {
           광고 운영의 진행 상황, 위험, 증빙, 다음 판단을 한 화면에 올리는 Command Center.
         </p>
         <p className="mt-5 max-w-[660px] text-base font-medium leading-8 text-[#405149]">
-          기획부터 운영, 검수, 캡처, 학습까지 흩어진 업무를 제품 소개가 아니라 임원이 바로 읽을 수
-          있는 운영 보드와 제품 포트폴리오로 정리합니다.
+          기획부터 운영, 검수, 캡처, 학습까지 흩어진 업무를 임원이 바로 읽을 수 있는 운영 보드와
+          제품 포트폴리오로 정리합니다.
         </p>
       </div>
 
@@ -230,14 +230,14 @@ function OperationsWall() {
                 <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#66756D]">
                   Agent Core
                 </div>
-                <div className="mt-2 text-2xl font-semibold text-[#101820]">연결 중</div>
+                <div className="mt-2 text-2xl font-semibold text-[#101820]">운영 기억 정렬</div>
               </div>
               <div className="flex h-10 w-10 items-center justify-center bg-[#101820] text-white">
                 <BrainCircuit className="h-5 w-5" aria-hidden="true" />
               </div>
             </div>
             <p className="mt-3 text-xs font-medium leading-5 text-[#5B6B62]">
-              Openclaw 실행과 Hermes 학습을 공통 운영 계층으로 묶어 판단 흐름을 보존합니다.
+              Openclaw 실행과 Hermes 학습을 공통 운영 계층으로 묶어 판단 근거와 피드백을 보존합니다.
             </p>
           </div>
 
