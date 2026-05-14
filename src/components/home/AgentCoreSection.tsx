@@ -7,11 +7,11 @@ import { corePillars } from "@/lib/admate-content"
 
 import { SectionHeading } from "./SectionHeading"
 
-const loopSteps = ["실행", "기록", "학습", "다음 판단"]
+const loopSteps = ["데스크 신호", "판단 기록", "기준 회수", "다음 안건"]
 
 const engineCopy: Record<string, string> = {
-  Openclaw: "정해진 스케줄과 조건에 따라 업무를 실행하고, 필요한 외부 시스템을 연결합니다.",
-  Hermes: "AI 응답과 사용자 피드백을 학습해 운영 지식과 판단 기준을 축적합니다.",
+  Openclaw: "정해진 조건이 충족되면 검수, 알림, 기록 흐름을 운영자가 추적할 수 있는 실행 이력으로 남깁니다.",
+  Hermes: "정책 근거, 예외 판단, 운영자 피드백을 모아 다음 캠페인에서 다시 꺼낼 수 있는 기준으로 정리합니다.",
 }
 
 const corePrinciples = [
@@ -34,58 +34,58 @@ export function AgentCoreSection() {
     <section id="agent-core" className="border-b border-border bg-background py-20">
       <div className="section-shell">
         <SectionHeading
-          eyebrow="Agent Core"
+          eyebrow="Decision Memory"
           title={
             <>
-              <span className="block">AdMate Agent Core:</span>
-              <span className="block">실행하고, 기록하고, 학습하는 중심 엔진</span>
+              <span className="block">Agent Core는 제품 데스크의 판단을</span>
+              <span className="block">다음 운영 회의의 기억으로 바꿉니다</span>
             </>
           }
           description={
             <>
               <span className="block">
-                AdMate Agent Core는 네 개의 제품을 하나의 운영 흐름으로 연결합니다.
+                Compass, Sentinel, Lens, Foresight에서 나온 신호는 여기서 실행 이력과 판단 근거로 정리됩니다.
               </span>
               <span className="block">
-                자동화 실행과 지능/메모리 엔진을 기반으로 캠페인 단위의 실행, 기록, 피드백, 학습을 이어줍니다.
+                Core는 기능을 과시하는 엔진이 아니라 승인, 수정, 공유, 투자 판단을 다시 꺼내는 운영 장부입니다.
               </span>
             </>
           }
         />
 
         <div className="grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
-          <Card className="overflow-hidden bg-[#111827] text-white">
+          <Card className="overflow-hidden border-[#B8C7BE] bg-[#F6F8F7] text-[#101820]">
             <CardContent className="p-6">
-              <Badge variant="outline" className="border-white/20 bg-white/10 text-white">
-                Intelligence + Automation
+              <Badge variant="outline" className="border-[#B8C7BE] bg-white text-[#2F5D50]">
+                Portfolio decision ledger
               </Badge>
               <h3 className="mt-6 text-3xl font-semibold leading-tight">
-                <span className="block">자동화는 업무를 실행하고,</span>
-                <span className="block">지능은 기억하고 판단합니다.</span>
+                <span className="block">각 데스크의 신호를 모아</span>
+                <span className="block">감사 가능한 판단 기록으로 남깁니다.</span>
               </h3>
-              <p className="mt-5 text-sm leading-7 text-white/70">
-                AdMate Agent Core 안에서 자동화 실행 엔진(Openclaw)은 움직이는 손과 발처럼 업무를 실행하고,
-                지능/메모리 엔진(Hermes)은 두뇌처럼 운영 지식과 판단 기준을 축적합니다.
+              <p className="mt-5 text-sm leading-7 text-[#405149]">
+                Agent Core는 정책 근거, 세팅 리스크, 증빙 이력, 예산 판단을 같은 장부 형식으로 받아
+                다음 운영 회의에서 바로 확인할 수 있게 정리합니다.
               </p>
 
               <div className="mt-8 grid gap-2">
                 {[
-                  { label: "모든 Agent action은 감사 가능한 이력으로 기록", icon: History },
-                  { label: "위험하거나 비용이 큰 작업은 운영자 승인 기준으로 제어", icon: ShieldCheck },
-                  { label: "각 제품은 사람용 UI와 Agent용 Tool로 함께 확장", icon: GitBranch },
+                  { label: "데스크별 실행은 감사 가능한 이력으로 기록", icon: History },
+                  { label: "위험하거나 비용이 큰 판단은 운영자 승인 기준으로 제어", icon: ShieldCheck },
+                  { label: "근거, 예외, 피드백은 다음 캠페인의 기준 후보로 연결", icon: GitBranch },
                 ].map((item) => (
-                  <div key={item.label} className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 p-3 text-sm">
-                    <item.icon className="h-4 w-4 text-white/70" aria-hidden="true" />
+                  <div key={item.label} className="flex items-center gap-3 rounded-lg border border-[#D5DED8] bg-white p-3 text-sm font-medium text-[#101820]">
+                    <item.icon className="h-4 w-4 text-[#2F5D50]" aria-hidden="true" />
                     {item.label}
                   </div>
                 ))}
               </div>
 
-              <div className="mt-6 grid gap-2 border-t border-white/10 pt-5 sm:grid-cols-3">
+              <div className="mt-6 grid gap-2 border-t border-[#D5DED8] pt-5 sm:grid-cols-3">
                 {corePrinciples.map((principle) => (
-                  <div key={principle.label} className="rounded-lg border border-white/10 bg-white/[0.06] p-3">
-                    <div className="text-xs font-semibold text-white">{principle.label}</div>
-                    <p className="mt-2 text-[11px] leading-5 text-white/58">{principle.description}</p>
+                  <div key={principle.label} className="rounded-lg border border-[#D5DED8] bg-white p-3">
+                    <div className="text-xs font-semibold text-[#101820]">{principle.label}</div>
+                    <p className="mt-2 text-[11px] leading-5 text-[#5B6B62]">{principle.description}</p>
                   </div>
                 ))}
               </div>
@@ -117,9 +117,9 @@ export function AgentCoreSection() {
 
             <Card className="flex flex-col p-5">
               <div>
-                <div className="text-sm font-semibold">Agent operating loop</div>
+                <div className="text-sm font-semibold">Decision-room loop</div>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                  실행된 작업은 이력으로 남고, 운영자 판단은 학습되어 다음 캠페인의 기준 후보가 됩니다.
+                  각 데스크에서 들어온 신호는 판단 기록으로 남고, 운영자 피드백은 다음 회의의 기준 후보가 됩니다.
                 </p>
               </div>
               <Separator className="my-5" />
@@ -130,7 +130,7 @@ export function AgentCoreSection() {
                       {step}
                     </div>
                     {index < loopSteps.length - 1 ? (
-                      <ArrowRight className="hidden h-4 w-4 shrink-0 text-[#5E6AD2] sm:block" aria-hidden="true" />
+                      <ArrowRight className="hidden h-4 w-4 shrink-0 text-[#2F5D50] sm:block" aria-hidden="true" />
                     ) : null}
                   </div>
                 ))}
