@@ -1,34 +1,39 @@
 import { ArrowRight } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
 
 import { SectionHeading } from "./SectionHeading"
 
 const roadmapStages = [
   {
-    title: "Foundation",
-    subtitle: "브랜드와 제품 구조를 명확히 합니다.",
+    title: "운영판 기준 확정",
+    subtitle: "제품 구조와 Agent Core 상태 기준을 경영 운영판의 공통 언어로 맞춥니다.",
     phase: "Phase 1-2",
+    signal: "데스크 역할과 모니터링 기준",
+    decision: "홈페이지와 Command Center가 같은 제품 상태를 말하는가",
     items: [
-      "Compass / Sentinel / Lens / Foresight 역할 정리",
-      "Agent Core 기반 모니터링 안정화",
+      "Compass / Sentinel / Lens / Foresight 데스크 책임 정리",
+      "Agent Core 기반 상태 기록 안정화",
     ],
   },
   {
-    title: "Productization",
-    subtitle: "제품 경험과 운영 루프를 실제 업무로 연결합니다.",
+    title: "운영 데스크 제품화",
+    subtitle: "정책, 검수, 증빙, 예산 판단을 실제 업무 안에서 반복 가능한 리듬으로 연결합니다.",
     phase: "Phase 3-5",
+    signal: "운영자가 매주 확인하는 승인/수정/공유 안건",
+    decision: "각 데스크가 다음 회의에 올릴 근거를 남기는가",
     items: [
-      "UI/UX 정렬과 Tool API 전환",
-      "Foresight PoC와 데이터 기준 정리",
+      "UI/UX 정렬과 데스크별 Tool API 전환",
+      "Foresight PoC와 예산 판단 데이터 기준 정리",
       "비용/기술 인텔리전스 운영 체계 구축",
     ],
   },
   {
-    title: "Expansion",
-    subtitle: "운영 데이터에서 다음 솔루션 기회를 탐색합니다.",
+    title: "포트폴리오 투자 판단",
+    subtitle: "운영 데이터에서 반복 문제와 신규 솔루션 기회를 찾아 PoC 투자 안건으로 올립니다.",
     phase: "Phase 6",
+    signal: "반복 리스크, 비용 흐름, 시장 요구",
+    decision: "어떤 PoC를 제품화 검토로 넘길 것인가",
     items: [
       "신규 솔루션 기회 탐색 루프 확장",
       "PoC 후보를 제품화 검토로 연결",
@@ -36,47 +41,68 @@ const roadmapStages = [
   },
 ]
 
-const roadmapFlow = ["구조 정리", "Core 안정화", "API/PoC", "운영 루프", "기회 탐색"]
+const roadmapFlow = ["기준 확정", "상태 기록", "데스크 제품화", "운영 리듬", "투자 안건"]
 
 export function RoadmapSection() {
   return (
     <section id="roadmap" className="border-b border-border bg-[#FBFBFB] py-20">
       <div className="section-shell">
         <SectionHeading
-          eyebrow="Roadmap"
-          title="AdMate는 기반 정리에서 확장 루프까지 단계적으로 고도화됩니다"
-          description="로드맵은 개별 기능 목록이 아니라, 브랜드/제품 구조 정리에서 Agent Core 안정화, 제품화, 운영 루프, 신규 기회 탐색으로 이어지는 고도화 경로입니다."
+          eyebrow="Decision Roadmap"
+          title="로드맵은 기능 출시표가 아니라 운영 회의의 안건 흐름입니다"
+          description="AdMate의 다음 단계는 무엇을 더 만들지보다 어떤 신호를 기준으로 승인, 수정, 투자 판단을 내릴지 정리하는 일입니다."
         />
 
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div className="overflow-hidden border-y border-[#C9D2CC] bg-white">
           {roadmapStages.map((stage, index) => (
-            <Card key={stage.title} className="transition duration-300 hover:-translate-y-0.5 hover:shadow-soft">
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <div className="text-xs font-semibold uppercase tracking-[0.14em] text-[#8EA2FF]">
-                      Stage 0{index + 1}
-                    </div>
-                    <h3 className="mt-3 text-xl font-semibold">{stage.title}</h3>
+            <div
+              key={stage.title}
+              className="grid gap-0 border-b border-[#D5DDD8] last:border-b-0 lg:grid-cols-[180px_minmax(0,0.8fr)_minmax(0,1.2fr)]"
+            >
+              <div className="border-b border-[#D5DDD8] bg-[#F6F8F5] p-4 lg:border-b-0 lg:border-r">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#587067]">
+                  Gate 0{index + 1}
+                </div>
+                <Badge variant="outline" className="mt-3 border-[#B8C7BE] bg-white text-[#2F5D50]">
+                  {stage.phase}
+                </Badge>
+              </div>
+              <div className="border-b border-[#D5DDD8] p-4 lg:border-b-0 lg:border-r">
+                <h3 className="text-lg font-semibold text-[#101820]">{stage.title}</h3>
+                <p className="mt-2 text-sm font-medium leading-6 text-[#405149]">{stage.subtitle}</p>
+              </div>
+              <div className="grid gap-0 p-4 sm:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)]">
+                <div className="border-b border-[#E1E7E3] pb-3 sm:border-b-0 sm:border-r sm:pb-0 sm:pr-4">
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#587067]">
+                    Operating signal
                   </div>
-                  <Badge variant="outline" className="bg-card">
-                    {stage.phase}
-                  </Badge>
+                  <p className="mt-2 text-sm font-semibold leading-6 text-[#101820]">{stage.signal}</p>
+                  <div className="mt-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#587067]">
+                    Decision
+                  </div>
+                  <p className="mt-2 text-sm leading-6 text-[#405149]">{stage.decision}</p>
                 </div>
-                <p className="mt-4 text-sm font-medium leading-6 text-foreground">{stage.subtitle}</p>
-                <div className="mt-5 grid gap-2">
-                  {stage.items.map((item) => (
-                    <div key={item} className="rounded-lg border border-border bg-muted/60 px-3 py-2 text-sm leading-6 text-muted-foreground">
-                      {item}
-                    </div>
-                  ))}
+                <div className="pt-3 sm:pl-4 sm:pt-0">
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#587067]">
+                    Proof ledger
+                  </div>
+                  <div className="mt-3 grid gap-2">
+                    {stage.items.map((item, itemIndex) => (
+                      <div key={item} className="grid grid-cols-[3.25rem_1fr] rounded-md border border-[#D5DDD8] bg-[#F8FAF7] px-2.5 py-2 text-sm">
+                        <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[#587067]">
+                          P-{String(itemIndex + 1).padStart(2, "0")}
+                        </span>
+                        <span className="leading-6 text-[#405149]">{item}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           ))}
         </div>
 
-        <div className="mt-6 rounded-lg border border-border bg-card p-4 shadow-sm">
+        <div className="mt-6 border-y border-[#C9D2CC] bg-white p-4 shadow-sm">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <div className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
