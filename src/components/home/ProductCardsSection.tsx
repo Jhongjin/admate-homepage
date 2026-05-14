@@ -8,10 +8,10 @@ import { products } from "@/lib/admate-content"
 import { SectionHeading } from "./SectionHeading"
 
 const productRoleTags: Record<string, string[]> = {
-  compass: ["Policy", "Evidence"],
-  sentinel: ["Validation", "Live risk"],
-  lens: ["Proof", "Capture"],
-  foresight: ["Forecast", "Decision"],
+  compass: ["Policy gate", "Evidence"],
+  sentinel: ["Risk loop", "Live watch"],
+  lens: ["Proof desk", "Capture"],
+  foresight: ["Forecast", "Budget call"],
 }
 
 const productSignals: Record<
@@ -105,10 +105,12 @@ const coreEngines = [
 ]
 
 const portfolioSignals = [
-  { label: "Gate signals", value: "정책 · 검수 · 감시 · 증빙" },
-  { label: "Decision record", value: "근거와 피드백을 Agent Core로 연결" },
-  { label: "Executive view", value: "제품명이 아니라 운영 판단 순서로 탐색" },
+  { label: "Signal desks", value: "정책 근거 · 세팅 리스크 · 증빙 이력 · 예산 판단" },
+  { label: "Routing memory", value: "각 데스크의 근거와 피드백을 Agent Core로 전달" },
+  { label: "Executive scan", value: "제품 소개보다 오늘의 승인/수정/공유 판단을 먼저 확인" },
 ]
+
+const ledgerLabels = ["신호", "근거", "결정"]
 
 export function ProductCardsSection() {
   const core = products.find((product) => product.id === "agent-core")
@@ -119,8 +121,8 @@ export function ProductCardsSection() {
       <div className="section-shell">
         <SectionHeading
           eyebrow="Portfolio Board"
-          title="AdMate 제품군을 운영 신호로 읽는 보드"
-          description="Compass, Sentinel, Lens, Foresight는 캠페인 운영에서 확인해야 할 신호와 남겨야 할 근거를 나눠 맡습니다. Agent Core는 결과와 피드백을 연결해 포트폴리오 전체의 운영 기억을 만듭니다."
+          title="각 제품은 하나의 운영 데스크로 일합니다"
+          description="Compass, Sentinel, Lens, Foresight는 기능 묶음이 아니라 정책 근거, 세팅 리스크, 보고 증빙, 예산 판단을 맡는 데스크입니다. Agent Core는 데스크별 판단과 피드백을 운영 기억으로 연결합니다."
         />
 
         <div className="mb-6 grid border-y border-border bg-card sm:grid-cols-3">
@@ -132,6 +134,21 @@ export function ProductCardsSection() {
               <div className="mt-1 text-sm font-semibold leading-6 text-foreground">{item.value}</div>
             </div>
           ))}
+        </div>
+
+        <div className="mb-6 flex flex-wrap items-center gap-2 border-y border-[#D2DBD5] bg-[#F6F8F7] px-3 py-3 text-xs font-semibold text-[#405149]">
+          <span className="text-[10px] uppercase tracking-[0.14em] text-[#587067]">Proof ledger</span>
+          {ledgerLabels.map((label, index) => (
+            <div key={label} className="flex items-center gap-2">
+              <span className="rounded-md border border-[#D5DED8] bg-white px-2.5 py-1 text-foreground">
+                {label}
+              </span>
+              {index < ledgerLabels.length - 1 ? (
+                <ArrowRight className="h-3.5 w-3.5 text-[#7B8780]" aria-hidden="true" />
+              ) : null}
+            </div>
+          ))}
+          <span className="text-muted-foreground">각 데스크가 같은 형식으로 운영 판단을 남깁니다.</span>
         </div>
 
         <Tabs defaultValue="all" className="w-full">
@@ -265,7 +282,7 @@ function ProductCard({
         ) : null}
         <div className="mt-5 border-t border-border pt-4">
           <div className="mb-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
-            운영 단서
+            원천 입력
           </div>
           <div className="flex flex-wrap gap-2">
             {product.features.map((feature) => (
