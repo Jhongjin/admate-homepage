@@ -6,45 +6,60 @@ import { SectionHeading } from "./SectionHeading"
 const impactAxes = [
   {
     title: "운영 효율",
-    description: "반복 확인과 수작업을 줄여 플래너가 판단에 더 집중하게 합니다.",
+    description: "반복 확인과 수작업을 줄이고, 운영자가 바로 판단해야 할 신호를 앞에 둡니다.",
+    accent: "#2F5D50",
+    tint: "#EFF6F2",
+    border: "#B8C7BE",
   },
   {
     title: "리스크 예방",
-    description: "세팅 오류와 운영 중 이상 신호를 더 빠르게 발견합니다.",
+    description: "세팅 오류와 운영 중 이상 신호를 캠페인 사고가 되기 전에 회의판에 올립니다.",
+    accent: "#1F6F8B",
+    tint: "#EAF4F7",
+    border: "#B9D8E2",
   },
   {
     title: "지식 자산화",
-    description: "운영자 판단과 예외 기준을 회사의 재사용 가능한 지식으로 남깁니다.",
+    description: "운영자 판단, 예외 기준, 피드백을 다음 캠페인의 기준으로 남깁니다.",
+    accent: "#7A5A12",
+    tint: "#FFF8EC",
+    border: "#F5CE8B",
   },
 ]
 
-const impactTags = ["Efficiency", "Risk", "Service", "Knowledge", "Cost", "Evolution"]
+const impactTags = ["시간 회수", "사고 방지", "응답 품질", "판단 기억", "비용 통제", "기술 반영"]
 
 export function ImpactSection() {
   return (
     <section id="impact" className="border-b border-border bg-[#FBFBFB] py-20">
       <div className="section-shell">
         <SectionHeading
-          eyebrow="Impact"
-          title="반복 업무는 줄이고, 광고 운영 지식은 축적합니다"
+          eyebrow="Operating Outcomes"
+          title="운영판에 남는 결과가 다음 캠페인의 기준이 됩니다"
           description={
             <>
               <span className="block">
-                AdMate의 기대 효과는 단순 자동화가 아니라 운영 품질과 조직 지식의 축적입니다.
+                AdMate의 효과는 기능 도입 수가 아니라 운영 품질, 리스크 대응, 판단 기억으로 드러납니다.
               </span>
               <span className="block">
-                의사결정권자에게는 경쟁력, 미디어팀에게는 실무 부담 감소로 이어집니다.
+                의사결정권자는 포트폴리오 상태를 보고, 미디어팀은 반복 확인보다 다음 조치에 집중합니다.
               </span>
             </>
           }
-          align="center"
         />
 
         <div className="mb-6 grid gap-3 lg:grid-cols-3">
           {impactAxes.map((axis, index) => (
-            <div key={axis.title} className="rounded-lg border border-border bg-card p-5 shadow-sm">
-              <div className="text-xs font-semibold uppercase tracking-[0.14em] text-[#8EA2FF]">
-                Impact axis 0{index + 1}
+            <div
+              key={axis.title}
+              className="rounded-lg border bg-card p-5 shadow-sm"
+              style={{ borderColor: axis.border }}
+            >
+              <div
+                className="inline-flex rounded-md border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em]"
+                style={{ backgroundColor: axis.tint, borderColor: axis.border, color: axis.accent }}
+              >
+                Outcome 0{index + 1}
               </div>
               <h3 className="mt-3 text-lg font-semibold">{axis.title}</h3>
               <p className="mt-2 text-sm leading-6 text-muted-foreground">{axis.description}</p>
@@ -60,7 +75,7 @@ export function ImpactSection() {
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-muted">
                     <impact.icon className="h-5 w-5" aria-hidden="true" />
                   </div>
-                  <span className="rounded-md border border-border bg-muted px-2 py-1 text-[11px] font-semibold text-muted-foreground">
+                  <span className="rounded-md border border-border bg-muted px-2 py-1 text-[11px] font-semibold text-foreground">
                     {impactTags[index]}
                   </span>
                 </div>
