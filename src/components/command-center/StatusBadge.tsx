@@ -6,7 +6,7 @@ const statusStyles: Record<CommandCenterStatus, string> = {
   normal: "border-[#9FE5C1] bg-[#EFFAF4] text-[#177D4E]",
   needs_review: "border-[#F5CE8B] bg-[#FFF8EC] text-[#9E5700]",
   delayed: "border-[#FAD3D1] bg-[#FEF2F1] text-[#D93025]",
-  completed: "border-[#CBD0EF] bg-[#ECEDF9] text-[#5E6AD2]",
+  completed: "border-[#B8CAD6] bg-[#EEF4F6] text-[#27566B]",
 }
 
 export function StatusBadge({
