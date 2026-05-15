@@ -111,9 +111,9 @@ const executiveLedger = [
 ]
 
 const operatingReadouts = [
-  { label: "Suite posture", value: "4개 제품 신호를 하나의 운영 순서로 정렬" },
-  { label: "Decision frame", value: "승인 · 수정 · 공유 · 투자 판단" },
-  { label: "Memory ledger", value: "근거, 비용, 피드백을 Agent Core로 기록" },
+  { label: "Board queue", value: "이번 주 검토 안건", detail: "결정 대기 1건" },
+  { label: "Evidence pack", value: "근거·증빙·예산", detail: "회의 자료 잠금" },
+  { label: "Agent memory", value: "판단 이력 보존", detail: "Agent Core 기록" },
 ]
 
 const boardSignals = [
@@ -135,17 +135,37 @@ export function HeroSection() {
             <OperationsWall />
           </div>
 
-          <div className="grid border-y border-[#BAC5BE] bg-[#F7F8F6]/82 sm:grid-cols-3">
-            {operatingReadouts.map((item) => (
-              <div key={item.label} className="border-b border-[#D3DDD7] px-3 py-3 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
-                <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#66756D]">
-                  {item.label}
-                </div>
-                <div className="mt-1 text-xs font-semibold leading-5 text-[#405149]">
-                  {item.value}
-                </div>
+          <div className="grid overflow-hidden border-y border-[#BAC5BE] bg-[#F7F8F6]/88 lg:grid-cols-[minmax(260px,1.1fr)_minmax(0,1.5fr)_180px]">
+            <div className="border-b border-[#D3DDD7] bg-[#FFFDF8] px-4 py-4 lg:border-b-0 lg:border-r">
+              <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#66756D]">
+                Executive doorway
               </div>
-            ))}
+              <div className="mt-2 text-base font-semibold leading-6 text-[#101820]">
+                홈은 소개 페이지가 아니라, 운영판으로 들어가기 전의 브리핑 데스크입니다.
+              </div>
+            </div>
+            <div className="grid divide-y divide-[#D3DDD7] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+              {operatingReadouts.map((item) => (
+                <div key={item.label} className="min-w-0 px-4 py-4">
+                  <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#66756D]">
+                    {item.label}
+                  </div>
+                  <div className="mt-1 truncate text-sm font-semibold leading-5 text-[#101820]">
+                    {item.value}
+                  </div>
+                  <div className="mt-1 text-[11px] font-semibold text-[#66756D]">
+                    {item.detail}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <Link
+              href="/command-center"
+              className="flex min-h-16 items-center justify-between gap-3 border-t border-[#D3DDD7] bg-[#101820] px-4 py-4 text-sm font-semibold text-white transition-colors hover:bg-[#25322B] lg:border-l lg:border-t-0"
+            >
+              <span>운영판 입장</span>
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
           </div>
         </div>
       </div>
