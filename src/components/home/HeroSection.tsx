@@ -16,6 +16,13 @@ import { Button } from "@/components/ui/button"
 
 const commandModes = ["Plan", "Policy", "Validate", "Monitor", "Capture", "Learn"]
 
+const missionBrief = [
+  { label: "Compass", value: "정책 근거 확인", tone: "#1F6F8B" },
+  { label: "Sentinel", value: "검수 보류 신호", tone: "#177D4E" },
+  { label: "Lens", value: "보고 증빙 잠금", tone: "#2B6D67" },
+  { label: "Foresight", value: "예산 판단 기준", tone: "#B45309" },
+]
+
 const portfolioRows: Array<{
   product: string
   role: string
@@ -29,7 +36,7 @@ const portfolioRows: Array<{
   activeModes: number[]
 }> = [
   {
-    product: "Compass",
+    product: "AdMate Compass",
     role: "Evidence desk",
     status: "집행 가능성",
     signal: "정책 근거",
@@ -41,7 +48,7 @@ const portfolioRows: Array<{
     activeModes: [1],
   },
   {
-    product: "Sentinel",
+    product: "AdMate Sentinel",
     role: "Control loop",
     status: "검수/감시",
     signal: "세팅 리스크",
@@ -53,7 +60,7 @@ const portfolioRows: Array<{
     activeModes: [2, 3],
   },
   {
-    product: "Lens",
+    product: "AdMate Lens",
     role: "Proof desk",
     status: "증빙 확정",
     signal: "캡처 이력",
@@ -65,7 +72,7 @@ const portfolioRows: Array<{
     activeModes: [4],
   },
   {
-    product: "Foresight",
+    product: "AdMate Foresight",
     role: "Forecast desk",
     status: "기획 기준",
     signal: "예산 판단",
@@ -79,15 +86,15 @@ const portfolioRows: Array<{
 ]
 
 const executiveLedger = [
-  { label: "오늘의 운영 초점", value: "검수 승인, 예산 이상, 증빙 확정" },
+  { label: "운영 초점", value: "검수 승인, 예산 이상, 증빙 확정" },
   { label: "열린 판단", value: "집행 가능 여부와 다음 수정 우선순위" },
-  { label: "남겨야 할 기록", value: "정책 근거, 운영 이력, 학습 피드백" },
+  { label: "Agent Core 기록", value: "정책 근거, 운영 이력, 학습 피드백" },
 ]
 
 const operatingReadouts = [
-  { label: "Suite signal", value: "제품 소개보다 오늘의 운영 판단을 먼저 표시" },
+  { label: "Suite posture", value: "Compass, Sentinel, Lens, Foresight를 하나의 운영판으로 정렬" },
   { label: "Decision frame", value: "승인 · 수정 · 공유 · 투자 판단" },
-  { label: "Memory ledger", value: "근거, 비용, 피드백을 Agent Core로 기록" },
+  { label: "Memory ledger", value: "근거, 비용, 피드백을 AdMate Agent Core로 기록" },
 ]
 
 const boardSignals = [
@@ -132,9 +139,9 @@ function CommandRail() {
     <aside className="hidden border-x border-[#BAC5BE] bg-[#F7F8F6]/72 lg:flex lg:flex-col">
       <div className="border-b border-[#BAC5BE] px-4 py-4">
         <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#66756D]">
-          Command
+          AdMate
         </div>
-        <div className="mt-1 text-sm font-semibold text-[#101820]">Center</div>
+        <div className="mt-1 text-sm font-semibold text-[#101820]">Ops Room</div>
       </div>
       <div className="grid flex-1 content-stretch divide-y divide-[#D5DDD8]">
         {commandModes.map((mode, index) => (
@@ -167,12 +174,36 @@ function HeroEditorial() {
           AdMate
         </h1>
         <p className="mt-5 max-w-[700px] text-balance text-2xl font-semibold leading-tight text-[#27362F] sm:text-3xl">
-          광고 운영의 승인 대기, 위험 신호, 증빙 상태, 투자 판단을 한 화면에 올리는 전략 운영판.
+          Compass, Sentinel, Lens, Foresight가 같은 운영실에서 판단 신호를 올리는 광고 운영 플랫폼.
         </p>
         <p className="mt-5 max-w-[660px] text-base font-medium leading-8 text-[#405149]">
-          첫 화면은 기능 설명서가 아니라 임원이 읽는 운영 표면입니다. 어떤 데스크가 근거를 만들고,
-          어떤 신호가 보류되어 있으며, 다음 회의에서 무엇을 승인해야 하는지 바로 보이게 정렬합니다.
+          정책 근거, 검수 보류, 캡처 증빙, 예산 기준을 AdMate Agent Core가 하나의 회의 자료처럼 정렬합니다.
+          사용자는 제품 설명을 읽기 전에 지금 막힌 판단과 남겨야 할 기록을 먼저 봅니다.
         </p>
+
+        <div className="mt-7 grid border border-[#BAC5BE] bg-[#F7F8F6] sm:grid-cols-[160px_minmax(0,1fr)]">
+          <div className="border-b border-[#D3DDD7] bg-white px-4 py-4 sm:border-b-0 sm:border-r">
+            <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#66756D]">
+              Mission brief
+            </div>
+            <div className="mt-2 text-sm font-semibold leading-5 text-[#101820]">
+              운영 신호를 먼저 보고, 기능은 그 다음에 확인합니다.
+            </div>
+          </div>
+          <div className="grid sm:grid-cols-2">
+            {missionBrief.map((item) => (
+              <div key={item.label} className="border-b border-[#D3DDD7] px-4 py-3 last:border-b-0 sm:border-r sm:[&:nth-child(2n)]:border-r-0 sm:[&:nth-last-child(-n+2)]:border-b-0">
+                <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#66756D]">
+                  <span className="h-2 w-2 rounded-full" style={{ backgroundColor: item.tone }} aria-hidden="true" />
+                  {item.label}
+                </div>
+                <div className="mt-1 text-xs font-semibold text-[#27362F]">
+                  {item.value}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -290,7 +321,7 @@ function PortfolioRow({
   row: (typeof portfolioRows)[number]
 }) {
   return (
-    <div className="grid gap-0 bg-[#FBFCFA] transition-colors hover:bg-[#FFFDF8] sm:grid-cols-[150px_minmax(0,1fr)_140px]">
+    <div className="grid gap-0 bg-[#FBFCFA] transition-colors hover:bg-[#FFFDF8] sm:grid-cols-[180px_minmax(0,1fr)_140px]">
       <div className="flex items-center gap-3 border-b border-[#E1E7E3] px-4 py-4 sm:border-b-0 sm:border-r">
         <div
           className="flex h-9 w-9 shrink-0 items-center justify-center border"
