@@ -17,10 +17,16 @@ import { Button } from "@/components/ui/button"
 const commandModes = ["Plan", "Policy", "Validate", "Monitor", "Capture", "Learn"]
 
 const missionBrief = [
-  { label: "Compass", value: "정책 근거 확인", tone: "#1F6F8B" },
-  { label: "Sentinel", value: "검수 보류 신호", tone: "#177D4E" },
-  { label: "Lens", value: "보고 증빙 잠금", tone: "#2B6D67" },
-  { label: "Foresight", value: "예산 판단 기준", tone: "#B45309" },
+  { label: "Compass", lane: "Policy", value: "정책 근거", action: "집행 가능성 확인", tone: "#1F6F8B" },
+  { label: "Sentinel", lane: "Gate", value: "검수 보류", action: "위험 신호 분리", tone: "#177D4E" },
+  { label: "Lens", lane: "Proof", value: "증빙 잠금", action: "보고 캡처 확정", tone: "#2B6D67" },
+  { label: "Foresight", lane: "Forecast", value: "예산 기준", action: "투자 판단 정렬", tone: "#B45309" },
+]
+
+const heroVitals = [
+  { label: "Gate state", value: "검수 대기", detail: "Sentinel" },
+  { label: "Proof state", value: "증빙 확정", detail: "Lens" },
+  { label: "Budget state", value: "판단 필요", detail: "Foresight" },
 ]
 
 const portfolioRows: Array<{
@@ -92,9 +98,9 @@ const executiveLedger = [
 ]
 
 const operatingReadouts = [
-  { label: "Suite posture", value: "Compass, Sentinel, Lens, Foresight를 하나의 운영판으로 정렬" },
+  { label: "Suite posture", value: "4개 제품 신호를 하나의 운영 순서로 정렬" },
   { label: "Decision frame", value: "승인 · 수정 · 공유 · 투자 판단" },
-  { label: "Memory ledger", value: "근거, 비용, 피드백을 AdMate Agent Core로 기록" },
+  { label: "Memory ledger", value: "근거, 비용, 피드백을 Agent Core로 기록" },
 ]
 
 const boardSignals = [
@@ -107,11 +113,11 @@ export function HeroSection() {
   return (
     <section id="top" className="relative isolate overflow-hidden border-b border-[#BAC5BE] bg-[#ECEFEA]">
       <div className="absolute inset-0 command-grid opacity-75" aria-hidden="true" />
-      <div className="section-shell relative grid min-h-[calc(100dvh-56px)] gap-8 py-8 lg:grid-cols-[148px_minmax(0,1fr)] lg:py-10">
+      <div className="section-shell relative grid min-h-[calc(100dvh-56px)] gap-8 py-8 lg:grid-cols-[136px_minmax(0,1fr)] lg:py-10">
         <CommandRail />
 
         <div className="grid min-w-0 gap-5">
-          <div className="grid gap-5 lg:grid-cols-[minmax(0,0.82fr)_minmax(420px,1fr)] lg:items-stretch">
+          <div className="grid gap-5 lg:grid-cols-[minmax(0,0.76fr)_minmax(430px,1fr)] lg:items-stretch">
             <HeroEditorial />
             <OperationsWall />
           </div>
@@ -138,10 +144,10 @@ function CommandRail() {
   return (
     <aside className="hidden border-x border-[#BAC5BE] bg-[#F7F8F6]/72 lg:flex lg:flex-col">
       <div className="border-b border-[#BAC5BE] px-4 py-4">
-        <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#66756D]">
+        <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#66756D]">
           AdMate
         </div>
-        <div className="mt-1 text-sm font-semibold text-[#101820]">Ops Room</div>
+        <div className="mt-1 text-sm font-semibold text-[#101820]">Operating Room</div>
       </div>
       <div className="grid flex-1 content-stretch divide-y divide-[#D5DDD8]">
         {commandModes.map((mode, index) => (
@@ -166,39 +172,55 @@ function HeroEditorial() {
     <div className="flex min-w-0 flex-col justify-between border-y border-[#BAC5BE] py-6 lg:border-y-0 lg:py-0">
       <div>
         <div className="mb-5 inline-flex items-center gap-2 border border-[#BAC5BE] bg-white px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#405149]">
-          <Gauge className="h-3.5 w-3.5" aria-hidden="true" />
-          AdMate operating suite
+          <Gauge className="h-3.5 w-3.5 text-[#177D4E]" aria-hidden="true" />
+          Operating room active
         </div>
 
-        <h1 className="max-w-[760px] text-balance text-6xl font-semibold leading-[0.95] tracking-normal text-[#101820] sm:text-7xl lg:text-[96px]">
+        <h1 className="max-w-[760px] text-balance text-5xl font-semibold leading-[0.92] tracking-normal text-[#101820] sm:text-7xl lg:text-[88px]">
           AdMate
+          <span className="mt-2 block text-[#2F3C35]">운영실</span>
         </h1>
-        <p className="mt-5 max-w-[700px] text-balance text-2xl font-semibold leading-tight text-[#27362F] sm:text-3xl">
-          Compass, Sentinel, Lens, Foresight가 같은 운영실에서 판단 신호를 올리는 광고 운영 플랫폼.
-        </p>
-        <p className="mt-5 max-w-[660px] text-base font-medium leading-8 text-[#405149]">
-          정책 근거, 검수 보류, 캡처 증빙, 예산 기준을 AdMate Agent Core가 하나의 회의 자료처럼 정렬합니다.
-          사용자는 제품 설명을 읽기 전에 지금 막힌 판단과 남겨야 할 기록을 먼저 봅니다.
+        <p className="mt-5 max-w-[640px] text-balance text-2xl font-semibold leading-tight text-[#27362F] sm:text-3xl">
+          광고 운영의 오늘 신호를 승인 순서로 올립니다.
         </p>
 
-        <div className="mt-7 grid border border-[#BAC5BE] bg-[#F7F8F6] sm:grid-cols-[160px_minmax(0,1fr)]">
-          <div className="border-b border-[#D3DDD7] bg-white px-4 py-4 sm:border-b-0 sm:border-r">
-            <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#66756D]">
-              Mission brief
+        <div className="mt-6 grid border border-[#BAC5BE] bg-[#F7F8F6] sm:grid-cols-3">
+          {heroVitals.map((item) => (
+            <div key={item.label} className="border-b border-[#D3DDD7] px-4 py-4 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
+              <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#66756D]">
+                {item.label}
+              </div>
+              <div className="mt-2 text-lg font-semibold leading-none text-[#101820]">
+                {item.value}
+              </div>
+              <div className="mt-2 text-[11px] font-semibold text-[#66756D]">
+                {item.detail}
+              </div>
             </div>
-            <div className="mt-2 text-sm font-semibold leading-5 text-[#101820]">
-              운영 신호를 먼저 보고, 기능은 그 다음에 확인합니다.
+          ))}
+        </div>
+
+        <div className="mt-5 grid border border-[#101820] bg-[#101820] text-white sm:grid-cols-[150px_minmax(0,1fr)]">
+          <div className="border-b border-white/15 px-4 py-4 sm:border-b-0 sm:border-r">
+            <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/45">
+              Mission board
+            </div>
+            <div className="mt-2 text-sm font-semibold leading-5 text-white">
+              제품 소개가 아니라 판단 대기열.
             </div>
           </div>
           <div className="grid sm:grid-cols-2">
             {missionBrief.map((item) => (
-              <div key={item.label} className="border-b border-[#D3DDD7] px-4 py-3 last:border-b-0 sm:border-r sm:[&:nth-child(2n)]:border-r-0 sm:[&:nth-last-child(-n+2)]:border-b-0">
-                <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#66756D]">
+              <div key={item.label} className="border-b border-white/15 px-4 py-3 last:border-b-0 sm:border-r sm:border-white/15 sm:[&:nth-child(2n)]:border-r-0 sm:[&:nth-last-child(-n+2)]:border-b-0">
+                <div className="flex items-center justify-between gap-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-white/45">
+                  <span>{item.lane}</span>
                   <span className="h-2 w-2 rounded-full" style={{ backgroundColor: item.tone }} aria-hidden="true" />
-                  {item.label}
                 </div>
-                <div className="mt-1 text-xs font-semibold text-[#27362F]">
+                <div className="mt-2 text-sm font-semibold text-white">
                   {item.value}
+                </div>
+                <div className="mt-1 text-xs font-medium text-white/62">
+                  {item.label} · {item.action}
                 </div>
               </div>
             ))}
