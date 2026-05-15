@@ -24,9 +24,16 @@ const missionBrief = [
 ]
 
 const heroVitals = [
-  { label: "Gate state", value: "검수 대기", detail: "Sentinel" },
-  { label: "Proof state", value: "증빙 확정", detail: "Lens" },
-  { label: "Budget state", value: "판단 필요", detail: "Foresight" },
+  { label: "Policy clearance", value: "근거 확인", detail: "Compass" },
+  { label: "Control gate", value: "검수 대기", detail: "Sentinel" },
+  { label: "Board decision", value: "판단 필요", detail: "Foresight" },
+]
+
+const operatingRoomMarks = [
+  { label: "Policy", product: "Compass" },
+  { label: "Gate", product: "Sentinel" },
+  { label: "Proof", product: "Lens" },
+  { label: "Forecast", product: "Foresight" },
 ]
 
 const portfolioRows: Array<{
@@ -144,10 +151,8 @@ function CommandRail() {
   return (
     <aside className="hidden border-x border-[#BAC5BE] bg-[#F7F8F6]/72 lg:flex lg:flex-col">
       <div className="border-b border-[#BAC5BE] px-4 py-4">
-        <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#66756D]">
-          AdMate
-        </div>
-        <div className="mt-1 text-sm font-semibold text-[#101820]">Operating Room</div>
+        <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#66756D]">AdMate</div>
+        <div className="mt-1 text-sm font-semibold leading-tight text-[#101820]">Operating Room</div>
       </div>
       <div className="grid flex-1 content-stretch divide-y divide-[#D5DDD8]">
         {commandModes.map((mode, index) => (
@@ -169,35 +174,49 @@ function CommandRail() {
 
 function HeroEditorial() {
   return (
-    <div className="flex min-w-0 flex-col justify-between border-y border-[#BAC5BE] py-6 lg:border-y-0 lg:py-0">
+    <div className="relative flex min-w-0 flex-col justify-between border-y border-[#BAC5BE] py-6 lg:border-y-0 lg:py-0 lg:pr-3">
+      <div className="absolute bottom-0 right-0 top-0 hidden w-px bg-[#BAC5BE] lg:block" aria-hidden="true" />
       <div>
-        <div className="mb-5 inline-flex items-center gap-2 border border-[#BAC5BE] bg-white px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#405149]">
-          <Gauge className="h-3.5 w-3.5 text-[#177D4E]" aria-hidden="true" />
-          Operating room active
+        <div className="mb-5 grid w-full max-w-[520px] grid-cols-[auto_1fr] border border-[#BAC5BE] bg-white">
+          <div className="flex items-center gap-2 border-r border-[#D3DDD7] px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#405149]">
+            <Gauge className="h-3.5 w-3.5 text-[#177D4E]" aria-hidden="true" />
+            Room active
+          </div>
+          <div className="flex min-w-0 items-center justify-between gap-3 px-3 py-2">
+            <span className="truncate text-[11px] font-semibold text-[#66756D]">Agent Core briefing surface</span>
+            <span className="h-2 w-2 shrink-0 rounded-full bg-[#177D4E]" aria-hidden="true" />
+          </div>
         </div>
 
-        <h1 className="max-w-[760px] text-balance text-5xl font-semibold leading-[0.92] tracking-normal text-[#101820] sm:text-7xl lg:text-[88px]">
+        <h1 className="max-w-[760px] text-balance text-5xl font-semibold leading-[0.9] tracking-normal text-[#101820] sm:text-7xl lg:text-[92px]">
           AdMate
-          <span className="mt-2 block text-[#2F3C35]">운영실</span>
+          <span className="mt-2 block text-[#2F3C35]">operating room</span>
         </h1>
         <p className="mt-5 max-w-[640px] text-balance text-2xl font-semibold leading-tight text-[#27362F] sm:text-3xl">
-          광고 운영의 오늘 신호를 승인 순서로 올립니다.
+          광고 운영을 기능 목록이 아니라 판단 대기열로 보여줍니다.
         </p>
 
-        <div className="mt-6 grid border border-[#BAC5BE] bg-[#F7F8F6] sm:grid-cols-3">
-          {heroVitals.map((item) => (
-            <div key={item.label} className="border-b border-[#D3DDD7] px-4 py-4 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
-              <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#66756D]">
-                {item.label}
+        <div className="mt-6 grid border border-[#BAC5BE] bg-[#F7F8F6] sm:grid-cols-[1fr_auto]">
+          <div className="grid sm:grid-cols-3">
+            {heroVitals.map((item) => (
+              <div key={item.label} className="border-b border-[#D3DDD7] px-4 py-4 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
+                <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#66756D]">
+                  {item.label}
+                </div>
+                <div className="mt-2 text-lg font-semibold leading-none text-[#101820]">
+                  {item.value}
+                </div>
+                <div className="mt-2 text-[11px] font-semibold text-[#66756D]">
+                  {item.detail}
+                </div>
               </div>
-              <div className="mt-2 text-lg font-semibold leading-none text-[#101820]">
-                {item.value}
-              </div>
-              <div className="mt-2 text-[11px] font-semibold text-[#66756D]">
-                {item.detail}
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          <div className="hidden min-w-[92px] border-l border-[#D3DDD7] bg-white px-3 py-4 text-right sm:block">
+            <div className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[#66756D]">Ops</div>
+            <div className="mt-2 text-2xl font-semibold leading-none text-[#101820]">04</div>
+            <div className="mt-1 text-[11px] font-semibold text-[#66756D]">lanes</div>
+          </div>
         </div>
 
         <div className="mt-5 grid border border-[#101820] bg-[#101820] text-white sm:grid-cols-[150px_minmax(0,1fr)]">
@@ -228,19 +247,29 @@ function HeroEditorial() {
         </div>
       </div>
 
-      <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-        <Button asChild size="lg" className="bg-[#101820] text-white hover:bg-[#25322B]">
-          <Link href="#platform">
-            운영 보드 보기
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </Link>
-        </Button>
-        <Button asChild size="lg" variant="outline" className="border-[#AEBAB2] bg-white text-[#101820] hover:bg-[#F7F8F6]">
-          <Link href="#products">
-            판단 흐름 보기
-            <ArrowDownRight className="h-4 w-4" aria-hidden="true" />
-          </Link>
-        </Button>
+      <div className="mt-8 grid gap-3 border-t border-[#BAC5BE] pt-5">
+        <div className="grid grid-cols-2 border border-[#BAC5BE] bg-[#F7F8F6] sm:grid-cols-4">
+          {operatingRoomMarks.map((item) => (
+            <div key={item.product} className="border-b border-[#D3DDD7] px-3 py-3 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
+              <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#66756D]">{item.label}</div>
+              <div className="mt-1 text-xs font-semibold text-[#101820]">{item.product}</div>
+            </div>
+          ))}
+        </div>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Button asChild size="lg" className="bg-[#101820] text-white hover:bg-[#25322B]">
+            <Link href="#platform">
+              운영 보드 보기
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </Button>
+          <Button asChild size="lg" variant="outline" className="border-[#AEBAB2] bg-white text-[#101820] hover:bg-[#F7F8F6]">
+            <Link href="#products">
+              판단 흐름 보기
+              <ArrowDownRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </Button>
+        </div>
       </div>
     </div>
   )
@@ -252,9 +281,9 @@ function OperationsWall() {
       <div className="grid border-b border-[#101820] bg-[#101820] text-white sm:grid-cols-[1fr_auto]">
         <div className="px-4 py-4">
           <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/50">
-            Suite operating board
+            AdMate signal board
           </div>
-          <div className="mt-1 text-lg font-semibold">데스크별 신호와 다음 판단</div>
+          <div className="mt-1 text-lg font-semibold">제품별 신호와 승인 순서</div>
         </div>
         <div className="flex items-center border-t border-white/10 px-4 py-3 sm:border-l sm:border-t-0">
           <div className="inline-flex items-center gap-2 border border-[#9FE5C1]/35 bg-[#177D4E]/22 px-3 py-2 text-xs font-semibold text-[#DDF7E9]">
