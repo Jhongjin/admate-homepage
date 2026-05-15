@@ -1,14 +1,14 @@
 import type { Metadata } from "next"
-import { Inter, Noto_Sans_KR } from "next/font/google"
+import { Geist, Noto_Sans_KR } from "next/font/google"
 
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { officialLinks } from "@/lib/admate-content"
 
 import "./globals.css"
 
-const inter = Inter({
+const geist = Geist({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-geist",
   display: "swap",
 })
 
@@ -60,7 +60,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="ko" className={`${inter.variable} ${notoSansKr.variable}`}>
+    <html lang="ko" className={`${geist.variable} ${notoSansKr.variable}`}>
       <body>
         <TooltipProvider delayDuration={120}>{children}</TooltipProvider>
       </body>

@@ -55,9 +55,9 @@ const config: Config = {
       },
       fontFamily: {
         sans: [
-          "var(--font-inter)",
+          "var(--font-geist)",
           "var(--font-noto-sans-kr)",
-          "Inter",
+          "Geist",
           "Noto Sans KR",
           "-apple-system",
           "BlinkMacSystemFont",

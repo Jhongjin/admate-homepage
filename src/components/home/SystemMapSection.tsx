@@ -24,16 +24,16 @@ export function SystemMapSection() {
         <div className="mb-8 grid gap-4 lg:grid-cols-[minmax(0,520px)_minmax(0,440px)] lg:items-end lg:justify-between lg:gap-12">
           <div>
             <Badge variant="outline" className="mb-3 border-[#B9C5BE] bg-white text-[#405149]">
-              운영 시스템 보드
+              의사결정 라우팅 보드
             </Badge>
             <h2 className="text-balance text-3xl font-semibold tracking-normal sm:text-4xl">
-              <span className="block">캠페인 운영 흐름을</span>
-              <span className="block sm:whitespace-nowrap">의사결정 단위로 연결합니다.</span>
+              <span className="block">제품 신호를 모아</span>
+              <span className="block sm:whitespace-nowrap">다음 운영 판단으로 보냅니다.</span>
             </h2>
           </div>
           <p className="max-w-[440px] text-sm leading-7 text-[#405149] lg:justify-self-end">
             <span className="block">각 제품은 기능 소개 카드가 아니라 운영실의 계기판입니다.</span>
-            <span className="block">기획, 정책, 검수, 모니터링, 캡처, 학습이 같은 판단 보드에 올라옵니다.</span>
+            <span className="block">정책 근거, 세팅 리스크, 증빙 이력, 예산 판단이 같은 판단 보드에 올라옵니다.</span>
           </p>
         </div>
 
@@ -41,12 +41,12 @@ export function SystemMapSection() {
           <div className="mb-4 flex items-center justify-between gap-3">
             <div>
               <div className="text-xs font-semibold uppercase tracking-[0.14em] text-[#5B6B62]">
-                운영 지휘 흐름
+                Decision routing
               </div>
-              <div className="mt-1 text-lg font-semibold text-[#101820]">기획 · 정책 · 검수 · 감시 · 증빙 · 학습</div>
+              <div className="mt-1 text-lg font-semibold text-[#101820]">승인 대기 · 위험 신호 · 증빙 · 예산 판단</div>
             </div>
             <Badge variant="outline" className="border-[#C9D2CC] bg-[#F6F8F5] text-[#405149]">
-              보드 보기
+              운영판 보기
             </Badge>
           </div>
 
@@ -84,13 +84,13 @@ export function SystemMapSection() {
             </div>
 
             <div className="grid gap-3">
-              <div className="rounded-lg border border-[#101820] bg-[#101820] p-4 text-white">
+              <div className="rounded-lg border border-[#B8C7BE] bg-[#F6F8F7] p-4 text-[#101820]">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold text-white/60">현재 운영 루프</span>
-                  <CircleDollarSign className="h-4 w-4 text-white/60" aria-hidden="true" />
+                  <span className="text-xs font-semibold text-[#587067]">현재 운영 판단</span>
+                  <CircleDollarSign className="h-4 w-4 text-[#587067]" aria-hidden="true" />
                 </div>
-                <div className="mt-4 text-2xl font-semibold">비용을 함께 보는 운영</div>
-                <p className="mt-2 text-xs leading-5 text-white/70">
+                <div className="mt-4 text-2xl font-semibold">비용과 품질을 같이 보는 판단</div>
+                <p className="mt-2 text-xs leading-5 text-[#405149]">
                   LLM 사용량, 자동화 실행, 운영 판단을 비용과 품질 기준 안에서 함께 추적합니다.
                 </p>
               </div>
@@ -143,16 +143,21 @@ function SystemMapProductNode({
             borderColor: product.borderColor,
           }}
         >
-          <div
-            className="flex h-8 w-8 items-center justify-center rounded-md"
-            style={{ backgroundColor: product.softColor, color: product.color }}
-          >
-            <Icon className="h-4 w-4" aria-hidden="true" />
+          <div className="flex items-center justify-between gap-2">
+            <div
+              className="flex h-8 w-8 items-center justify-center rounded-md"
+              style={{ backgroundColor: product.softColor, color: product.color }}
+            >
+              <Icon className="h-4 w-4" aria-hidden="true" />
+            </div>
+            <span className="border px-2 py-1 text-[10px] font-semibold" style={{ borderColor: product.borderColor, color: product.color }}>
+              Signal
+            </span>
           </div>
           <div>
             <div className="text-sm font-semibold">{product.shortName}</div>
             <div className="mt-1 text-[11px] leading-4 text-[#5B6B62]">
-              {product.subtitle}
+              {getSignalSurface(product.id, product.subtitle)}
             </div>
           </div>
         </div>
@@ -160,4 +165,15 @@ function SystemMapProductNode({
       <TooltipContent>{product.tagline}</TooltipContent>
     </Tooltip>
   )
+}
+
+function getSignalSurface(productId: string, fallback: string) {
+  const surfaces: Record<string, string> = {
+    compass: "정책 근거와 집행 가능성",
+    sentinel: "세팅 리스크와 운영 이상",
+    lens: "렌더 증빙과 보존 이력",
+    foresight: "예산 시나리오와 계획 기준",
+  }
+
+  return surfaces[productId] ?? fallback
 }

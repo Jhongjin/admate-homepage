@@ -38,9 +38,9 @@ const lifecycleTones: Record<
     borderColor: "#F5CE8B",
   },
   Compass: {
-    color: "#4F63D8",
-    softColor: "#ECEDF9",
-    borderColor: "#CBD0EF",
+    color: "#2F6F73",
+    softColor: "#EAF4F3",
+    borderColor: "#D3E8E5",
   },
   Sentinel: {
     color: "#177D4E",
@@ -48,14 +48,14 @@ const lifecycleTones: Record<
     borderColor: "#9FE5C1",
   },
   Lens: {
-    color: "#7C3AED",
-    softColor: "#F3E8FF",
-    borderColor: "#DDD6FE",
+    color: "#8A5A2B",
+    softColor: "#F7F0E8",
+    borderColor: "#E8D2B8",
   },
   "Agent Core": {
-    color: "#111827",
-    softColor: "#F4F4F4",
-    borderColor: "#D4D4D4",
+    color: "#2F5D50",
+    softColor: "#F6F8F7",
+    borderColor: "#B8C7BE",
   },
 }
 
@@ -98,15 +98,15 @@ export function CampaignLifecycleSection() {
       <div className="section-shell">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
-            eyebrow="Campaign Lifecycle"
-            title="캠페인 운영의 전 과정을 하나의 흐름으로"
+            eyebrow="Operating relay"
+            title="근거가 다음 승인으로 넘어가는 운영 흐름"
             description={
               <>
                 <span className="block">
-                  AdMate는 캠페인 운영 단계를 따로 떼어놓지 않습니다.
+                  AdMate는 캠페인 운영 단계를 기능 목록으로 나열하지 않습니다.
                 </span>
                 <span className="block">
-                  예측, 정책 확인, 세팅 검수, 이상 감지, 보고용 캡처, 다음 캠페인 학습까지 하나의 흐름으로 연결합니다.
+                  예측, 정책 확인, 세팅 검수, 이상 감지, 보고용 캡처, 다음 학습을 승인 가능한 판단 이력으로 넘깁니다.
                 </span>
               </>
             }
@@ -141,7 +141,7 @@ export function CampaignLifecycleSection() {
                     type="button"
                     className={cn(
                       "rounded-md px-3 py-2 text-left text-xs font-semibold transition",
-                      isActive ? "bg-[#111827] text-white" : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      isActive ? "bg-[#101820] text-white" : "text-muted-foreground hover:bg-muted hover:text-foreground"
                     )}
                     onClick={() => setActiveIndex(index)}
                     style={isActive ? { boxShadow: `0 0 0 1px ${tone.borderColor}` } : undefined}
@@ -159,21 +159,21 @@ export function CampaignLifecycleSection() {
         </div>
 
         <div className="mt-10 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
-          <Card className="relative overflow-hidden bg-[#111827] p-5 text-white shadow-soft sm:p-6">
+          <Card className="relative overflow-hidden border-[#B8C7BE] bg-[#F6F8F7] p-5 text-[#101820] shadow-sm sm:p-6">
             <div className="hero-panel-grid absolute inset-0" aria-hidden="true" />
             <div className="relative">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex flex-wrap items-center gap-2">
-                  <Badge variant="outline" className="w-fit border-white/20 bg-white/10 text-white">
-                    Live Campaign Loop
+                  <Badge variant="outline" className="w-fit border-[#B8C7BE] bg-white text-[#2F5D50]">
+                    Decision relay
                   </Badge>
-                  <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-semibold text-white/60">
-                    Selected step · {activeStep.step}
+                  <span className="rounded-md border border-[#D5DED8] bg-white px-2.5 py-1 text-xs font-semibold text-[#587067]">
+                    선택 단계 · {activeStep.step}
                   </span>
                 </div>
-                <div className="flex items-center gap-2 text-xs font-semibold text-white/50">
-                  <span className={cn("h-1.5 w-1.5 rounded-full", isPaused ? "bg-white/35" : "bg-emerald-300")} />
-                  {isPaused ? "Paused" : "Live demo"}
+                <div className="flex items-center gap-2 text-xs font-semibold text-[#587067]">
+                  <span className={cn("h-1.5 w-1.5 rounded-full", isPaused ? "bg-[#B8C7BE]" : "bg-[#177D4E]")} />
+                  {isPaused ? "순환 정지" : "판단 흐름 표시"}
                 </div>
               </div>
 
@@ -181,49 +181,49 @@ export function CampaignLifecycleSection() {
                 <div
                   className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border"
                   style={{
-                    borderColor: `${activeTone.color}55`,
-                    backgroundColor: `${activeTone.color}22`,
-                    color: activeTone.color === "#111827" ? "#FFFFFF" : activeTone.color,
+                    borderColor: activeTone.borderColor,
+                    backgroundColor: "#FFFFFF",
+                    color: activeTone.color,
                   }}
                 >
                   <ActiveIcon className="h-6 w-6" aria-hidden="true" />
                 </div>
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
-                    <div className="text-sm font-semibold text-white/50">{activeStep.product}</div>
+                    <div className="text-sm font-semibold text-[#587067]">{activeStep.product}</div>
                     <span
                       className="rounded-md border px-2 py-0.5 text-[11px] font-semibold"
                       style={{
                         borderColor: `${activeTone.color}55`,
                         backgroundColor: `${activeTone.color}18`,
-                        color: activeTone.color === "#111827" ? "#C7D2FE" : activeTone.color,
+                        color: activeTone.color,
                       }}
                     >
                       {lifecycleRoles[activeIndex]}
                     </span>
                   </div>
                   <h3 className="mt-2 text-3xl font-semibold leading-tight">{activeStep.title}</h3>
-                  <p className="mt-4 max-w-xl text-sm leading-7 text-white/70">
+                  <p className="mt-4 max-w-xl text-sm leading-7 text-[#405149]">
                     {activeStep.description}
                   </p>
                 </div>
               </div>
 
               <div className="mt-8">
-                <div className="mb-2 flex items-center justify-between text-xs font-semibold text-white/45">
-                  <span>Loop progress</span>
+                <div className="mb-2 flex items-center justify-between text-xs font-semibold text-[#587067]">
+                  <span>Relay progress</span>
                   <span>{activeIndex + 1} of {lifecycleSteps.length}</span>
                 </div>
-                <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
+                <div className="h-1.5 overflow-hidden rounded-full bg-[#D5DED8]">
                   <div
                     key={activeStep.step}
                     className="lifecycle-progress-fill h-full rounded-full"
                     style={{
-                      backgroundColor: activeTone.color === "#111827" ? "#8EA2FF" : activeTone.color,
+                      backgroundColor: activeTone.color,
                     }}
                   />
                 </div>
-                <div className="mt-4 grid grid-cols-6 gap-1.5 text-[11px] text-white/55">
+                <div className="mt-4 grid grid-cols-6 gap-1.5 text-[11px] text-[#587067]">
                   {lifecycleSteps.map((step, index) => {
                     const isActive = index === activeIndex
                     const isComplete = index < activeIndex
@@ -235,10 +235,10 @@ export function CampaignLifecycleSection() {
                         className={cn(
                           "min-h-[46px] rounded-md border px-2 py-2 text-left font-semibold transition",
                           isActive
-                            ? "border-white/40 bg-white text-[#111827]"
+                            ? "border-[#101820] bg-white text-[#101820]"
                             : isComplete
-                              ? "border-emerald-300/20 bg-emerald-300/10 text-white/70 hover:bg-emerald-300/15"
-                              : "border-white/10 bg-white/[0.08] hover:bg-white/[0.12]"
+                              ? "border-[#B8C7BE] bg-white text-[#2F5D50] hover:bg-[#F6F8F7]"
+                              : "border-[#D5DED8] bg-white/70 hover:bg-white"
                         )}
                         onClick={() => setActiveIndex(index)}
                         onFocus={() => {
@@ -261,9 +261,9 @@ export function CampaignLifecycleSection() {
                   { label: "다음 연결", value: `${nextStep.step} · ${nextStep.product}` },
                   { label: "운영 방식", value: "Human-in-the-loop" },
                 ].map((item) => (
-                  <div key={item.label} className="rounded-lg border border-white/10 bg-white/10 p-3">
-                    <div className="text-xs font-medium text-white/45">{item.label}</div>
-                    <div className="mt-2 text-sm font-semibold text-white">{item.value}</div>
+                  <div key={item.label} className="rounded-lg border border-[#D5DED8] bg-white p-3">
+                    <div className="text-xs font-medium text-[#587067]">{item.label}</div>
+                    <div className="mt-2 text-sm font-semibold text-[#101820]">{item.value}</div>
                   </div>
                 ))}
               </div>

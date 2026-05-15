@@ -2,7 +2,6 @@ import Link from "next/link"
 import {
   ArrowDownRight,
   ArrowRight,
-  BrainCircuit,
   Camera,
   Clock3,
   FileCheck2,
@@ -22,6 +21,7 @@ const portfolioRows: Array<{
   role: string
   status: string
   signal: string
+  pattern: "evidence" | "loop" | "proof" | "forecast"
   icon: LucideIcon
   color: string
   softColor: string
@@ -33,6 +33,7 @@ const portfolioRows: Array<{
     role: "Evidence desk",
     status: "집행 가능성",
     signal: "정책 근거",
+    pattern: "evidence",
     icon: FileCheck2,
     color: "#1F6F8B",
     softColor: "#EAF4F7",
@@ -44,6 +45,7 @@ const portfolioRows: Array<{
     role: "Control loop",
     status: "검수/감시",
     signal: "세팅 리스크",
+    pattern: "loop",
     icon: Radar,
     color: "#177D4E",
     softColor: "#EFFAF4",
@@ -55,6 +57,7 @@ const portfolioRows: Array<{
     role: "Proof desk",
     status: "증빙 확정",
     signal: "캡처 이력",
+    pattern: "proof",
     icon: Camera,
     color: "#2B6D67",
     softColor: "#E8F4F1",
@@ -66,6 +69,7 @@ const portfolioRows: Array<{
     role: "Forecast desk",
     status: "기획 기준",
     signal: "예산 판단",
+    pattern: "forecast",
     icon: LineChart,
     color: "#B45309",
     softColor: "#FFF8EC",
@@ -81,9 +85,9 @@ const executiveLedger = [
 ]
 
 const operatingReadouts = [
-  { label: "Board frame", value: "기획 · 정책 · 검수 · 감시 · 증빙" },
-  { label: "Product desks", value: "Evidence · Control · Proof · Forecast" },
-  { label: "Memory layer", value: "실행, 비용, 피드백을 Agent Core로 연결" },
+  { label: "Suite signal", value: "제품 소개보다 오늘의 운영 판단을 먼저 표시" },
+  { label: "Decision frame", value: "승인 · 수정 · 공유 · 투자 판단" },
+  { label: "Memory ledger", value: "근거, 비용, 피드백을 Agent Core로 기록" },
 ]
 
 const boardSignals = [
@@ -96,7 +100,7 @@ export function HeroSection() {
   return (
     <section id="top" className="relative isolate overflow-hidden border-b border-[#BAC5BE] bg-[#ECEFEA]">
       <div className="absolute inset-0 command-grid opacity-75" aria-hidden="true" />
-      <div className="section-shell relative grid min-h-[calc(100svh-56px)] gap-8 py-8 lg:grid-cols-[148px_minmax(0,1fr)] lg:py-10">
+      <div className="section-shell relative grid min-h-[calc(100dvh-56px)] gap-8 py-8 lg:grid-cols-[148px_minmax(0,1fr)] lg:py-10">
         <CommandRail />
 
         <div className="grid min-w-0 gap-5">
@@ -156,18 +160,18 @@ function HeroEditorial() {
       <div>
         <div className="mb-5 inline-flex items-center gap-2 border border-[#BAC5BE] bg-white px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#405149]">
           <Gauge className="h-3.5 w-3.5" aria-hidden="true" />
-          Nasmedia Advertising Operations
+          AdMate operating suite
         </div>
 
         <h1 className="max-w-[760px] text-balance text-6xl font-semibold leading-[0.95] tracking-normal text-[#101820] sm:text-7xl lg:text-[96px]">
           AdMate
         </h1>
         <p className="mt-5 max-w-[700px] text-balance text-2xl font-semibold leading-tight text-[#27362F] sm:text-3xl">
-          광고 운영의 승인 대기, 위험 신호, 증빙 상태, 다음 판단을 한 화면에 올리는 Command Center.
+          광고 운영의 승인 대기, 위험 신호, 증빙 상태, 투자 판단을 한 화면에 올리는 전략 운영판.
         </p>
         <p className="mt-5 max-w-[660px] text-base font-medium leading-8 text-[#405149]">
-          첫 화면에서 포트폴리오 상태를 읽고, 어떤 제품 데스크가 어떤 판단을 맡는지 바로 파악하도록
-          운영 흐름을 정렬합니다.
+          첫 화면은 기능 설명서가 아니라 임원이 읽는 운영 표면입니다. 어떤 데스크가 근거를 만들고,
+          어떤 신호가 보류되어 있으며, 다음 회의에서 무엇을 승인해야 하는지 바로 보이게 정렬합니다.
         </p>
       </div>
 
@@ -180,7 +184,7 @@ function HeroEditorial() {
         </Button>
         <Button asChild size="lg" variant="outline" className="border-[#AEBAB2] bg-white text-[#101820] hover:bg-[#F7F8F6]">
           <Link href="#products">
-            제품군 구조 확인
+            판단 흐름 보기
             <ArrowDownRight className="h-4 w-4" aria-hidden="true" />
           </Link>
         </Button>
@@ -195,9 +199,9 @@ function OperationsWall() {
       <div className="grid border-b border-[#101820] bg-[#101820] text-white sm:grid-cols-[1fr_auto]">
         <div className="px-4 py-4">
           <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/50">
-            Executive operating board
+            Suite operating board
           </div>
-          <div className="mt-1 text-lg font-semibold">제품군 진행과 운영 판단</div>
+          <div className="mt-1 text-lg font-semibold">데스크별 신호와 다음 판단</div>
         </div>
         <div className="flex items-center border-t border-white/10 px-4 py-3 sm:border-l sm:border-t-0">
           <div className="inline-flex items-center gap-2 border border-[#9FE5C1]/35 bg-[#177D4E]/22 px-3 py-2 text-xs font-semibold text-[#DDF7E9]">
@@ -209,7 +213,7 @@ function OperationsWall() {
 
       <div className="grid lg:grid-cols-[1fr_280px]">
         <div className="min-w-0">
-          <div className="grid grid-cols-6 border-b border-[#D3DDD7] bg-white">
+          <div className="grid grid-cols-6 border-b border-[#D3DDD7] bg-[#FFFDF8]">
             {commandModes.map((mode) => (
               <div key={mode} className="border-r border-[#E1E7E3] px-2 py-3 text-center text-[10px] font-semibold uppercase tracking-[0.1em] text-[#66756D] last:border-r-0">
                 {mode}
@@ -247,7 +251,7 @@ function OperationsWall() {
                 <div className="mt-2 text-2xl font-semibold text-[#101820]">운영 기억 정렬</div>
               </div>
               <div className="flex h-10 w-10 items-center justify-center bg-[#101820] text-white">
-                <BrainCircuit className="h-5 w-5" aria-hidden="true" />
+                <Waypoints className="h-5 w-5" aria-hidden="true" />
               </div>
             </div>
             <p className="mt-3 text-xs font-medium leading-5 text-[#5B6B62]">
@@ -269,9 +273,9 @@ function OperationsWall() {
               <Waypoints className="h-4 w-4" aria-hidden="true" />
               Operating principle
             </div>
-            <p className="mt-3 text-sm font-medium leading-6 text-white/78">
-              각 제품은 같은 모양의 카드가 아니라 다른 판단 신호입니다. AdMate는 신호를 모아
-              다음 액션의 우선순위를 보여줍니다.
+            <p className="mt-3 text-sm font-medium leading-6 text-white/75">
+              정책 근거는 문서 스택으로 남기고, 감시는 상태 루프에서 막힘을 띄우며, 캡처 증빙과
+              예산 곡선은 다음 회의의 승인 순서를 정합니다.
             </p>
           </div>
         </aside>
@@ -286,7 +290,7 @@ function PortfolioRow({
   row: (typeof portfolioRows)[number]
 }) {
   return (
-    <div className="grid gap-0 bg-[#FBFCFA] sm:grid-cols-[150px_minmax(0,1fr)_140px]">
+    <div className="grid gap-0 bg-[#FBFCFA] transition-colors hover:bg-[#FFFDF8] sm:grid-cols-[150px_minmax(0,1fr)_140px]">
       <div className="flex items-center gap-3 border-b border-[#E1E7E3] px-4 py-4 sm:border-b-0 sm:border-r">
         <div
           className="flex h-9 w-9 shrink-0 items-center justify-center border"
@@ -300,23 +304,8 @@ function PortfolioRow({
         </div>
       </div>
 
-      <div className="grid min-h-[72px] grid-cols-6">
-        {commandModes.map((mode, modeIndex) => {
-          const active = row.activeModes.includes(modeIndex)
-          return (
-            <div key={`${row.product}-${mode}`} className="relative border-r border-[#E1E7E3] last:border-r-0">
-              {active ? (
-                <span
-                  className="absolute inset-x-2 top-1/2 h-2 -translate-y-1/2"
-                  style={{ backgroundColor: row.color }}
-                  aria-hidden="true"
-                />
-              ) : (
-                <span className="absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#C8D1CB]" aria-hidden="true" />
-              )}
-            </div>
-          )
-        })}
+      <div className="min-h-[72px] border-b border-[#E1E7E3] px-4 py-3 sm:border-b-0">
+        <ProductSignalPattern row={row} />
       </div>
 
       <div className="flex items-center justify-between gap-3 border-t border-[#E1E7E3] px-4 py-3 sm:border-l sm:border-t-0">
@@ -328,6 +317,99 @@ function PortfolioRow({
         </div>
         <Clock3 className="h-4 w-4 text-[#7B8780]" aria-hidden="true" />
       </div>
+    </div>
+  )
+}
+
+function ProductSignalPattern({
+  row,
+}: {
+  row: (typeof portfolioRows)[number]
+}) {
+  if (row.pattern === "evidence") {
+    return (
+      <div className="grid h-full grid-cols-[1.2fr_0.8fr] gap-3">
+        <div className="grid gap-1.5">
+          {[0, 1, 2].map((index) => (
+            <div
+              key={index}
+              className="flex items-center gap-2 border bg-white px-2 py-1"
+              style={{ borderColor: index === 0 ? row.borderColor : "#E1E7E3" }}
+            >
+              <span
+                className="flex h-5 w-5 items-center justify-center text-[10px] font-semibold"
+                style={{ backgroundColor: index === 0 ? row.softColor : "#F1F4F0", color: row.color }}
+              >
+                {index + 1}
+              </span>
+              <span className="h-1.5 flex-1 bg-[#D6DED9]" />
+            </div>
+          ))}
+        </div>
+        <div className="flex items-center justify-center border bg-[#F7F8F6]" style={{ borderColor: row.borderColor }}>
+          <FileCheck2 className="h-6 w-6" style={{ color: row.color }} aria-hidden="true" />
+        </div>
+      </div>
+    )
+  }
+
+  if (row.pattern === "loop") {
+    return (
+      <div className="relative flex h-full items-center justify-between">
+        <span className="absolute left-6 right-6 top-1/2 h-px bg-[#BFD2C8]" aria-hidden="true" />
+        {["scan", "hold", "route", "send"].map((label, index) => (
+          <div
+            key={label}
+            className="relative z-10 flex h-10 w-10 items-center justify-center border bg-white text-[9px] font-semibold uppercase"
+            style={{
+              borderColor: row.activeModes.includes(index + 1) ? row.color : "#D3DDD7",
+              color: row.activeModes.includes(index + 1) ? row.color : "#7B8780",
+            }}
+          >
+            {index === 1 ? <span className="h-3 w-3 rounded-full" style={{ backgroundColor: row.color }} /> : label.slice(0, 2)}
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  if (row.pattern === "proof") {
+    return (
+      <div className="grid h-full grid-cols-[1fr_1fr_1.2fr] gap-2">
+        {[0, 1].map((index) => (
+          <div key={index} className="border bg-white p-1" style={{ borderColor: row.borderColor }}>
+            <div className="h-full" style={{ backgroundColor: index === 0 ? row.softColor : "#F1F4F0" }} />
+          </div>
+        ))}
+        <div className="relative border bg-white p-2" style={{ borderColor: row.color }}>
+          <span className="absolute -left-1 top-2 h-4 w-2 border-y border-l" style={{ borderColor: row.color }} aria-hidden="true" />
+          <span className="absolute -right-1 bottom-2 h-4 w-2 border-y border-r" style={{ borderColor: row.color }} aria-hidden="true" />
+          <div className="h-full border border-dashed border-[#BFD2C8]" />
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="grid h-full grid-cols-[1fr_1.4fr] gap-3">
+      <div className="flex items-end gap-1.5">
+        {[34, 54, 42, 68].map((height, index) => (
+          <span
+            key={height}
+            className="w-full border"
+            style={{
+              height: `${height}%`,
+              backgroundColor: index === 3 ? row.color : row.softColor,
+              borderColor: index === 3 ? row.color : row.borderColor,
+            }}
+            aria-hidden="true"
+          />
+        ))}
+      </div>
+      <svg viewBox="0 0 120 48" className="h-full w-full" aria-hidden="true">
+        <path d="M4 36 C26 34 31 18 50 22 C70 26 72 10 92 12 C106 13 111 18 116 10" fill="none" stroke={row.color} strokeWidth="4" strokeLinecap="round" />
+        <path d="M4 42 H116" stroke="#D6DED9" strokeWidth="2" strokeLinecap="round" />
+      </svg>
     </div>
   )
 }
