@@ -23,6 +23,12 @@ const missionBrief = [
   { label: "Foresight", lane: "Forecast", value: "예산 기준", action: "투자 판단 정렬", tone: "#B45309" },
 ]
 
+const decisionDocket = [
+  { label: "회의 안건", value: "결정 대기", detail: "Foresight 예산 기준 확정" },
+  { label: "검수 신호", value: "보류 확인", detail: "Sentinel 세팅 리스크 분리" },
+  { label: "증빙 상태", value: "공유 준비", detail: "Lens 보고 캡처 잠금" },
+]
+
 const heroVitals = [
   { label: "Policy clearance", value: "근거 확인", detail: "Compass" },
   { label: "Control gate", value: "검수 대기", detail: "Sentinel" },
@@ -219,30 +225,52 @@ function HeroEditorial() {
           </div>
         </div>
 
-        <div className="mt-5 grid border border-[#101820] bg-[#101820] text-white sm:grid-cols-[150px_minmax(0,1fr)]">
-          <div className="border-b border-white/15 px-4 py-4 sm:border-b-0 sm:border-r">
-            <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/45">
-              Mission board
+        <div className="mt-5 grid overflow-hidden border border-[#BAC5BE] bg-[#FFFDF8] sm:grid-cols-[170px_minmax(0,1fr)]">
+          <div className="border-b border-[#D3DDD7] bg-[#F1F4F0] px-4 py-4 sm:border-b-0 sm:border-r">
+            <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#66756D]">
+              Decision docket
             </div>
-            <div className="mt-2 text-sm font-semibold leading-5 text-white">
-              제품 소개가 아니라 판단 대기열.
+            <div className="mt-2 text-sm font-semibold leading-5 text-[#101820]">
+              Command Center에서 바로 볼 안건.
             </div>
+            <Link
+              href="/command-center"
+              className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-[#177D4E] transition-colors hover:text-[#101820]"
+            >
+              운영판 열기
+              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </Link>
           </div>
-          <div className="grid sm:grid-cols-2">
-            {missionBrief.map((item) => (
-              <div key={item.label} className="border-b border-white/15 px-4 py-3 last:border-b-0 sm:border-r sm:border-white/15 sm:[&:nth-child(2n)]:border-r-0 sm:[&:nth-last-child(-n+2)]:border-b-0">
-                <div className="flex items-center justify-between gap-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-white/45">
-                  <span>{item.lane}</span>
-                  <span className="h-2 w-2 rounded-full" style={{ backgroundColor: item.tone }} aria-hidden="true" />
+          <div className="grid lg:grid-cols-[1fr_1.2fr]">
+            <div className="divide-y divide-[#D3DDD7] border-b border-[#D3DDD7] lg:border-b-0 lg:border-r">
+              {decisionDocket.map((item) => (
+                <div key={item.label} className="grid grid-cols-[92px_minmax(0,1fr)] gap-3 px-4 py-3">
+                  <div className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#66756D]">
+                    {item.label}
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-sm font-semibold text-[#101820]">{item.value}</div>
+                    <div className="mt-1 truncate text-[11px] font-medium text-[#66756D]">{item.detail}</div>
+                  </div>
                 </div>
-                <div className="mt-2 text-sm font-semibold text-white">
-                  {item.value}
+              ))}
+            </div>
+            <div className="grid sm:grid-cols-2">
+              {missionBrief.map((item) => (
+                <div key={item.label} className="border-b border-[#D3DDD7] px-4 py-3 last:border-b-0 sm:border-r sm:[&:nth-child(2n)]:border-r-0 sm:[&:nth-last-child(-n+2)]:border-b-0">
+                  <div className="flex items-center justify-between gap-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#66756D]">
+                    <span>{item.lane}</span>
+                    <span className="h-2 w-2 rounded-full" style={{ backgroundColor: item.tone }} aria-hidden="true" />
+                  </div>
+                  <div className="mt-2 text-sm font-semibold text-[#101820]">
+                    {item.value}
+                  </div>
+                  <div className="mt-1 text-xs font-medium text-[#66756D]">
+                    {item.label} · {item.action}
+                  </div>
                 </div>
-                <div className="mt-1 text-xs font-medium text-white/62">
-                  {item.label} · {item.action}
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -258,14 +286,14 @@ function HeroEditorial() {
         </div>
         <div className="flex flex-col gap-3 sm:flex-row">
           <Button asChild size="lg" className="bg-[#101820] text-white hover:bg-[#25322B]">
-            <Link href="#platform">
-              운영 보드 보기
+            <Link href="/command-center">
+              Command Center 열기
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </Button>
           <Button asChild size="lg" variant="outline" className="border-[#AEBAB2] bg-white text-[#101820] hover:bg-[#F7F8F6]">
-            <Link href="#products">
-              판단 흐름 보기
+            <Link href="#platform">
+              운영 흐름 보기
               <ArrowDownRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </Button>
