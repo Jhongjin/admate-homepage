@@ -1,4 +1,5 @@
 import Link from "next/link"
+import type { CSSProperties } from "react"
 import {
   ArrowRight,
   ExternalLink,
@@ -58,11 +59,52 @@ const platformChapters = [
 ]
 
 const operatingSequence = [
-  { code: "01", title: "Brief", detail: "목표, 예산, 매체 조건이 들어옵니다." },
-  { code: "02", title: "Policy", detail: "Compass가 정책과 출처를 붙입니다." },
-  { code: "03", title: "Gate", detail: "Sentinel이 집행 전 위험을 멈춥니다." },
-  { code: "04", title: "Proof", detail: "Lens가 보고 가능한 증빙을 만듭니다." },
-  { code: "05", title: "Forecast", detail: "Foresight가 다음 예산 판단을 남깁니다." },
+  {
+    code: "01",
+    title: "Brief",
+    detail: "목표, 예산, 매체 조건이 하나의 작업 좌표로 정리됩니다.",
+    signal: "Input map",
+    accent: "#D8F6EA",
+    frameClass: "homepage-flow-frame-1",
+  },
+  {
+    code: "02",
+    title: "Policy",
+    detail: "Compass가 정책 근거와 출처를 같은 화면에 붙입니다.",
+    signal: "Evidence lock",
+    accent: "#7DD3FC",
+    frameClass: "homepage-flow-frame-2",
+  },
+  {
+    code: "03",
+    title: "Gate",
+    detail: "Sentinel이 집행 전 위험과 승인 경계를 먼저 멈춥니다.",
+    signal: "Risk hold",
+    accent: "#34D399",
+    frameClass: "homepage-flow-frame-3",
+  },
+  {
+    code: "04",
+    title: "Proof",
+    detail: "Lens가 게재 화면과 보고 증빙을 운영 기억에 남깁니다.",
+    signal: "Capture proof",
+    accent: "#99F6E4",
+    frameClass: "homepage-flow-frame-4",
+  },
+  {
+    code: "05",
+    title: "Forecast",
+    detail: "Foresight가 다음 예산 판단과 성과 기준선을 넘깁니다.",
+    signal: "Next budget",
+    accent: "#F6C35B",
+    frameClass: "homepage-flow-frame-5",
+  },
+]
+
+const operatingLayers = [
+  { label: "Memory", value: "shared context" },
+  { label: "Audit", value: "decision trail" },
+  { label: "Cost", value: "signal budget" },
 ]
 
 const trustSignals = [
@@ -275,41 +317,58 @@ function OperatingFilm() {
             </p>
           </div>
 
-          <div className="relative min-h-[560px] overflow-hidden border border-[#AFA493] bg-[#101820] p-5 text-white">
-            <div className="absolute inset-0 homepage-scene-grid opacity-40" aria-hidden="true" />
-            <div className="absolute inset-x-8 top-1/2 h-px bg-gradient-to-r from-transparent via-[#D8F6EA]/40 to-transparent" aria-hidden="true" />
-            <div className="relative z-10 flex items-center justify-between gap-4 border-b border-white/[0.12] pb-5">
+          <div className="homepage-flow-console relative overflow-hidden border border-[#AFA493] bg-[#101820] p-5 text-white sm:p-6">
+            <div className="absolute inset-0 homepage-scene-grid opacity-30" aria-hidden="true" />
+            <div className="homepage-flow-glow" aria-hidden="true" />
+
+            <div className="relative z-10 flex flex-col gap-5 border-b border-white/[0.12] pb-5 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#9DB0A8]">Campaign signal film</div>
-                <div className="mt-2 text-2xl font-semibold">one campaign, five operating signals</div>
+                <div className="mt-2 max-w-[430px] text-2xl font-semibold leading-tight">one campaign, routed through five live decisions</div>
               </div>
-              <div className="hidden h-12 w-28 grid-cols-6 items-end gap-1 sm:grid" aria-hidden="true">
-                {[22, 36, 28, 46, 32, 52].map((height) => (
-                  <span key={height} className="block bg-[#D8F6EA]/65" style={{ height }} />
-                ))}
+              <div className="grid grid-cols-3 gap-2 text-right font-mono text-[10px] uppercase tracking-[0.14em] text-white/48">
+                <span>policy</span>
+                <span>risk</span>
+                <span>proof</span>
               </div>
             </div>
 
-            <div className="relative z-10 mt-10 grid gap-3 md:grid-cols-5">
-              {operatingSequence.map((step, index) => (
-                <div key={step.code} className="min-h-[300px] border border-white/[0.12] bg-white/[0.045] p-4">
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="font-mono text-xs text-white/46">{step.code}</span>
-                    <span className="h-1.5 w-10 bg-[#D8F6EA]/60" style={{ opacity: 0.36 + index * 0.1 }} aria-hidden="true" />
+            <div className="homepage-flow-map relative z-10 mt-7">
+              <svg className="homepage-flow-route" viewBox="0 0 720 420" focusable="false" aria-hidden="true">
+                <path d="M62 256C154 148 226 95 336 126c86 24 107 126 194 130 64 3 100-48 132-92" />
+                <path className="homepage-flow-route-soft" d="M72 314C182 290 238 238 326 244c90 6 116 74 204 86 58 8 102-8 134-48" />
+                <circle cx="62" cy="256" r="5" />
+                <circle cx="336" cy="126" r="5" />
+                <circle cx="530" cy="256" r="5" />
+                <circle cx="662" cy="164" r="5" />
+              </svg>
+
+              {operatingSequence.map((step) => (
+                <article
+                  key={step.code}
+                  className={`homepage-flow-frame ${step.frameClass}`}
+                  style={{ "--flow-accent": step.accent } as CSSProperties}
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <div className="font-mono text-[11px] font-semibold text-white/44">{step.code}</div>
+                      <h3 className="mt-3 text-3xl font-semibold leading-none">{step.title}</h3>
+                    </div>
+                    <span className="homepage-flow-marker" aria-hidden="true" />
                   </div>
-                  <div className="mt-24">
-                    <h3 className="text-3xl font-semibold leading-none">{step.title}</h3>
-                    <p className="mt-4 text-sm font-medium leading-6 text-white/68">{step.detail}</p>
+                  <p className="mt-5 text-sm font-medium leading-6 text-white/68">{step.detail}</p>
+                  <div className="mt-5 font-mono text-[10px] uppercase tracking-[0.16em]" style={{ color: step.accent }}>
+                    {step.signal}
                   </div>
-                </div>
+                </article>
               ))}
             </div>
 
-            <div className="relative z-10 mt-5 grid grid-cols-3 gap-2 border border-white/[0.12] bg-white/[0.045] p-2">
-              {["Memory", "Audit", "Cost"].map((item) => (
-                <div key={item} className="px-3 py-4 text-center">
-                  <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/48">{item}</div>
-                  <div className="mt-2 h-1 bg-[#D8F6EA]/62" />
+            <div className="homepage-flow-ledger relative z-10 mt-5 grid gap-2 sm:grid-cols-3">
+              {operatingLayers.map((item) => (
+                <div key={item.label} className="homepage-flow-layer">
+                  <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/48">{item.label}</div>
+                  <div className="mt-2 text-sm font-semibold text-white/78">{item.value}</div>
                 </div>
               ))}
             </div>
