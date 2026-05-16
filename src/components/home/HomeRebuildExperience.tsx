@@ -305,7 +305,7 @@ function OperatingFilm() {
     <section id="flow" className="relative overflow-hidden bg-[#E8E3D7] py-24 sm:py-32">
       <div className="absolute inset-0 homepage-paper-grid opacity-70" aria-hidden="true" />
       <div className="section-shell relative xl:max-w-[1400px]">
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,0.78fr)_minmax(520px,1fr)] lg:items-center">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,0.68fr)_minmax(640px,1.12fr)] lg:items-center">
           <div>
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#6B6258]">Operating sequence</div>
             <h2 className="mt-5 max-w-[620px] text-balance text-4xl font-semibold leading-[1.02] sm:text-6xl">
@@ -317,11 +317,11 @@ function OperatingFilm() {
             </p>
           </div>
 
-          <div className="homepage-flow-console relative overflow-hidden border border-[#AFA493] bg-[#101820] p-5 text-white sm:p-6">
+          <div className="homepage-flow-console relative overflow-hidden border border-[#AFA493] bg-[#101820] p-5 text-white sm:p-7">
             <div className="absolute inset-0 homepage-scene-grid opacity-30" aria-hidden="true" />
             <div className="homepage-flow-glow" aria-hidden="true" />
 
-            <div className="relative z-10 flex flex-col gap-5 border-b border-white/[0.12] pb-5 sm:flex-row sm:items-end sm:justify-between">
+            <div className="relative z-10 flex flex-col gap-5 border-b border-white/[0.07] pb-5 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#9DB0A8]">Campaign signal film</div>
                 <div className="mt-2 max-w-[430px] text-2xl font-semibold leading-tight">one campaign, routed through five live decisions</div>
@@ -364,7 +364,7 @@ function OperatingFilm() {
               ))}
             </div>
 
-            <div className="homepage-flow-ledger relative z-10 mt-5 grid gap-2 sm:grid-cols-3">
+            <div className="homepage-flow-ledger relative z-10 mt-5 grid gap-3 sm:grid-cols-3">
               {operatingLayers.map((item) => (
                 <div key={item.label} className="homepage-flow-layer">
                   <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/48">{item.label}</div>
