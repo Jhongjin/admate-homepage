@@ -462,6 +462,82 @@
     animation: homepage-signal-runner 3.6s ease-in-out infinite;
   }
 
+  .homepage-suite-row {
+    position: relative;
+    isolation: isolate;
+    margin-inline: -20px;
+    padding-inline: 20px;
+    transition:
+      border-color 520ms cubic-bezier(0.32, 0.72, 0, 1),
+      color 520ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .homepage-suite-row::before {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    content: "";
+    background:
+      linear-gradient(90deg, color-mix(in srgb, var(--suite-accent) 13%, #f3f0e8), color-mix(in srgb, var(--suite-accent) 7%, #f3f0e8) 48%, transparent),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 70%);
+    opacity: 0;
+    transition:
+      opacity 520ms cubic-bezier(0.32, 0.72, 0, 1),
+      transform 520ms cubic-bezier(0.32, 0.72, 0, 1);
+    transform: scaleX(0.985);
+    transform-origin: left center;
+  }
+
+  .homepage-suite-row > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .homepage-suite-row:hover,
+  .homepage-suite-row:focus-within {
+    border-color: color-mix(in srgb, var(--suite-readable) 34%, #c9bfaf);
+  }
+
+  .homepage-suite-row:hover::before,
+  .homepage-suite-row:focus-within::before {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  .homepage-suite-verb {
+    width: fit-content;
+    border-radius: 999px;
+    padding: 6px 10px;
+    background: color-mix(in srgb, var(--suite-readable) 9%, transparent);
+    color: var(--suite-readable);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.24);
+    transition:
+      background-color 420ms cubic-bezier(0.32, 0.72, 0, 1),
+      color 420ms cubic-bezier(0.32, 0.72, 0, 1),
+      transform 420ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .homepage-suite-verb svg {
+    stroke-width: 2.15;
+  }
+
+  .homepage-suite-row:hover .homepage-suite-verb,
+  .homepage-suite-row:focus-within .homepage-suite-verb {
+    background: color-mix(in srgb, var(--suite-readable) 13%, rgba(255, 255, 255, 0.16));
+    color: color-mix(in srgb, var(--suite-readable) 84%, #101820);
+    transform: translateX(4px);
+  }
+
+  .homepage-suite-action,
+  .homepage-suite-pending {
+    background: rgba(243, 240, 232, 0.55);
+  }
+
+  .homepage-suite-row:hover .homepage-suite-action,
+  .homepage-suite-row:focus-within .homepage-suite-action {
+    border-color: color-mix(in srgb, var(--suite-readable) 42%, #101820);
+  }
+
   .homepage-flow-console {
     min-height: 620px;
     background:

@@ -23,6 +23,7 @@ const platformChapters = [
     korean: "정책 근거와 집행 가능성을 먼저 확인합니다.",
     signal: "RAG evidence",
     accent: "#7DD3FC",
+    readableAccent: "#0875A8",
     href: officialLinks.compass,
     icon: FileCheck2,
   },
@@ -33,6 +34,7 @@ const platformChapters = [
     korean: "세팅 오류, 예산 이상, 운영 리스크를 관제합니다.",
     signal: "Risk gate",
     accent: "#34D399",
+    readableAccent: "#087A52",
     href: officialLinks.sentinel,
     icon: Radar,
   },
@@ -43,6 +45,7 @@ const platformChapters = [
     korean: "게재 화면과 보고 증빙을 자동으로 남깁니다.",
     signal: "Proof capture",
     accent: "#99F6E4",
+    readableAccent: "#007D73",
     href: officialLinks.lens,
     icon: ScanLine,
   },
@@ -53,6 +56,7 @@ const platformChapters = [
     korean: "성과 기준선과 예산 판단을 기획 단계에 올립니다.",
     signal: "Forecast",
     accent: "#F6C35B",
+    readableAccent: "#A76500",
     href: "",
     icon: LineChart,
   },
@@ -262,7 +266,13 @@ function SuiteManifest() {
             return (
               <article
                 key={platform.name}
-                className="group grid gap-6 border-b border-[#C9BFAF] py-8 last:border-b-0 md:grid-cols-[80px_minmax(190px,0.5fr)_minmax(0,1fr)_auto] md:items-center"
+                className="homepage-suite-row group grid gap-6 border-b border-[#C9BFAF] py-8 last:border-b-0 md:grid-cols-[80px_minmax(190px,0.5fr)_minmax(0,1fr)_auto] md:items-center"
+                style={
+                  {
+                    "--suite-accent": platform.accent,
+                    "--suite-readable": platform.readableAccent,
+                  } as CSSProperties
+                }
               >
                 <div className="font-mono text-sm text-[#7B7063]">{String(index + 1).padStart(2, "0")}</div>
                 <div>
@@ -270,14 +280,14 @@ function SuiteManifest() {
                   <h3 className="mt-1 text-4xl font-semibold leading-none sm:text-5xl">{platform.name}</h3>
                 </div>
                 <div className="max-w-[560px]">
-                  <div className="flex items-center gap-3 text-sm font-semibold" style={{ color: platform.accent }}>
+                  <div className="homepage-suite-verb flex items-center gap-3 text-sm font-semibold">
                     <Icon className="h-4 w-4" aria-hidden="true" />
                     {platform.verb}
                   </div>
                   <p className="mt-2 text-base font-medium leading-7 text-[#465650]">{platform.korean}</p>
                 </div>
                 {disabled ? (
-                  <span className="w-fit border border-[#D6C59B] px-4 py-2 text-sm font-semibold text-[#9A6A0A]">
+                  <span className="homepage-suite-pending w-fit border border-[#D6C59B] px-4 py-2 text-sm font-semibold text-[#9A6A0A]">
                     준비중
                   </span>
                 ) : (
@@ -285,7 +295,7 @@ function SuiteManifest() {
                     href={platform.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex w-fit items-center gap-2 rounded-full border border-[#BDB2A2] px-4 py-2 text-sm font-semibold text-[#101820] transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-[#101820] hover:bg-[#101820] hover:text-white"
+                    className="homepage-suite-action inline-flex w-fit items-center gap-2 rounded-full border border-[#BDB2A2] px-4 py-2 text-sm font-semibold text-[#101820] transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-[#101820] hover:bg-[#101820] hover:text-white"
                   >
                     열기
                     <ExternalLink className="h-4 w-4" aria-hidden="true" />
