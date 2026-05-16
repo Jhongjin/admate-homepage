@@ -152,7 +152,7 @@ const trustSignals = [
 const companyDetails = [
   { label: "Company", value: "kt nasmedia Co., Ltd." },
   { label: "Address", value: "서울특별시 강남구 도곡로1길 14 삼일프라자 3, 4, 5층" },
-  { label: "Contact", value: "T. +82 (0)2 2188 7300" },
+  { label: "Contact", value: "T. +82 (02) 2188 7300" },
   { label: "Representative", value: "박평권" },
   { label: "Business No.", value: "220-81-80363" },
 ]
@@ -593,11 +593,13 @@ function CompanyFooter() {
       <div className="section-shell relative xl:max-w-[1400px]">
         <div className="homepage-footer-top">
           <div>
-            <div className="homepage-footer-logo" aria-label="kt nasmedia">
-              <span className="homepage-footer-logo-kt">kt</span>
-              <span>nasmedia</span>
+            <div className="homepage-footer-brand">
+              <div className="homepage-footer-logo" aria-label="kt nasmedia">
+                <span className="homepage-footer-logo-kt">kt</span>
+                <span>nasmedia</span>
+              </div>
+              <div className="homepage-footer-team">Data Analytics Team</div>
             </div>
-            <div className="homepage-footer-team mt-7">Data Analytics Team</div>
             <p className="mt-5 max-w-[520px] text-base font-medium leading-7 text-white/52">
               AdMate is operated as an AI advertising operations platform by kt nasmedia.
             </p>
