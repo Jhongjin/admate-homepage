@@ -149,6 +149,14 @@ const trustSignals = [
   },
 ]
 
+const companyDetails = [
+  { label: "Company", value: "kt nasmedia Co., Ltd." },
+  { label: "Address", value: "서울특별시 강남구 도곡로1길 14 삼일프라자 3, 4, 5층" },
+  { label: "Contact", value: "T. +82 (0)2 2188 7300" },
+  { label: "Representative", value: "박평권" },
+  { label: "Business No.", value: "220-81-80363" },
+]
+
 type HomeRebuildExperienceProps = {
   heroMotionLineMode?: HeroMotionLineMode
 }
@@ -161,6 +169,7 @@ export function HomeRebuildExperience({ heroMotionLineMode = "all" }: HomeRebuil
       <OperatingFilm />
       <TrustLayer />
       <HomeFinalCta />
+      <CompanyFooter />
     </div>
   )
 }
@@ -574,5 +583,41 @@ function HomeFinalCta() {
         </div>
       </div>
     </section>
+  )
+}
+
+function CompanyFooter() {
+  return (
+    <footer className="homepage-company-footer">
+      <div className="absolute inset-0 homepage-scene-grid opacity-10" aria-hidden="true" />
+      <div className="section-shell relative xl:max-w-[1400px]">
+        <div className="homepage-footer-top">
+          <div>
+            <div className="homepage-footer-logo" aria-label="kt nasmedia">
+              <span className="homepage-footer-logo-kt">kt</span>
+              <span>nasmedia</span>
+            </div>
+            <div className="homepage-footer-team mt-7">Data Analytics Team</div>
+            <p className="mt-5 max-w-[520px] text-base font-medium leading-7 text-white/52">
+              AdMate is operated as an AI advertising operations platform by kt nasmedia.
+            </p>
+          </div>
+
+          <div className="homepage-footer-ledger">
+            {companyDetails.map((item) => (
+              <div key={item.label} className="homepage-footer-row">
+                <span>{item.label}</span>
+                <strong>{item.value}</strong>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="homepage-footer-bottom">
+          <div>Copyright © kt nasmedia Co., Ltd. All Rights Reserved.</div>
+          <a href="#top">Back to top</a>
+        </div>
+      </div>
+    </footer>
   )
 }

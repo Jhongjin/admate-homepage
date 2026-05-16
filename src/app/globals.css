@@ -1618,6 +1618,167 @@
     color: #101820;
   }
 
+  .homepage-company-footer {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 78% 12%, rgba(216, 246, 234, 0.08), transparent 28%),
+      linear-gradient(180deg, #0b1218, #070b0f 68%, #05080b);
+    color: white;
+    padding: 86px 0 42px;
+  }
+
+  .homepage-company-footer::before,
+  .homepage-company-footer::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+    pointer-events: none;
+  }
+
+  .homepage-company-footer::before {
+    background:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 72px 72px;
+    opacity: 0.18;
+  }
+
+  .homepage-company-footer::after {
+    inset: 0 0 auto;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(216, 246, 234, 0.28), transparent);
+  }
+
+  .homepage-footer-top {
+    display: grid;
+    gap: 56px;
+    align-items: start;
+    padding-bottom: 58px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  @media (min-width: 1024px) {
+    .homepage-footer-top {
+      grid-template-columns: minmax(0, 0.8fr) minmax(480px, 0.72fr);
+    }
+  }
+
+  .homepage-footer-logo {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+    color: #f7fbf9;
+    font-size: clamp(2.45rem, 5vw, 4.2rem);
+    font-weight: 800;
+    letter-spacing: 0;
+    line-height: 0.86;
+  }
+
+  .homepage-footer-logo-kt {
+    position: relative;
+    display: inline-block;
+    letter-spacing: 0;
+  }
+
+  .homepage-footer-logo-kt::after {
+    position: absolute;
+    left: 0.72em;
+    top: 0.1em;
+    height: 0.52em;
+    width: 0.12em;
+    content: "";
+    background: #ef2b2d;
+    transform: rotate(18deg);
+    transform-origin: center;
+  }
+
+  .homepage-footer-team {
+    display: inline-flex;
+    width: fit-content;
+    border-left: 2px solid #ef2b2d;
+    background: linear-gradient(90deg, rgba(239, 43, 45, 0.12), transparent);
+    padding: 9px 14px;
+    font-family: var(--font-geist-mono), monospace;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(247, 251, 249, 0.86);
+  }
+
+  .homepage-footer-ledger {
+    display: grid;
+    border-top: 1px solid rgba(255, 255, 255, 0.11);
+  }
+
+  .homepage-footer-row {
+    display: grid;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px 0;
+  }
+
+  @media (min-width: 768px) {
+    .homepage-footer-row {
+      grid-template-columns: 136px minmax(0, 1fr);
+      gap: 28px;
+    }
+  }
+
+  .homepage-footer-row span {
+    font-family: var(--font-geist-mono), monospace;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(216, 246, 234, 0.42);
+  }
+
+  .homepage-footer-row strong {
+    color: rgba(247, 251, 249, 0.78);
+    font-size: 0.98rem;
+    font-weight: 600;
+    line-height: 1.6;
+  }
+
+  .homepage-footer-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    justify-content: space-between;
+    padding-top: 26px;
+    color: rgba(255, 255, 255, 0.42);
+    font-size: 0.92rem;
+    font-weight: 550;
+  }
+
+  .homepage-footer-bottom a {
+    width: fit-content;
+    color: rgba(216, 246, 234, 0.62);
+    font-family: var(--font-geist-mono), monospace;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    transition:
+      color 420ms cubic-bezier(0.32, 0.72, 0, 1),
+      transform 420ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .homepage-footer-bottom a:hover,
+  .homepage-footer-bottom a:focus-visible {
+    color: #f7fbf9;
+    transform: translateY(-2px);
+  }
+
+  @media (min-width: 640px) {
+    .homepage-footer-bottom {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
   .homepage-art-scene {
     pointer-events: none;
     z-index: 0;
@@ -2156,6 +2317,23 @@
     .homepage-final-dock::after {
       bottom: -12px;
       height: 12px;
+    }
+
+    .homepage-company-footer {
+      padding: 64px 0 34px;
+    }
+
+    .homepage-footer-top {
+      gap: 38px;
+      padding-bottom: 42px;
+    }
+
+    .homepage-footer-logo {
+      font-size: 2.75rem;
+    }
+
+    .homepage-footer-row {
+      padding: 17px 0;
     }
 
     .homepage-trust-intro {
