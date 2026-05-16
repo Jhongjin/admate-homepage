@@ -424,76 +424,76 @@ function TrustLayer() {
     <section id="trust" className="homepage-trust-section relative overflow-hidden py-24 text-white sm:py-32">
       <div className="absolute inset-0 homepage-scene-grid opacity-20" aria-hidden="true" />
       <div className="section-shell relative xl:max-w-[1400px]">
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,0.78fr)_minmax(520px,0.82fr)] lg:items-start">
+        <div className="homepage-trust-intro">
           <div>
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#93A59E]">Trust layer</div>
-            <h2 className="mt-5 max-w-[760px] text-balance text-4xl font-semibold leading-[1.02] sm:text-6xl">
+            <h2 className="mt-5 max-w-[980px] text-balance text-4xl font-semibold leading-[1.02] sm:text-6xl">
               AI가 멋있어 보이는 것보다 중요한 것은, 운영자가 믿고 넘길 수 있는 경계입니다.
             </h2>
-            <div className="homepage-trust-rail mt-10 grid gap-3 sm:grid-cols-3" aria-label="AdMate trust anchors">
-              <div>
-                <span>policy</span>
-                <strong>grounded</strong>
-              </div>
-              <div>
-                <span>risk</span>
-                <strong>gated</strong>
-              </div>
-              <div>
-                <span>proof</span>
-                <strong>auditable</strong>
-              </div>
+          </div>
+          <p className="max-w-[420px] text-lg font-medium leading-8 text-white/58">
+            AdMate는 신호를 빠르게 넘기는 것만큼, 누가 어떤 근거로 넘겼는지 남기는 경계를 중요하게 둡니다.
+          </p>
+        </div>
+
+        <div className="homepage-trust-rail mt-10 grid gap-3 sm:grid-cols-3" aria-label="AdMate trust anchors">
+          <div>
+            <span>policy</span>
+            <strong>grounded</strong>
+          </div>
+          <div>
+            <span>risk</span>
+            <strong>gated</strong>
+          </div>
+          <div>
+            <span>proof</span>
+            <strong>auditable</strong>
+          </div>
+        </div>
+
+        <div className="homepage-trust-stack mt-14" aria-label="AdMate trust assurance stack">
+          <div className="homepage-trust-spine" aria-hidden="true" />
+          <div className="homepage-trust-stack-head">
+            <div>
+              <span>boundary assurance stack</span>
+              <strong>permissioned AI handoff</strong>
+            </div>
+            <div className="homepage-trust-live">
+              <span aria-hidden="true" />
+              guarded
             </div>
           </div>
 
-          <div className="homepage-trust-console">
-            <div className="homepage-trust-glow" aria-hidden="true" />
-            <div className="relative z-10 flex flex-col gap-4 border-b border-white/[0.08] pb-5 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <div className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-[#9DB0A8]">boundary assurance map</div>
-                <div className="mt-2 text-2xl font-semibold leading-tight text-[#F7FBF9]">permissioned AI handoff</div>
-              </div>
-              <div className="homepage-trust-live">
-                <span aria-hidden="true" />
-                guarded
-              </div>
-            </div>
-
-            <div className="homepage-trust-map relative z-10" aria-hidden="true">
-              <svg className="homepage-trust-route" viewBox="0 0 620 250" focusable="false">
-                <path d="M52 154C132 82 222 68 306 116c76 43 130 64 260 18" />
-                <path className="homepage-trust-route-soft" d="M70 188C150 160 218 166 300 188c110 30 184 4 252-58" />
-                <circle cx="52" cy="154" r="5" />
-                <circle cx="306" cy="116" r="5" />
-                <circle cx="566" cy="134" r="5" />
-              </svg>
-              <div className="homepage-trust-core">
-                <span>operator trust</span>
-                <strong>bounded memory</strong>
-              </div>
-            </div>
-
-            <div className="homepage-trust-list relative z-10">
-              {trustSignals.map((signal) => (
-                <div
-                  key={signal.code}
-                  className="homepage-trust-row"
-                  style={{ "--trust-accent": signal.accent } as CSSProperties}
-                >
-                  <div className="homepage-trust-code">
-                    <span>{signal.code}</span>
-                    <strong>{signal.status}</strong>
-                  </div>
-                  <div>
-                    <div className="text-base font-semibold text-[#F7FBF9]">{signal.title}</div>
-                    <p className="mt-1 text-sm font-medium leading-6 text-white/58">{signal.detail}</p>
-                  </div>
-                  <span className="homepage-trust-meter" aria-hidden="true">
-                    <span />
-                  </span>
+          <div className="homepage-trust-list">
+            {trustSignals.map((signal) => (
+              <article
+                key={signal.code}
+                className="homepage-trust-step"
+                style={{ "--trust-accent": signal.accent } as CSSProperties}
+              >
+                <div className="homepage-trust-code">
+                  <span>{signal.code}</span>
+                  <strong>{signal.status}</strong>
                 </div>
-              ))}
-            </div>
+                <div className="homepage-trust-node" aria-hidden="true">
+                  <span />
+                </div>
+                <div className="homepage-trust-copy">
+                  <h3>{signal.title}</h3>
+                  <p>{signal.detail}</p>
+                </div>
+                <div className="homepage-trust-state" aria-hidden="true">
+                  <span>verified boundary</span>
+                  <strong>{signal.status}</strong>
+                  <i />
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="homepage-trust-lock">
+            <span>operator handoff</span>
+            <strong>모든 경계가 남은 뒤에 다음 운영 판단으로 넘어갑니다.</strong>
           </div>
         </div>
       </div>
