@@ -784,6 +784,11 @@
     animation-delay: -4.4s;
   }
 
+  .homepage-art-scene-no-solid-lines .homepage-art-ribbon,
+  .homepage-art-scene-no-solid-lines .homepage-art-sweep {
+    display: none;
+  }
+
   .homepage-art-sweep {
     position: absolute;
     z-index: 5;

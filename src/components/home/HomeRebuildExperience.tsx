@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { officialLinks } from "@/lib/admate-content"
 
-import { HeroMotionCanvas } from "./HeroMotionCanvas"
+import { HeroMotionCanvas, type HeroMotionLineMode } from "./HeroMotionCanvas"
 
 const platformChapters = [
   {
@@ -73,10 +73,14 @@ const trustSignals = [
   "제품별 감사 가능성",
 ]
 
-export function HomeRebuildExperience() {
+type HomeRebuildExperienceProps = {
+  heroMotionLineMode?: HeroMotionLineMode
+}
+
+export function HomeRebuildExperience({ heroMotionLineMode = "all" }: HomeRebuildExperienceProps) {
   return (
     <div className="min-h-screen overflow-hidden bg-[#F3F0E8] text-[#101820]">
-      <HeroWorld />
+      <HeroWorld heroMotionLineMode={heroMotionLineMode} />
       <SuiteManifest />
       <OperatingFilm />
       <TrustLayer />
@@ -85,11 +89,15 @@ export function HomeRebuildExperience() {
   )
 }
 
-function HeroWorld() {
+type HeroWorldProps = {
+  heroMotionLineMode: HeroMotionLineMode
+}
+
+function HeroWorld({ heroMotionLineMode }: HeroWorldProps) {
   return (
     <section id="top" className="relative isolate min-h-[100dvh] overflow-hidden bg-[#020810] text-white">
       <div className="absolute inset-0 homepage-world-field" aria-hidden="true" />
-      <HeroSignalScene />
+      <HeroSignalScene lineMode={heroMotionLineMode} />
       <div className="absolute inset-x-0 bottom-0 z-0 h-44 bg-gradient-to-b from-transparent via-[#020810]/70 to-[#F3F0E8]" aria-hidden="true" />
 
       <div className="section-shell relative z-10 flex min-h-[100dvh] items-center pb-20 pt-24 xl:max-w-[1440px]">
@@ -136,10 +144,17 @@ function HeroWorld() {
   )
 }
 
-function HeroSignalScene() {
+type HeroSignalSceneProps = {
+  lineMode: HeroMotionLineMode
+}
+
+function HeroSignalScene({ lineMode }: HeroSignalSceneProps) {
   return (
-    <div className="homepage-art-scene absolute inset-0 overflow-hidden" aria-hidden="true">
-      <HeroMotionCanvas />
+    <div
+      className={`homepage-art-scene absolute inset-0 overflow-hidden${lineMode === "no-solid" ? " homepage-art-scene-no-solid-lines" : ""}`}
+      aria-hidden="true"
+    >
+      <HeroMotionCanvas lineMode={lineMode} />
       <div className="homepage-art-sculpture">
         <div className="homepage-art-disc" />
         <div className="homepage-art-disc homepage-art-disc-secondary" />

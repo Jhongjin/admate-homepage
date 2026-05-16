@@ -17,6 +17,8 @@ const lanes = [
   { y: 0.68, tilt: 0.2, color: "246, 195, 91" },
 ]
 
+export type HeroMotionLineMode = "all" | "no-dotted" | "no-solid"
+
 function makeParticles(count: number) {
   return Array.from({ length: count }, (_, index) => ({
     lane: index % lanes.length,
@@ -27,7 +29,11 @@ function makeParticles(count: number) {
   }))
 }
 
-export function HeroMotionCanvas() {
+type HeroMotionCanvasProps = {
+  lineMode?: HeroMotionLineMode
+}
+
+export function HeroMotionCanvas({ lineMode = "all" }: HeroMotionCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -271,19 +277,25 @@ export function HeroMotionCanvas() {
       context.clearRect(0, 0, width, height)
       context.globalCompositeOperation = "lighter"
 
-      drawSweep(time)
-      drawSignalCurtain(time)
-      for (let index = 0; index < lanes.length; index += 1) {
-        drawSignalLane(time, index)
+      if (lineMode !== "no-solid") {
+        drawSweep(time)
+        drawSignalCurtain(time)
+      }
+      if (lineMode !== "no-dotted") {
+        for (let index = 0; index < lanes.length; index += 1) {
+          drawSignalLane(time, index)
+        }
       }
       drawCorePulse(time, coreCenter)
       drawRotatingArcs(time, coreCenter)
       drawOrbitBeacons(time, coreCenter)
-      for (let index = 0; index < 5; index += 1) {
-        drawComet(time, index)
-      }
-      for (const particle of particles) {
-        drawParticle(particle, time)
+      if (lineMode !== "no-solid") {
+        for (let index = 0; index < 5; index += 1) {
+          drawComet(time, index)
+        }
+        for (const particle of particles) {
+          drawParticle(particle, time)
+        }
       }
       applyCopyQuietZone()
 
@@ -301,7 +313,7 @@ export function HeroMotionCanvas() {
       window.cancelAnimationFrame(frame)
       window.removeEventListener("resize", resize)
     }
-  }, [])
+  }, [lineMode])
 
-  return <canvas ref={canvasRef} className="homepage-motion-canvas" aria-hidden="true" />
+  return <canvas ref={canvasRef} className="homepage-motion-canvas" data-line-mode={lineMode} aria-hidden="true" />
 }
