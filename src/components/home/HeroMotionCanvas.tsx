@@ -89,8 +89,8 @@ export function HeroMotionCanvas() {
       context.save()
       context.setLineDash([18, 28])
       context.lineDashOffset = -time * (58 + laneIndex * 12)
-      context.lineWidth = laneIndex === 1 ? 2.8 : 2
-      context.strokeStyle = `rgba(${lane.color}, ${laneIndex === 1 ? 0.72 : 0.52})`
+      context.lineWidth = laneIndex === 1 ? 2.2 : 1.6
+      context.strokeStyle = `rgba(${lane.color}, ${laneIndex === 1 ? 0.46 : 0.34})`
       context.beginPath()
       context.moveTo(startX, baseY + offset)
       context.bezierCurveTo(
@@ -113,17 +113,17 @@ export function HeroMotionCanvas() {
       const y = height * lane.y + wave * height * 0.055 + lane.tilt * height * progress
       const angle = Math.atan2(lane.tilt * height + wave * 30, width)
       const alpha = Math.sin(progress * Math.PI)
-      const length = 46 + particle.size * 18
+      const length = 34 + particle.size * 14
 
       context.save()
       context.translate(x, y)
       context.rotate(angle)
       const gradient = context.createLinearGradient(-length, 0, length, 0)
       gradient.addColorStop(0, "rgba(255, 255, 255, 0)")
-      gradient.addColorStop(0.45, `rgba(${lane.color}, ${0.98 * alpha})`)
+      gradient.addColorStop(0.45, `rgba(${lane.color}, ${0.68 * alpha})`)
       gradient.addColorStop(1, "rgba(255, 255, 255, 0)")
       context.strokeStyle = gradient
-      context.lineWidth = particle.size + 1.5
+      context.lineWidth = particle.size + 0.9
       context.beginPath()
       context.moveTo(-length, 0)
       context.lineTo(length, 0)
@@ -170,17 +170,17 @@ export function HeroMotionCanvas() {
       const angle = -0.28 + index * 0.13
       const color = index % 3 === 0 ? "216, 246, 234" : index % 3 === 1 ? "125, 211, 252" : "52, 211, 153"
       const alpha = Math.sin(progress * Math.PI)
-      const length = width < 700 ? 130 : 240
+      const length = width < 700 ? 104 : 196
 
       context.save()
       context.translate(startX, startY + wave)
       context.rotate(angle)
       const gradient = context.createLinearGradient(-length, 0, length * 0.24, 0)
       gradient.addColorStop(0, "rgba(255, 255, 255, 0)")
-      gradient.addColorStop(0.62, `rgba(${color}, ${0.34 * alpha})`)
-      gradient.addColorStop(1, `rgba(${color}, ${0.9 * alpha})`)
+      gradient.addColorStop(0.62, `rgba(${color}, ${0.22 * alpha})`)
+      gradient.addColorStop(1, `rgba(${color}, ${0.56 * alpha})`)
       context.strokeStyle = gradient
-      context.lineWidth = width < 700 ? 3.2 : 4.6
+      context.lineWidth = width < 700 ? 2.4 : 3.4
       context.beginPath()
       context.moveTo(-length, 0)
       context.lineTo(length * 0.24, 0)
@@ -192,7 +192,7 @@ export function HeroMotionCanvas() {
       const sweepX = ((time * 0.18) % 1) * width * 1.8 - width * 0.45
       const gradient = context.createLinearGradient(sweepX - 150, 0, sweepX + 260, height)
       gradient.addColorStop(0, "rgba(216, 246, 234, 0)")
-      gradient.addColorStop(0.48, "rgba(216, 246, 234, 0.5)")
+      gradient.addColorStop(0.48, "rgba(216, 246, 234, 0.26)")
       gradient.addColorStop(1, "rgba(216, 246, 234, 0)")
 
       context.save()
@@ -200,7 +200,7 @@ export function HeroMotionCanvas() {
       context.fillStyle = gradient
       context.translate(sweepX, height * 0.5)
       context.rotate(-0.22)
-      context.fillRect(-190, -height, 380, height * 2)
+      context.fillRect(-150, -height, 300, height * 2)
       context.restore()
     }
 
@@ -208,7 +208,7 @@ export function HeroMotionCanvas() {
       const x = ((time * 0.22) % 1) * width * 1.6 - width * 0.25
       const gradient = context.createLinearGradient(x - 18, 0, x + 18, height)
       gradient.addColorStop(0, "rgba(125, 211, 252, 0)")
-      gradient.addColorStop(0.5, "rgba(125, 211, 252, 0.55)")
+      gradient.addColorStop(0.5, "rgba(125, 211, 252, 0.3)")
       gradient.addColorStop(1, "rgba(125, 211, 252, 0)")
 
       context.save()
@@ -216,7 +216,7 @@ export function HeroMotionCanvas() {
       context.translate(x, height * 0.5)
       context.rotate(-0.34)
       context.fillStyle = gradient
-      context.fillRect(-26, -height * 1.2, 52, height * 2.4)
+      context.fillRect(-18, -height * 1.2, 36, height * 2.4)
       context.restore()
     }
 
@@ -249,6 +249,22 @@ export function HeroMotionCanvas() {
       })
     }
 
+    const applyCopyQuietZone = () => {
+      const featherEnd = width < 700 ? width * 0.86 : width * 0.58
+      const quietEnd = width < 700 ? width * 0.58 : width * 0.42
+      const quietStop = Math.min(0.86, quietEnd / featherEnd)
+
+      context.save()
+      context.globalCompositeOperation = "destination-out"
+      const gradient = context.createLinearGradient(0, 0, featherEnd, 0)
+      gradient.addColorStop(0, "rgba(0, 0, 0, 0.94)")
+      gradient.addColorStop(quietStop, "rgba(0, 0, 0, 0.84)")
+      gradient.addColorStop(1, "rgba(0, 0, 0, 0)")
+      context.fillStyle = gradient
+      context.fillRect(0, 0, featherEnd, height)
+      context.restore()
+    }
+
     const render = (now: number) => {
       const motionScale = reducedMotion.matches ? 0.42 : 1
       const time = (now / 1000) * motionScale
@@ -269,6 +285,7 @@ export function HeroMotionCanvas() {
       for (const particle of particles) {
         drawParticle(particle, time)
       }
+      applyCopyQuietZone()
 
       frame = window.requestAnimationFrame(render)
     }

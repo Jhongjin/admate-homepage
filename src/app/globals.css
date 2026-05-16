@@ -770,8 +770,8 @@
     height: 2px;
     width: 72%;
     --ribbon-rotate: -18deg;
-    background: linear-gradient(90deg, transparent, rgba(125, 211, 252, 0.5), rgba(216, 246, 234, 0.72), transparent);
-    opacity: 0.72;
+    background: linear-gradient(90deg, transparent, rgba(125, 211, 252, 0.34), rgba(216, 246, 234, 0.48), transparent);
+    opacity: 0.42;
     transform: rotate(var(--ribbon-rotate));
     animation: homepage-art-ribbon 8.8s ease-in-out infinite;
   }
@@ -780,16 +780,19 @@
     right: -10%;
     top: 76%;
     --ribbon-rotate: 14deg;
-    background: linear-gradient(90deg, transparent, rgba(246, 195, 91, 0.38), rgba(52, 211, 153, 0.56), transparent);
+    background: linear-gradient(90deg, transparent, rgba(246, 195, 91, 0.26), rgba(52, 211, 153, 0.4), transparent);
     animation-delay: -4.4s;
   }
 
   .homepage-art-sweep {
     position: absolute;
     z-index: 5;
-    inset: -20% -30%;
-    background: linear-gradient(105deg, transparent 0 42%, rgba(216, 246, 234, 0.12) 48%, transparent 56% 100%);
-    opacity: 0.72;
+    bottom: -20%;
+    left: 42%;
+    right: -30%;
+    top: -20%;
+    background: linear-gradient(105deg, transparent 0 42%, rgba(216, 246, 234, 0.07) 48%, transparent 56% 100%);
+    opacity: 0.36;
     transform: translate3d(-30%, 0, 0);
     animation: homepage-art-sweep 9.4s cubic-bezier(0.32, 0.72, 0, 1) infinite;
   }
@@ -867,7 +870,7 @@
 
     .homepage-art-ribbon {
       width: 120%;
-      opacity: 0.5;
+      opacity: 0.32;
     }
 
     .homepage-scene-grid {
@@ -1414,7 +1417,7 @@
     }
     42%,
     62% {
-      opacity: 0.84;
+      opacity: 0.48;
       transform: translate3d(14%, 0, 0) rotate(var(--ribbon-rotate, -18deg)) scaleX(1.08);
     }
   }
@@ -1426,7 +1429,7 @@
       transform: translate3d(-46%, 0, 0);
     }
     58% {
-      opacity: 0.78;
+      opacity: 0.32;
     }
     100% {
       opacity: 0;
