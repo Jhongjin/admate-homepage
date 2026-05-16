@@ -46,12 +46,11 @@ export type Product = {
 }
 
 export const navLinks = [
-  { label: "운영판", href: "#platform" },
-  { label: "제품 역할", href: "#products" },
-  { label: "운영 루프", href: "#lifecycle" },
-  { label: "Agent Core", href: "#agent-core" },
-  { label: "성과 기준", href: "#impact" },
-  { label: "로드맵", href: "#roadmap" },
+  { label: "AI 운영층", href: "#top" },
+  { label: "플랫폼", href: "#suite" },
+  { label: "운영 흐름", href: "#flow" },
+  { label: "신뢰 경계", href: "#trust" },
+  { label: "시작", href: "#access" },
 ]
 
 export const officialLinks = {
