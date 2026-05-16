@@ -103,7 +103,7 @@ export function CommandCenterPage({ data = commandCenterData }: { data?: Command
             </div>
             <div className="min-w-0">
               <div className="truncate text-[13px] font-semibold">AdMate Command Center</div>
-              <div className="hidden text-[11px] text-[#6D7468] sm:block">Executive Operating Cockpit</div>
+              <div className="hidden text-[11px] text-[#6D7468] sm:block">운영 판단실</div>
             </div>
           </div>
           <Button asChild variant="outline" size="sm" className="shrink-0 bg-white">
@@ -116,13 +116,13 @@ export function CommandCenterPage({ data = commandCenterData }: { data?: Command
       </header>
 
       <div className="mx-auto w-full max-w-[1440px] px-4 py-6 sm:px-6 lg:px-8">
-        <section className="mb-5 grid gap-4 lg:grid-cols-[minmax(0,1fr)_360px] xl:grid-cols-[minmax(0,1fr)_420px] xl:items-stretch">
-          <div className="overflow-hidden rounded-lg border border-[#D7DDD2] bg-[#FAFAF8]">
-            <div className="grid gap-0 xl:grid-cols-[minmax(0,1fr)_220px]">
-              <div className="p-4 sm:p-5">
+        <section className="mb-5 grid min-w-0 gap-4 lg:grid-cols-[minmax(0,1fr)_360px] xl:grid-cols-[minmax(0,1fr)_420px] xl:items-stretch">
+          <div className="min-w-0 overflow-hidden rounded-lg border border-[#D7DDD2] bg-[#FAFAF8]">
+            <div className="grid min-w-0 gap-0 xl:grid-cols-[minmax(0,1fr)_220px]">
+              <div className="min-w-0 p-4 sm:p-5">
                 <div className="mb-3 flex flex-wrap items-center gap-2">
-                  <div className="inline-flex rounded-md border border-[#D9DDD4] bg-white px-2.5 py-1 text-[11px] font-semibold text-[#4F594A]">
-                    Weekly Decision Board · {sourceLabel}
+                  <div className="inline-flex max-w-full rounded-md border border-[#D9DDD4] bg-white px-2.5 py-1 text-[11px] font-semibold leading-4 text-[#4F594A]">
+                    <span className="break-words">주간 판단 장부 · {sourceLabel}</span>
                   </div>
                   {hasSmokeMarker ? (
                     <div className="inline-flex rounded-md border border-[#F5CE8B] bg-[#FFF8EC] px-2.5 py-1 text-[11px] font-semibold text-[#9E5700]">
@@ -136,8 +136,9 @@ export function CommandCenterPage({ data = commandCenterData }: { data?: Command
                 <h1 className="max-w-full text-balance break-words text-2xl font-semibold tracking-normal text-[#0D0D0D] sm:text-4xl">
                   이번 주 AdMate 경영 운영판
                 </h1>
-                <p className="mt-2 max-w-2xl text-sm leading-6 text-[#5E5E5E]">
-                  제품 설명을 넘겨 읽는 화면이 아니라, 어떤 제품을 밀고 어떤 기준을 확정할지 바로 판단하는 cockpit입니다.
+                <p className="mt-2 max-w-2xl break-words text-sm leading-6 text-[#5E5E5E]">
+                  <span className="sm:hidden">제품 설명이 아니라, 이번 주 판단만 남깁니다.</span>
+                  <span className="hidden sm:inline">제품 설명을 넘겨 읽는 화면이 아니라, 어떤 제품을 밀고 어떤 기준을 확정할지 바로 판단하는 운영판입니다.</span>
                 </p>
                 <div className="mt-5 grid gap-2 md:grid-cols-2 xl:grid-cols-4">
                   {commandStrips.map((strip) => (
@@ -146,13 +147,13 @@ export function CommandCenterPage({ data = commandCenterData }: { data?: Command
                 </div>
               </div>
 
-              <div className="border-t border-[#E1E4DD] bg-white p-4 xl:border-l xl:border-t-0 sm:p-5">
-                <div className="text-[11px] font-semibold uppercase text-[#6E7769]">Readiness</div>
+              <div className="min-w-0 border-t border-[#E1E4DD] bg-white p-4 xl:border-l xl:border-t-0 sm:p-5">
+                <div className="text-[11px] font-semibold uppercase text-[#6E7769]">운영 준비도</div>
                 <div className="mt-2 text-5xl font-semibold leading-none tracking-normal text-[#0D0D0D]">
                   {summary.overallProgress}%
                 </div>
                 <ProgressBar value={summary.overallProgress} className="mt-3" />
-                <div className="mt-4 grid grid-cols-3 gap-2 text-center">
+                <div className="mt-4 grid grid-cols-[repeat(3,minmax(0,1fr))] gap-2 text-center">
                   <SignalCount label="정상" value={summary.normalCount} tone="green" />
                   <SignalCount label="검토" value={summary.needsReviewCount} tone="amber" />
                   <SignalCount label="지연" value={summary.delayedCount} tone="red" />
@@ -183,7 +184,7 @@ export function CommandCenterPage({ data = commandCenterData }: { data?: Command
         <section className="mt-5">
           <div className="mb-3 flex flex-wrap items-end justify-between gap-3">
             <div>
-              <div className="text-[11px] font-semibold uppercase text-[#6E7769]">Execution Detail</div>
+              <div className="text-[11px] font-semibold uppercase text-[#6E7769]">실행 판단</div>
               <h2 className="mt-1 text-lg font-semibold text-[#0D0D0D]">제품별 실행 카드</h2>
             </div>
             <div className="max-w-xl break-words text-[12px] leading-5 text-[#5E5E5E]">
@@ -233,11 +234,11 @@ function CommandStrip({
 
 function DecisionQueue({ projects, nextDecision }: { projects: CommandCenterProject[]; nextDecision: string }) {
   return (
-    <div className="grid gap-4 rounded-lg border border-[#172033] bg-[#101820] p-4 text-white sm:p-5">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <div className="text-[11px] font-semibold uppercase text-[#B9C2B7]">Decision Queue</div>
-          <div className="mt-2 break-words text-xl font-semibold leading-tight">{nextDecision}</div>
+    <div className="grid min-w-0 gap-4 rounded-lg border border-[#172033] bg-[#101820] p-4 text-white sm:p-5">
+      <div className="flex min-w-0 items-start justify-between gap-4">
+        <div className="min-w-0">
+          <div className="text-[11px] font-semibold uppercase text-[#B9C2B7]">판단 대기열</div>
+          <div className="mt-2 break-words text-lg font-semibold leading-tight sm:text-xl">{nextDecision}</div>
         </div>
         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-white/10">
           <Activity className="h-4 w-4" aria-hidden="true" />
@@ -276,10 +277,10 @@ function DecisionQueue({ projects, nextDecision }: { projects: CommandCenterProj
 
 function ReadinessLedger({ projects }: { projects: CommandCenterProject[] }) {
   return (
-    <section className="rounded-lg border border-[#D7DDD2] bg-[#FAFAF8] p-3 sm:p-4">
+    <section className="min-w-0 rounded-lg border border-[#D7DDD2] bg-[#FAFAF8] p-3 sm:p-4">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <div className="text-[11px] font-semibold uppercase text-[#6E7769]">Readiness Ledger</div>
+          <div className="text-[11px] font-semibold uppercase text-[#6E7769]">판단 장부</div>
           <h2 className="mt-1 text-lg font-semibold text-[#0D0D0D]">주간 제품 판단 장부</h2>
         </div>
         <div className="break-words text-[12px] text-[#5E5E5E]">
@@ -322,10 +323,10 @@ function ReadinessLedger({ projects }: { projects: CommandCenterProject[] }) {
 
 function OperatingSignals({ projects }: { projects: CommandCenterProject[] }) {
   return (
-    <section className="rounded-lg border border-[#D7DDD2] bg-white p-3 sm:p-4">
+    <section className="min-w-0 rounded-lg border border-[#D7DDD2] bg-white p-3 sm:p-4">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <div className="text-[11px] font-semibold uppercase text-[#6E7769]">Operating Signals</div>
+          <div className="text-[11px] font-semibold uppercase text-[#6E7769]">운영 신호</div>
           <h2 className="mt-1 text-lg font-semibold text-[#0D0D0D]">운영 신호판</h2>
         </div>
         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-[#EAF2ED] text-[#2F7D50]">
@@ -369,7 +370,7 @@ function SignalCount({ label, value, tone }: { label: string; value: number; ton
         : "border-[#FFB8B8] bg-[#FFF5F5] text-[#D92D20]"
 
   return (
-    <div className={`rounded-md border px-2 py-2 ${toneClass}`}>
+    <div className={`min-w-0 overflow-hidden rounded-md border px-1.5 py-2 ${toneClass}`}>
       <div className="text-[11px] font-semibold">{label}</div>
       <div className="mt-1 text-lg font-semibold leading-none">{value}</div>
     </div>
@@ -388,7 +389,7 @@ function EngineProgressCard({ project }: { project: CommandCenterProject }) {
                   <Cpu className="h-5 w-5" aria-hidden="true" />
                 </div>
                 <div className="min-w-0">
-                  <div className="text-[11px] font-semibold uppercase text-[#6E7769]">Workspace Status</div>
+                  <div className="text-[11px] font-semibold uppercase text-[#6E7769]">운영 기억</div>
                   <h2 className="mt-1 break-words text-2xl font-semibold leading-tight text-[#0D0D0D]">
                     {project.name}
                   </h2>
@@ -405,7 +406,7 @@ function EngineProgressCard({ project }: { project: CommandCenterProject }) {
               </div>
               <div>
                 <div className="mb-2 flex items-end justify-between gap-3">
-                  <div className="text-[11px] font-semibold uppercase text-[#6E7769]">Progress</div>
+                  <div className="text-[11px] font-semibold uppercase text-[#6E7769]">진행</div>
                   <div className="text-2xl font-semibold leading-none text-[#0D0D0D]">{project.progress}%</div>
                 </div>
                 <ProgressBar value={project.progress} />

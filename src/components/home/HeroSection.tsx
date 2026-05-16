@@ -135,7 +135,7 @@ export function HeroSection() {
             <OperationsWall />
           </div>
 
-          <div className="grid overflow-hidden border-y border-[#BAC5BE] bg-[#F7F8F6]/88 lg:grid-cols-[minmax(260px,1.1fr)_minmax(0,1.5fr)_180px]">
+          <div className="grid min-w-0 overflow-hidden border-y border-[#BAC5BE] bg-[#F7F8F6]/88 lg:grid-cols-[minmax(260px,1.1fr)_minmax(0,1.5fr)_180px]">
             <div className="border-b border-[#D3DDD7] bg-[#FFFDF8] px-4 py-4 lg:border-b-0 lg:border-r">
               <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#66756D]">
                 Executive doorway
@@ -161,9 +161,9 @@ export function HeroSection() {
             </div>
             <Link
               href="/command-center"
-              className="flex min-h-16 items-center justify-between gap-3 border-t border-[#D3DDD7] bg-[#101820] px-4 py-4 text-sm font-semibold text-white transition-colors hover:bg-[#25322B] lg:border-l lg:border-t-0"
+              className="flex min-h-16 min-w-0 items-center justify-between gap-3 border-t border-[#D3DDD7] bg-[#101820] px-4 py-4 text-sm font-semibold text-white transition-colors hover:bg-[#25322B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#177D4E] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F7F8F6] lg:border-l lg:border-t-0"
             >
-              <span>운영판 입장</span>
+              <span className="min-w-0 break-words">운영판 입장</span>
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
@@ -203,10 +203,10 @@ function HeroEditorial() {
     <div className="relative flex min-w-0 flex-col justify-between border-y border-[#BAC5BE] py-6 lg:border-y-0 lg:py-0 lg:pr-3">
       <div className="absolute bottom-0 right-0 top-0 hidden w-px bg-[#BAC5BE] lg:block" aria-hidden="true" />
       <div>
-        <div className="mb-4 grid w-full max-w-[520px] grid-cols-[auto_1fr] border border-[#BAC5BE] bg-white">
-          <div className="flex items-center gap-2 border-r border-[#D3DDD7] px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#405149]">
+        <div className="mb-4 grid w-full max-w-[520px] grid-cols-1 border border-[#BAC5BE] bg-white sm:grid-cols-[auto_1fr]">
+          <div className="flex min-w-0 items-center gap-2 border-b border-[#D3DDD7] px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#405149] sm:border-b-0 sm:border-r">
             <Gauge className="h-3.5 w-3.5 text-[#177D4E]" aria-hidden="true" />
-            Room active
+            <span className="break-words">Room active</span>
           </div>
           <div className="flex min-w-0 items-center justify-between gap-3 px-3 py-2">
             <span className="truncate text-[11px] font-semibold text-[#66756D]">Agent Core briefing surface</span>
@@ -214,7 +214,7 @@ function HeroEditorial() {
           </div>
         </div>
 
-        <h1 className="max-w-[720px] text-balance text-5xl font-semibold leading-[0.92] tracking-normal text-[#101820] sm:text-6xl xl:text-[80px]">
+        <h1 className="max-w-[720px] text-balance text-[44px] font-semibold leading-[0.96] tracking-normal text-[#101820] sm:text-6xl xl:text-[80px]">
           AdMate
           <span className="mt-2 block text-[#2F3C35]">operating room</span>
         </h1>
@@ -222,13 +222,18 @@ function HeroEditorial() {
           광고 운영을 기능 목록이 아니라 판단 대기열로 보여줍니다.
         </p>
 
-        <div className="mt-5 grid overflow-hidden border border-[#101820] bg-[#FFFDF8] sm:grid-cols-[minmax(0,1fr)_auto]">
+        <div className="mt-5 grid min-w-0 overflow-hidden border border-[#101820] bg-[#FFFDF8] sm:grid-cols-[minmax(0,1fr)_auto]">
           <div className="min-w-0 px-4 py-4">
             <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#66756D]">
               Executive doorway
             </div>
-            <div className="mt-2 max-w-[520px] text-lg font-semibold leading-6 text-[#101820]">
-              회의 전 필요한 승인, 보류, 증빙만 골라 Command Center로 넘깁니다.
+            <div className="mt-2 max-w-[520px] break-words text-base font-semibold leading-6 text-[#101820] sm:text-lg">
+              <span className="sm:hidden">
+                회의 전 필요한 승인, 보류, 증빙만 골라
+                <br />
+                운영판으로 넘깁니다.
+              </span>
+              <span className="hidden sm:inline">회의 전 필요한 승인, 보류, 증빙만 골라 Command Center로 넘깁니다.</span>
             </div>
             <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-[11px] font-semibold text-[#66756D]">
               <span>Board queue</span>
@@ -238,9 +243,9 @@ function HeroEditorial() {
           </div>
           <Link
             href="/command-center"
-            className="flex min-h-16 items-center justify-between gap-4 border-t border-[#101820] bg-[#101820] px-4 py-4 text-sm font-semibold text-white transition-colors hover:bg-[#25322B] active:translate-y-px sm:min-w-[168px] sm:border-l sm:border-t-0"
+            className="flex min-h-16 min-w-0 items-center justify-between gap-4 border-t border-[#101820] bg-[#101820] px-4 py-4 text-sm font-semibold text-white transition-colors hover:bg-[#25322B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#177D4E] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFFDF8] active:translate-y-px sm:min-w-[168px] sm:border-l sm:border-t-0"
           >
-            <span>운영판 입장</span>
+            <span className="min-w-0 break-words">운영판 입장</span>
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
         </div>
@@ -268,7 +273,7 @@ function HeroEditorial() {
           </div>
         </div>
 
-        <div className="mt-4 grid overflow-hidden border border-[#BAC5BE] bg-[#FFFDF8] sm:grid-cols-[156px_minmax(0,1fr)]">
+        <div className="mt-4 grid min-w-0 overflow-hidden border border-[#BAC5BE] bg-[#FFFDF8] sm:grid-cols-[156px_minmax(0,1fr)]">
           <div className="border-b border-[#D3DDD7] bg-[#F1F4F0] px-4 py-4 sm:border-b-0 sm:border-r">
             <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#66756D]">
               Decision docket
@@ -287,13 +292,13 @@ function HeroEditorial() {
           <div className="grid lg:grid-cols-[1fr_1.2fr]">
             <div className="divide-y divide-[#D3DDD7] border-b border-[#D3DDD7] lg:border-b-0 lg:border-r">
               {decisionDocket.map((item) => (
-                <div key={item.label} className="grid grid-cols-[92px_minmax(0,1fr)] gap-3 px-4 py-3">
+                <div key={item.label} className="grid min-w-0 grid-cols-[76px_minmax(0,1fr)] gap-3 px-4 py-3 sm:grid-cols-[92px_minmax(0,1fr)]">
                   <div className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#66756D]">
                     {item.label}
                   </div>
                   <div className="min-w-0">
-                    <div className="text-sm font-semibold text-[#101820]">{item.value}</div>
-                    <div className="mt-1 truncate text-[11px] font-medium text-[#66756D]">{item.detail}</div>
+                    <div className="break-words text-sm font-semibold text-[#101820]">{item.value}</div>
+                    <div className="mt-1 break-words text-[11px] font-medium leading-4 text-[#66756D]">{item.detail}</div>
                   </div>
                 </div>
               ))}
@@ -318,7 +323,7 @@ function HeroEditorial() {
         </div>
       </div>
 
-      <div className="mt-5 grid gap-3 border-t border-[#BAC5BE] pt-4">
+      <div className="mt-5 grid min-w-0 gap-3 border-t border-[#BAC5BE] pt-4">
         <div className="grid grid-cols-2 border border-[#BAC5BE] bg-[#F7F8F6] sm:grid-cols-4">
           {operatingRoomMarks.map((item) => (
             <div key={item.product} className="border-b border-[#D3DDD7] px-3 py-3 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
@@ -328,13 +333,14 @@ function HeroEditorial() {
           ))}
         </div>
         <div className="flex flex-col gap-3 sm:flex-row">
-          <Button asChild size="lg" className="bg-[#101820] text-white hover:bg-[#25322B]">
+          <Button asChild size="lg" className="min-w-0 whitespace-normal bg-[#101820] text-white hover:bg-[#25322B]">
             <Link href="/command-center">
-              Command Center 열기
+              <span className="hidden sm:inline">Command Center 열기</span>
+              <span className="sm:hidden">운영판 열기</span>
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </Button>
-          <Button asChild size="lg" variant="outline" className="border-[#AEBAB2] bg-white text-[#101820] hover:bg-[#F7F8F6]">
+          <Button asChild size="lg" variant="outline" className="min-w-0 whitespace-normal border-[#AEBAB2] bg-white text-[#101820] hover:bg-[#F7F8F6]">
             <Link href="#platform">
               운영 흐름 보기
               <ArrowDownRight className="h-4 w-4" aria-hidden="true" />
