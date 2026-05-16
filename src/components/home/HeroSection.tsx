@@ -3,7 +3,6 @@ import {
   ArrowDownRight,
   ArrowRight,
   Camera,
-  Clock3,
   FileCheck2,
   Gauge,
   LineChart,
@@ -14,560 +13,283 @@ import {
 
 import { Button } from "@/components/ui/button"
 
-const commandModes = ["Plan", "Policy", "Validate", "Monitor", "Capture", "Learn"]
-
-const missionBrief = [
-  { label: "Compass", lane: "Policy", value: "정책 근거", action: "집행 가능성 확인", tone: "#1F6F8B" },
-  { label: "Sentinel", lane: "Gate", value: "검수 보류", action: "위험 신호 분리", tone: "#177D4E" },
-  { label: "Lens", lane: "Proof", value: "증빙 잠금", action: "보고 캡처 확정", tone: "#2B6D67" },
-  { label: "Foresight", lane: "Forecast", value: "예산 기준", action: "투자 판단 정렬", tone: "#B45309" },
-]
-
-const decisionDocket = [
-  { label: "회의 안건", value: "결정 대기", detail: "Foresight 예산 기준 확정" },
-  { label: "검수 신호", value: "보류 확인", detail: "Sentinel 세팅 리스크 분리" },
-  { label: "증빙 상태", value: "공유 준비", detail: "Lens 보고 캡처 잠금" },
-]
-
-const heroVitals = [
-  { label: "Policy clearance", value: "근거 확인", detail: "Compass" },
-  { label: "Control gate", value: "검수 대기", detail: "Sentinel" },
-  { label: "Board decision", value: "판단 필요", detail: "Foresight" },
-]
-
-const operatingRoomMarks = [
-  { label: "Policy", product: "Compass" },
-  { label: "Gate", product: "Sentinel" },
-  { label: "Proof", product: "Lens" },
-  { label: "Forecast", product: "Foresight" },
-]
-
-const portfolioRows: Array<{
-  product: string
+const platformNodes: Array<{
+  name: string
   role: string
-  status: string
+  verb: string
   signal: string
-  pattern: "evidence" | "loop" | "proof" | "forecast"
+  proof: string
+  accent: string
   icon: LucideIcon
-  color: string
-  softColor: string
-  borderColor: string
-  activeModes: number[]
 }> = [
   {
-    product: "AdMate Compass",
-    role: "Evidence desk",
-    status: "집행 가능성",
-    signal: "정책 근거",
-    pattern: "evidence",
+    name: "Compass",
+    role: "Policy Intelligence",
+    verb: "정책을 찾다",
+    signal: "RAG 근거와 집행 가능성",
+    proof: "Policy",
+    accent: "#7DD3FC",
     icon: FileCheck2,
-    color: "#1F6F8B",
-    softColor: "#EAF4F7",
-    borderColor: "#B9D8E2",
-    activeModes: [1],
   },
   {
-    product: "AdMate Sentinel",
-    role: "Control loop",
-    status: "검수/감시",
-    signal: "세팅 리스크",
-    pattern: "loop",
+    name: "Sentinel",
+    role: "Validation & Monitoring",
+    verb: "운영을 지키다",
+    signal: "검수 보류, 이상 감지, 권한 제어",
+    proof: "Risk",
+    accent: "#34D399",
     icon: Radar,
-    color: "#177D4E",
-    softColor: "#EFFAF4",
-    borderColor: "#9FE5C1",
-    activeModes: [2, 3],
   },
   {
-    product: "AdMate Lens",
-    role: "Proof desk",
-    status: "증빙 확정",
-    signal: "캡처 이력",
-    pattern: "proof",
+    name: "Lens",
+    role: "Capture & Proof",
+    verb: "증빙을 만들다",
+    signal: "게재 화면, 캡처, 보고 증빙",
+    proof: "Proof",
+    accent: "#A7F3D0",
     icon: Camera,
-    color: "#2B6D67",
-    softColor: "#E8F4F1",
-    borderColor: "#B9D8D3",
-    activeModes: [4],
   },
   {
-    product: "AdMate Foresight",
-    role: "Forecast desk",
-    status: "기획 기준",
-    signal: "예산 판단",
-    pattern: "forecast",
+    name: "Foresight",
+    role: "Planning Intelligence",
+    verb: "다음을 예측하다",
+    signal: "성과 예측과 예산 판단",
+    proof: "Forecast",
+    accent: "#FBBF24",
     icon: LineChart,
-    color: "#B45309",
-    softColor: "#FFF8EC",
-    borderColor: "#F5CE8B",
-    activeModes: [0],
   },
 ]
 
-const executiveLedger = [
-  { label: "운영 초점", value: "검수 승인, 예산 이상, 증빙 확정" },
-  { label: "열린 판단", value: "집행 가능 여부와 다음 수정 우선순위" },
-  { label: "Agent Core 기록", value: "정책 근거, 운영 이력, 학습 피드백" },
+const signalStream = [
+  "Policy evidence",
+  "Launch gate",
+  "Proof capture",
+  "Forecast curve",
+  "Agent memory",
 ]
 
-const operatingReadouts = [
-  { label: "Board queue", value: "이번 주 검토 안건", detail: "결정 대기 1건" },
-  { label: "Evidence pack", value: "근거·증빙·예산", detail: "회의 자료 잠금" },
-  { label: "Agent memory", value: "판단 이력 보존", detail: "Agent Core 기록" },
+const coreSignals = [
+  { label: "AI Core", value: "4 platforms" },
+  { label: "Decision layer", value: "policy / risk / proof / forecast" },
+  { label: "Operating memory", value: "auditable context" },
 ]
 
-const boardSignals = [
-  { label: "Gate", value: "집행 전 검수" },
-  { label: "Watch", value: "예산/KPI 이상" },
-  { label: "Proof", value: "보고 증빙" },
+const heroMetrics = [
+  { label: "Compass", value: "근거", accent: "#7DD3FC" },
+  { label: "Sentinel", value: "검수", accent: "#34D399" },
+  { label: "Lens", value: "증빙", accent: "#A7F3D0" },
+  { label: "Foresight", value: "예측", accent: "#FBBF24" },
 ]
 
 export function HeroSection() {
   return (
-    <section id="top" className="relative isolate overflow-hidden border-b border-[#BAC5BE] bg-[#ECEFEA]">
-      <div className="absolute inset-0 command-grid opacity-75" aria-hidden="true" />
-      <div className="section-shell relative grid min-h-[calc(100dvh-56px)] gap-6 py-7 lg:grid-cols-[136px_minmax(0,1fr)] lg:py-8">
-        <CommandRail />
+    <section
+      id="top"
+      className="relative isolate overflow-hidden border-b border-white/10 bg-[#04070D] text-white"
+    >
+      <div className="absolute inset-0 admate-ai-field" aria-hidden="true" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-sky-300/60 to-transparent" aria-hidden="true" />
 
-        <div className="grid min-w-0 content-start gap-5">
-          <div className="grid gap-5 lg:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)] lg:items-stretch xl:grid-cols-[minmax(450px,0.82fr)_minmax(600px,1fr)]">
-            <HeroEditorial />
-            <OperationsWall />
-          </div>
+      <div className="section-shell relative z-10 grid min-h-[calc(92dvh-56px)] gap-8 py-7 sm:py-9 lg:grid-cols-[minmax(0,0.92fr)_minmax(580px,1.08fr)] lg:items-center lg:gap-10 xl:max-w-[1360px]">
+        <HeroCopy />
+        <AgentConstellation />
+      </div>
 
-          <div className="grid min-w-0 overflow-hidden border-y border-[#BAC5BE] bg-[#F7F8F6]/88 lg:grid-cols-[minmax(260px,1.1fr)_minmax(0,1.5fr)_180px]">
-            <div className="border-b border-[#D3DDD7] bg-[#FFFDF8] px-4 py-4 lg:border-b-0 lg:border-r">
-              <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#66756D]">
-                Executive doorway
-              </div>
-              <div className="mt-2 text-base font-semibold leading-6 text-[#101820]">
-                홈은 소개 페이지가 아니라, 운영판으로 들어가기 전의 브리핑 데스크입니다.
-              </div>
-            </div>
-            <div className="grid divide-y divide-[#D3DDD7] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-              {operatingReadouts.map((item) => (
-                <div key={item.label} className="min-w-0 px-4 py-4">
-                  <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#66756D]">
-                    {item.label}
-                  </div>
-                  <div className="mt-1 truncate text-sm font-semibold leading-5 text-[#101820]">
-                    {item.value}
-                  </div>
-                  <div className="mt-1 text-[11px] font-semibold text-[#66756D]">
-                    {item.detail}
-                  </div>
-                </div>
-              ))}
-            </div>
-            <Link
-              href="/command-center"
-              className="flex min-h-16 min-w-0 items-center justify-between gap-3 border-t border-[#D3DDD7] bg-[#101820] px-4 py-4 text-sm font-semibold text-white transition-colors hover:bg-[#25322B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#177D4E] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F7F8F6] lg:border-l lg:border-t-0"
-            >
-              <span className="min-w-0 break-words">운영판 입장</span>
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
-          </div>
-        </div>
+      <div className="section-shell relative z-10 -mt-2 pb-6 xl:max-w-[1360px]">
+        <SignalStrip />
       </div>
     </section>
   )
 }
 
-function CommandRail() {
+function HeroCopy() {
   return (
-    <aside className="hidden border-x border-[#BAC5BE] bg-[#F7F8F6]/72 lg:flex lg:flex-col">
-      <div className="border-b border-[#BAC5BE] px-4 py-4">
-        <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#66756D]">AdMate</div>
-        <div className="mt-1 text-sm font-semibold leading-tight text-[#101820]">Operating Room</div>
-      </div>
-      <div className="grid flex-1 content-stretch divide-y divide-[#D5DDD8]">
-        {commandModes.map((mode, index) => (
-          <div key={mode} className="flex min-h-[58px] items-center justify-between gap-2 px-4">
-            <span className="text-xs font-semibold text-[#101820]">{mode}</span>
-            <span className="font-mono text-[10px] text-[#7B8780]">{String(index + 1).padStart(2, "0")}</span>
-          </div>
-        ))}
-      </div>
-      <div className="border-t border-[#BAC5BE] px-4 py-4">
-        <div className="flex items-center gap-2 text-[11px] font-semibold text-[#177D4E]">
-          <span className="h-2 w-2 rounded-full bg-[#177D4E]" aria-hidden="true" />
-          Board online
-        </div>
-      </div>
-    </aside>
-  )
-}
-
-function HeroEditorial() {
-  return (
-    <div className="relative flex min-w-0 flex-col justify-between border-y border-[#BAC5BE] py-6 lg:border-y-0 lg:py-0 lg:pr-3">
-      <div className="absolute bottom-0 right-0 top-0 hidden w-px bg-[#BAC5BE] lg:block" aria-hidden="true" />
-      <div>
-        <div className="mb-4 grid w-full max-w-[520px] grid-cols-1 border border-[#BAC5BE] bg-white sm:grid-cols-[auto_1fr]">
-          <div className="flex min-w-0 items-center gap-2 border-b border-[#D3DDD7] px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#405149] sm:border-b-0 sm:border-r">
-            <Gauge className="h-3.5 w-3.5 text-[#177D4E]" aria-hidden="true" />
-            <span className="break-words">Room active</span>
-          </div>
-          <div className="flex min-w-0 items-center justify-between gap-3 px-3 py-2">
-            <span className="truncate text-[11px] font-semibold text-[#66756D]">Agent Core briefing surface</span>
-            <span className="h-2 w-2 shrink-0 rounded-full bg-[#177D4E]" aria-hidden="true" />
-          </div>
-        </div>
-
-        <h1 className="max-w-[720px] text-balance text-[44px] font-semibold leading-[0.96] tracking-normal text-[#101820] sm:text-6xl xl:text-[80px]">
-          AdMate
-          <span className="mt-2 block text-[#2F3C35]">operating room</span>
-        </h1>
-        <p className="mt-4 max-w-[600px] text-balance text-xl font-semibold leading-tight text-[#27362F] sm:text-2xl">
-          광고 운영을 기능 목록이 아니라 판단 대기열로 보여줍니다.
-        </p>
-
-        <div className="mt-5 grid min-w-0 overflow-hidden border border-[#101820] bg-[#FFFDF8] sm:grid-cols-[minmax(0,1fr)_auto]">
-          <div className="min-w-0 px-4 py-4">
-            <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#66756D]">
-              Executive doorway
-            </div>
-            <div className="mt-2 max-w-[520px] break-words text-base font-semibold leading-6 text-[#101820] sm:text-lg">
-              <span className="sm:hidden">
-                회의 전 필요한 승인, 보류, 증빙만 골라
-                <br />
-                운영판으로 넘깁니다.
-              </span>
-              <span className="hidden sm:inline">회의 전 필요한 승인, 보류, 증빙만 골라 Command Center로 넘깁니다.</span>
-            </div>
-            <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-[11px] font-semibold text-[#66756D]">
-              <span>Board queue</span>
-              <span>Evidence pack</span>
-              <span>Agent Core memory</span>
-            </div>
-          </div>
-          <Link
-            href="/command-center"
-            className="flex min-h-16 min-w-0 items-center justify-between gap-4 border-t border-[#101820] bg-[#101820] px-4 py-4 text-sm font-semibold text-white transition-colors hover:bg-[#25322B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#177D4E] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFFDF8] active:translate-y-px sm:min-w-[168px] sm:border-l sm:border-t-0"
-          >
-            <span className="min-w-0 break-words">운영판 입장</span>
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </Link>
-        </div>
-
-        <div className="mt-4 grid border border-[#BAC5BE] bg-[#F7F8F6] sm:grid-cols-[1fr_auto]">
-          <div className="grid sm:grid-cols-3">
-            {heroVitals.map((item) => (
-              <div key={item.label} className="border-b border-[#D3DDD7] px-4 py-3 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
-                <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#66756D]">
-                  {item.label}
-                </div>
-                <div className="mt-2 text-base font-semibold leading-none text-[#101820]">
-                  {item.value}
-                </div>
-                <div className="mt-2 text-[11px] font-semibold text-[#66756D]">
-                  {item.detail}
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="hidden min-w-[92px] border-l border-[#D3DDD7] bg-white px-3 py-3 text-right sm:block">
-            <div className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[#66756D]">Ops</div>
-            <div className="mt-2 text-2xl font-semibold leading-none text-[#101820]">04</div>
-            <div className="mt-1 text-[11px] font-semibold text-[#66756D]">lanes</div>
-          </div>
-        </div>
-
-        <div className="mt-4 grid min-w-0 overflow-hidden border border-[#BAC5BE] bg-[#FFFDF8] sm:grid-cols-[156px_minmax(0,1fr)]">
-          <div className="border-b border-[#D3DDD7] bg-[#F1F4F0] px-4 py-4 sm:border-b-0 sm:border-r">
-            <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#66756D]">
-              Decision docket
-            </div>
-            <div className="mt-2 text-sm font-semibold leading-5 text-[#101820]">
-              Command Center에서 바로 볼 안건.
-            </div>
-            <Link
-              href="/command-center"
-              className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-[#177D4E] transition-colors hover:text-[#101820]"
-            >
-              운영판 열기
-              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-            </Link>
-          </div>
-          <div className="grid lg:grid-cols-[1fr_1.2fr]">
-            <div className="divide-y divide-[#D3DDD7] border-b border-[#D3DDD7] lg:border-b-0 lg:border-r">
-              {decisionDocket.map((item) => (
-                <div key={item.label} className="grid min-w-0 grid-cols-[76px_minmax(0,1fr)] gap-3 px-4 py-3 sm:grid-cols-[92px_minmax(0,1fr)]">
-                  <div className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#66756D]">
-                    {item.label}
-                  </div>
-                  <div className="min-w-0">
-                    <div className="break-words text-sm font-semibold text-[#101820]">{item.value}</div>
-                    <div className="mt-1 break-words text-[11px] font-medium leading-4 text-[#66756D]">{item.detail}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="grid sm:grid-cols-2">
-              {missionBrief.map((item) => (
-                <div key={item.label} className="border-b border-[#D3DDD7] px-4 py-3 last:border-b-0 sm:border-r sm:[&:nth-child(2n)]:border-r-0 sm:[&:nth-last-child(-n+2)]:border-b-0">
-                  <div className="flex items-center justify-between gap-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#66756D]">
-                    <span>{item.lane}</span>
-                    <span className="h-2 w-2 rounded-full" style={{ backgroundColor: item.tone }} aria-hidden="true" />
-                  </div>
-                  <div className="mt-2 text-sm font-semibold text-[#101820]">
-                    {item.value}
-                  </div>
-                  <div className="mt-1 text-xs font-medium text-[#66756D]">
-                    {item.label} · {item.action}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+    <div className="relative min-w-0 lg:pr-4">
+      <div className="inline-flex max-w-full items-center gap-2 border border-cyan-200/20 bg-white/[0.06] px-3 py-2 text-xs font-semibold text-cyan-100 shadow-[0_0_40px_rgba(56,189,248,0.12)] backdrop-blur-xl">
+        <Gauge className="h-4 w-4 shrink-0 text-cyan-200" aria-hidden="true" />
+        <span className="min-w-0 break-words">Agent Core online · Compass · Sentinel · Lens · Foresight</span>
       </div>
 
-      <div className="mt-5 grid min-w-0 gap-3 border-t border-[#BAC5BE] pt-4">
-        <div className="grid grid-cols-2 border border-[#BAC5BE] bg-[#F7F8F6] sm:grid-cols-4">
-          {operatingRoomMarks.map((item) => (
-            <div key={item.product} className="border-b border-[#D3DDD7] px-3 py-3 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
-              <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#66756D]">{item.label}</div>
-              <div className="mt-1 text-xs font-semibold text-[#101820]">{item.product}</div>
-            </div>
-          ))}
-        </div>
-        <div className="flex flex-col gap-3 sm:flex-row">
-          <Button asChild size="lg" className="min-w-0 whitespace-normal bg-[#101820] text-white hover:bg-[#25322B]">
-            <Link href="/command-center">
-              <span className="hidden sm:inline">Command Center 열기</span>
-              <span className="sm:hidden">운영판 열기</span>
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
-          </Button>
-          <Button asChild size="lg" variant="outline" className="min-w-0 whitespace-normal border-[#AEBAB2] bg-white text-[#101820] hover:bg-[#F7F8F6]">
-            <Link href="#platform">
-              운영 흐름 보기
-              <ArrowDownRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
-          </Button>
-        </div>
-      </div>
-    </div>
-  )
-}
+      <h1 className="mt-6 max-w-[760px] text-balance text-[48px] font-semibold leading-[0.94] tracking-normal text-white sm:text-[76px] lg:text-[82px] xl:text-[96px]">
+        AdMate
+        <span className="mt-3 block bg-gradient-to-r from-cyan-100 via-white to-emerald-100 bg-clip-text text-[0.54em] leading-[1.04] text-transparent sm:text-[0.62em]">
+          <span className="block">AI가 연결하는</span>
+          <span className="block">광고 운영의 네 가지 감각</span>
+        </span>
+      </h1>
 
-function OperationsWall() {
-  return (
-    <div className="min-w-0 border border-[#101820] bg-[#F8FAF7] shadow-[0_18px_44px_rgba(39,54,47,0.14)]">
-      <div className="grid border-b border-[#101820] bg-[#101820] text-white sm:grid-cols-[1fr_auto]">
-        <div className="px-4 py-3">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/50">
-            Executive signal board
-          </div>
-          <div className="mt-1 text-base font-semibold">승인 전 확인할 운영 신호</div>
-        </div>
-        <div className="flex items-center border-t border-white/10 px-4 py-3 sm:border-l sm:border-t-0">
-          <div className="inline-flex items-center gap-2 whitespace-nowrap border border-[#9FE5C1]/35 bg-[#177D4E]/22 px-3 py-2 text-xs font-semibold text-[#DDF7E9]">
-            <span className="h-2 w-2 rounded-full bg-[#63D793]" aria-hidden="true" />
-            상황판 정렬
-          </div>
-        </div>
-      </div>
+      <p className="mt-6 max-w-[660px] text-balance text-lg font-medium leading-8 text-slate-200 sm:text-xl">
+        정책을 찾는 Compass, 운영을 지키는 Sentinel, 증빙을 만드는 Lens, 다음을 예측하는 Foresight.
+        AdMate는 네 플랫폼을 Agent Core로 연결해 광고 운영을 하나의 판단 흐름으로 정렬합니다.
+      </p>
 
-      <div className="grid min-[1680px]:grid-cols-[minmax(0,1fr)_248px]">
-        <div className="min-w-0">
-          <div className="grid grid-cols-6 border-b border-[#D3DDD7] bg-[#FFFDF8]">
-            {commandModes.map((mode) => (
-              <div key={mode} className="overflow-hidden border-r border-[#E1E7E3] px-1.5 py-2.5 text-center text-[9px] font-semibold uppercase tracking-[0.08em] text-[#66756D] last:border-r-0 sm:text-[10px]">
-                {mode}
-              </div>
-            ))}
-          </div>
-
-          <div className="divide-y divide-[#D3DDD7]">
-            {portfolioRows.map((row) => (
-              <PortfolioRow key={row.product} row={row} />
-            ))}
-          </div>
-
-          <div className="grid border-t border-[#D3DDD7] bg-[#F1F4F0] sm:grid-cols-3">
-            {boardSignals.map((item) => (
-              <div key={item.label} className="border-b border-[#D3DDD7] px-4 py-3 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
-                <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#66756D]">
-                  {item.label}
-                </div>
-                <div className="mt-1 text-xs font-semibold text-[#405149]">
-                  {item.value}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <aside className="grid border-t border-[#D3DDD7] bg-white md:grid-cols-[1fr_1fr] min-[1680px]:block min-[1680px]:border-l min-[1680px]:border-t-0">
-          <div className="border-b border-[#D3DDD7] p-4 md:border-b-0 md:border-r min-[1680px]:border-b min-[1680px]:border-r-0">
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#66756D]">
-                  Agent Core
-                </div>
-                <div className="mt-2 text-xl font-semibold text-[#101820]">운영 기억 정렬</div>
-              </div>
-              <div className="flex h-10 w-10 items-center justify-center bg-[#101820] text-white">
-                <Waypoints className="h-5 w-5" aria-hidden="true" />
-              </div>
-            </div>
-            <p className="mt-3 text-xs font-medium leading-5 text-[#5B6B62]">
-              Openclaw 실행과 Hermes 학습을 공통 운영 계층으로 묶어 판단 근거와 피드백을 보존합니다.
-            </p>
-          </div>
-
-          <div className="divide-y divide-[#D3DDD7] md:border-r md:border-[#D3DDD7] min-[1680px]:border-r-0">
-            {executiveLedger.map((item) => (
-              <div key={item.label} className="p-3 min-[1680px]:p-4">
-                <div className="text-[11px] font-semibold text-[#66756D]">{item.label}</div>
-                <div className="mt-1.5 text-sm font-semibold leading-5 text-[#101820]">{item.value}</div>
-              </div>
-            ))}
-          </div>
-
-          <div className="m-4 border border-[#101820] bg-[#101820] p-4 text-white md:col-span-2 min-[1680px]:col-span-1">
-            <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/50">
-              <Waypoints className="h-4 w-4" aria-hidden="true" />
-              Doorway principle
-            </div>
-            <p className="mt-3 text-sm font-medium leading-6 text-white/75">
-              정책 근거, 감시 신호, 캡처 증빙, 예산 곡선을 한 번에 확인한 뒤 다음 회의의 승인 순서로 보냅니다.
-            </p>
-          </div>
-        </aside>
-      </div>
-    </div>
-  )
-}
-
-function PortfolioRow({
-  row,
-}: {
-  row: (typeof portfolioRows)[number]
-}) {
-  return (
-    <div className="grid gap-0 bg-[#FBFCFA] transition-colors hover:bg-[#FFFDF8] md:grid-cols-[158px_minmax(220px,1fr)_124px] xl:grid-cols-[172px_minmax(260px,1fr)_132px]">
-      <div className="flex items-center gap-3 border-b border-[#E1E7E3] px-4 py-3 md:border-b-0 md:border-r">
-        <div
-          className="flex h-9 w-9 shrink-0 items-center justify-center border"
-          style={{ backgroundColor: row.softColor, borderColor: row.borderColor, color: row.color }}
+      <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+        <Button
+          asChild
+          size="lg"
+          className="min-w-0 whitespace-normal border border-cyan-200/30 bg-cyan-200 text-[#061018] shadow-[0_18px_50px_rgba(34,211,238,0.22)] hover:bg-white"
         >
-          <row.icon className="h-4 w-4" aria-hidden="true" />
-        </div>
-        <div className="min-w-0">
-          <div className="truncate text-sm font-semibold text-[#101820]">{row.product}</div>
-          <div className="mt-1 truncate text-[11px] font-medium text-[#66756D]">{row.role}</div>
-        </div>
+          <Link href="/command-center">
+            Command Center 보기
+            <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+          </Link>
+        </Button>
+        <Button
+          asChild
+          size="lg"
+          variant="outline"
+          className="min-w-0 whitespace-normal border-white/[0.18] bg-white/[0.04] text-white hover:border-white/30 hover:bg-white/[0.08]"
+        >
+          <Link href="#platform">
+            Platform Quartet
+            <ArrowDownRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+          </Link>
+        </Button>
       </div>
 
-      <div className="min-h-[64px] border-b border-[#E1E7E3] px-4 py-3 md:border-b-0">
-        <ProductSignalPattern row={row} />
-      </div>
-
-      <div className="flex items-center justify-between gap-3 border-t border-[#E1E7E3] px-4 py-3 md:border-l md:border-t-0">
-        <div className="min-w-0">
-          <div className="text-[11px] font-semibold text-[#66756D]">{row.signal}</div>
-          <div className="mt-1 truncate text-xs font-semibold" style={{ color: row.color }}>
-            {row.status}
+      <div className="mt-8 hidden min-w-0 gap-2 sm:grid sm:grid-cols-2">
+        {coreSignals.map((item) => (
+          <div key={item.label} className="border border-white/10 bg-white/[0.045] px-4 py-3 backdrop-blur-xl">
+            <div className="text-xs font-semibold text-slate-400">{item.label}</div>
+            <div className="mt-1 break-words text-sm font-semibold text-slate-100">{item.value}</div>
           </div>
-        </div>
-        <Clock3 className="h-4 w-4 text-[#7B8780]" aria-hidden="true" />
+        ))}
       </div>
     </div>
   )
 }
 
-function ProductSignalPattern({
-  row,
-}: {
-  row: (typeof portfolioRows)[number]
-}) {
-  if (row.pattern === "evidence") {
-    return (
-      <div className="grid h-full grid-cols-[1.2fr_0.8fr] gap-3">
-        <div className="grid gap-1.5">
-          {[0, 1, 2].map((index) => (
-            <div
-              key={index}
-              className="flex items-center gap-2 border bg-white px-2 py-1"
-              style={{ borderColor: index === 0 ? row.borderColor : "#E1E7E3" }}
-            >
-              <span
-                className="flex h-5 w-5 items-center justify-center text-[10px] font-semibold"
-                style={{ backgroundColor: index === 0 ? row.softColor : "#F1F4F0", color: row.color }}
-              >
-                {index + 1}
-              </span>
-              <span className="h-1.5 flex-1 bg-[#D6DED9]" />
-            </div>
+function AgentConstellation() {
+  return (
+    <div className="relative min-w-0 overflow-hidden border border-white/[0.12] bg-[#07101A]/[0.88] shadow-[0_34px_90px_rgba(0,0,0,0.48)] backdrop-blur-2xl">
+      <div className="absolute inset-0 admate-ai-matrix opacity-70" aria-hidden="true" />
+      <div className="absolute inset-0 admate-ai-scan" aria-hidden="true" />
+      <svg className="absolute inset-0 hidden h-full w-full lg:block" viewBox="0 0 640 560" aria-hidden="true">
+        <path className="admate-ai-connection" d="M154 132 C248 150 274 198 320 278" />
+        <path className="admate-ai-connection delay-1" d="M486 132 C392 150 366 198 320 278" />
+        <path className="admate-ai-connection delay-2" d="M154 428 C246 404 280 352 320 278" />
+        <path className="admate-ai-connection delay-3" d="M486 428 C394 404 360 352 320 278" />
+      </svg>
+
+      <div className="relative z-10 p-4 sm:p-5 lg:min-h-[560px]">
+        <div className="relative z-20 mx-auto mb-4 w-full max-w-[330px] lg:absolute lg:left-1/2 lg:top-1/2 lg:mb-0 lg:w-[250px] lg:max-w-none lg:-translate-x-1/2 lg:-translate-y-1/2 2xl:w-[330px]">
+          <AgentCore />
+        </div>
+
+        <div className="grid gap-3 sm:grid-cols-2 lg:h-[520px] lg:grid-cols-[minmax(0,1fr)_minmax(190px,0.68fr)_minmax(0,1fr)] lg:grid-rows-2 lg:gap-4">
+          {platformNodes.map((node, index) => (
+            <PlatformNode
+              key={node.name}
+              node={node}
+              index={index}
+              className={[
+                index === 0 ? "lg:col-start-1 lg:row-start-1 lg:self-start" : "",
+                index === 1 ? "lg:col-start-3 lg:row-start-1 lg:self-start" : "",
+                index === 2 ? "lg:col-start-1 lg:row-start-2 lg:self-end" : "",
+                index === 3 ? "lg:col-start-3 lg:row-start-2 lg:self-end" : "",
+              ].join(" ")}
+            />
           ))}
         </div>
-        <div className="flex items-center justify-center border bg-[#F7F8F6]" style={{ borderColor: row.borderColor }}>
-          <FileCheck2 className="h-6 w-6" style={{ color: row.color }} aria-hidden="true" />
-        </div>
       </div>
-    )
-  }
 
-  if (row.pattern === "loop") {
-    return (
-      <div className="relative flex h-full items-center justify-between">
-        <span className="absolute left-6 right-6 top-1/2 h-px bg-[#BFD2C8]" aria-hidden="true" />
-        {["scan", "hold", "route", "send"].map((label, index) => (
-          <div
-            key={label}
-            className="relative z-10 flex h-10 w-10 items-center justify-center border bg-white text-[9px] font-semibold uppercase"
-            style={{
-              borderColor: row.activeModes.includes(index + 1) ? row.color : "#D3DDD7",
-              color: row.activeModes.includes(index + 1) ? row.color : "#7B8780",
-            }}
-          >
-            {index === 1 ? <span className="h-3 w-3 rounded-full" style={{ backgroundColor: row.color }} /> : label.slice(0, 2)}
+      <div className="relative z-10 grid border-t border-white/10 bg-black/[0.24] sm:grid-cols-5">
+        {signalStream.map((signal, index) => (
+          <div key={signal} className="border-b border-white/10 px-3 py-3 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
+            <div className="flex items-center justify-between gap-3">
+              <span className="truncate text-xs font-semibold text-slate-300">{signal}</span>
+              <span className="font-mono text-[10px] text-cyan-200/70">0{index + 1}</span>
+            </div>
+            <div className="mt-2 h-1 overflow-hidden bg-white/10">
+              <span
+                className="admate-ai-stream block h-full"
+                style={{
+                  animationDelay: `${index * -0.5}s`,
+                  backgroundColor: index === 4 ? "#FBBF24" : "#67E8F9",
+                }}
+              />
+            </div>
           </div>
         ))}
       </div>
-    )
-  }
+    </div>
+  )
+}
 
-  if (row.pattern === "proof") {
-    return (
-      <div className="grid h-full grid-cols-[1fr_1fr_1.2fr] gap-2">
-        {[0, 1].map((index) => (
-          <div key={index} className="border bg-white p-1" style={{ borderColor: row.borderColor }}>
-            <div className="h-full" style={{ backgroundColor: index === 0 ? row.softColor : "#F1F4F0" }} />
-          </div>
-        ))}
-        <div className="relative border bg-white p-2" style={{ borderColor: row.color }}>
-          <span className="absolute -left-1 top-2 h-4 w-2 border-y border-l" style={{ borderColor: row.color }} aria-hidden="true" />
-          <span className="absolute -right-1 bottom-2 h-4 w-2 border-y border-r" style={{ borderColor: row.color }} aria-hidden="true" />
-          <div className="h-full border border-dashed border-[#BFD2C8]" />
-        </div>
+function AgentCore() {
+  return (
+    <div className="admate-ai-core relative overflow-hidden border border-cyan-200/[0.24] bg-[#07131F]/[0.92] p-5 text-center shadow-[0_0_70px_rgba(34,211,238,0.20)]">
+      <div className="absolute inset-4 border border-white/10" aria-hidden="true" />
+      <div className="relative z-10 mx-auto flex h-16 w-16 items-center justify-center border border-cyan-200/[0.35] bg-cyan-200/10 text-cyan-100 shadow-[0_0_36px_rgba(125,211,252,0.22)]">
+        <Waypoints className="h-8 w-8" aria-hidden="true" />
       </div>
-    )
-  }
+      <div className="relative z-10 mt-4 text-xs font-semibold text-cyan-100">AdMate Agent Core</div>
+      <div className="relative z-10 mt-2 text-xl font-semibold leading-none text-white xl:text-2xl">AI Platform Quartet</div>
+      <div className="relative z-10 mt-3 text-sm font-medium leading-6 text-slate-300">
+        <span className="sm:hidden">네 플랫폼의 판단을 하나로 연결</span>
+        <span className="hidden sm:inline">정책, 검수, 증빙, 예측을 하나의 운영 기억으로 연결</span>
+      </div>
+    </div>
+  )
+}
+
+function PlatformNode({
+  node,
+  index,
+  className,
+}: {
+  node: (typeof platformNodes)[number]
+  index: number
+  className: string
+}) {
+  const Icon = node.icon
 
   return (
-    <div className="grid h-full grid-cols-[1fr_1.4fr] gap-3">
-      <div className="flex items-end gap-1.5">
-        {[34, 54, 42, 68].map((height, index) => (
-          <span
-            key={height}
-            className="w-full border"
-            style={{
-              height: `${height}%`,
-              backgroundColor: index === 3 ? row.color : row.softColor,
-              borderColor: index === 3 ? row.color : row.borderColor,
-            }}
-            aria-hidden="true"
-          />
-        ))}
+    <article
+      className={`admate-ai-node min-w-0 border border-white/[0.12] bg-white/[0.055] p-4 backdrop-blur-xl ${className}`}
+      style={{ animationDelay: `${index * 0.45}s` }}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <div className="text-xs font-semibold text-slate-400">{node.role}</div>
+          <h2 className="mt-1 whitespace-nowrap text-xl font-semibold leading-none text-white xl:text-2xl">{node.name}</h2>
+        </div>
+        <div
+          className="flex h-10 w-10 shrink-0 items-center justify-center border bg-black/30"
+          style={{ borderColor: `${node.accent}66`, color: node.accent }}
+        >
+          <Icon className="h-5 w-5" aria-hidden="true" />
+        </div>
       </div>
-      <svg viewBox="0 0 120 48" className="h-full w-full" aria-hidden="true">
-        <path d="M4 36 C26 34 31 18 50 22 C70 26 72 10 92 12 C106 13 111 18 116 10" fill="none" stroke={row.color} strokeWidth="4" strokeLinecap="round" />
-        <path d="M4 42 H116" stroke="#D6DED9" strokeWidth="2" strokeLinecap="round" />
-      </svg>
+
+      <div className="mt-5 flex items-center gap-3">
+        <span className="h-2 w-2 shrink-0 rounded-full shadow-[0_0_18px_currentColor]" style={{ backgroundColor: node.accent, color: node.accent }} aria-hidden="true" />
+        <span className="text-sm font-semibold text-slate-100">{node.verb}</span>
+      </div>
+      <p className="mt-3 text-sm font-medium leading-6 text-slate-300">{node.signal}</p>
+
+      <div className="mt-5 flex items-center justify-between gap-3 border-t border-white/10 pt-3">
+        <span className="text-xs font-semibold text-slate-400">Signal</span>
+        <span className="rounded-full border px-2.5 py-1 text-xs font-semibold" style={{ borderColor: `${node.accent}55`, color: node.accent }}>
+          {node.proof}
+        </span>
+      </div>
+    </article>
+  )
+}
+
+function SignalStrip() {
+  return (
+    <div className="grid overflow-hidden border border-white/10 bg-white/[0.045] backdrop-blur-xl sm:grid-cols-4">
+      {heroMetrics.map((metric) => (
+        <div key={metric.label} className="border-b border-white/10 px-4 py-3 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
+          <div className="flex items-center justify-between gap-3">
+            <span className="truncate text-sm font-semibold text-slate-200">{metric.label}</span>
+            <span className="h-2 w-2 rounded-full" style={{ backgroundColor: metric.accent }} aria-hidden="true" />
+          </div>
+          <div className="mt-2 text-xl font-semibold text-white">{metric.value}</div>
+        </div>
+      ))}
     </div>
   )
 }

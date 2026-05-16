@@ -155,6 +155,99 @@
     pointer-events: none;
   }
 
+  .admate-ai-field {
+    background:
+      linear-gradient(128deg, rgba(14, 165, 233, 0.24) 0%, rgba(14, 165, 233, 0) 34%),
+      linear-gradient(224deg, rgba(52, 211, 153, 0.18) 0%, rgba(52, 211, 153, 0) 42%),
+      linear-gradient(180deg, #04070d 0%, #07111d 48%, #02050a 100%);
+  }
+
+  .admate-ai-field::before {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background-image:
+      linear-gradient(rgba(125, 211, 252, 0.09) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(125, 211, 252, 0.08) 1px, transparent 1px),
+      linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.08) 46%, transparent 58%);
+    background-size: 42px 42px, 42px 42px, 240% 100%;
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.96), rgba(0, 0, 0, 0.58));
+  }
+
+  .admate-ai-field::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background:
+      repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.032) 0 1px, transparent 1px 9px),
+      linear-gradient(90deg, transparent 0%, rgba(125, 211, 252, 0.14) 48%, transparent 62%);
+    background-size: 100% 100%, 260% 100%;
+    opacity: 0.42;
+    animation: admate-ai-field-sweep 14s ease-in-out infinite;
+  }
+
+  .admate-ai-matrix {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+      linear-gradient(135deg, rgba(125, 211, 252, 0.1), transparent 46%, rgba(52, 211, 153, 0.08));
+    background-size: 28px 28px, 28px 28px, 100% 100%;
+  }
+
+  .admate-ai-scan {
+    background: linear-gradient(180deg, transparent 0%, rgba(103, 232, 249, 0.12) 50%, transparent 100%);
+    height: 180px;
+    opacity: 0.78;
+    transform: translateY(-180px);
+    animation: admate-ai-scan 7.6s linear infinite;
+  }
+
+  .admate-ai-connection {
+    fill: none;
+    stroke: rgba(125, 211, 252, 0.58);
+    stroke-width: 1.6;
+    stroke-dasharray: 10 15;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 10px rgba(125, 211, 252, 0.24));
+    animation: admate-ai-connection 5.6s linear infinite;
+  }
+
+  .admate-ai-connection.delay-1 {
+    animation-delay: -1.4s;
+    stroke: rgba(52, 211, 153, 0.56);
+  }
+
+  .admate-ai-connection.delay-2 {
+    animation-delay: -2.8s;
+    stroke: rgba(167, 243, 208, 0.5);
+  }
+
+  .admate-ai-connection.delay-3 {
+    animation-delay: -4.2s;
+    stroke: rgba(251, 191, 36, 0.48);
+  }
+
+  .admate-ai-core::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background: linear-gradient(110deg, transparent 0%, rgba(125, 211, 252, 0.18) 42%, transparent 66%);
+    transform: translateX(-120%);
+    animation: admate-ai-core-sweep 6.4s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .admate-ai-node {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 18px 60px rgba(0, 0, 0, 0.28);
+    animation: admate-ai-node-listen 6.8s ease-in-out infinite;
+  }
+
+  .admate-ai-stream {
+    width: 100%;
+    transform-origin: left;
+    animation: admate-ai-stream 3.2s ease-in-out infinite;
+  }
+
   .lifecycle-progress-fill {
     width: 100%;
     transform-origin: left;
@@ -324,6 +417,81 @@
     }
   }
 
+  @keyframes admate-ai-field-sweep {
+    0%,
+    100% {
+      background-position: 0 0, 0% 0;
+    }
+    50% {
+      background-position: 0 0, 100% 0;
+    }
+  }
+
+  @keyframes admate-ai-scan {
+    0% {
+      transform: translateY(-180px);
+    }
+    100% {
+      transform: translateY(calc(100% + 180px));
+    }
+  }
+
+  @keyframes admate-ai-connection {
+    0% {
+      stroke-dashoffset: 0;
+      opacity: 0.38;
+    }
+    50% {
+      opacity: 0.92;
+    }
+    100% {
+      stroke-dashoffset: -75;
+      opacity: 0.38;
+    }
+  }
+
+  @keyframes admate-ai-core-sweep {
+    0%,
+    56% {
+      transform: translateX(-120%);
+    }
+    76% {
+      transform: translateX(120%);
+    }
+    100% {
+      transform: translateX(120%);
+    }
+  }
+
+  @keyframes admate-ai-node-listen {
+    0%,
+    72%,
+    100% {
+      transform: translateY(0);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+    12%,
+    24% {
+      transform: translateY(-2px);
+      border-color: rgba(125, 211, 252, 0.35);
+    }
+  }
+
+  @keyframes admate-ai-stream {
+    0% {
+      transform: scaleX(0.16);
+      opacity: 0.35;
+    }
+    52% {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scaleX(0.16);
+      opacity: 0.35;
+    }
+  }
+
   @keyframes lifecycle-progress {
     0% {
       transform: scaleX(0);
@@ -405,6 +573,12 @@
     .hero-metric-bar,
     .hero-flow-tile,
     .hero-core-card::after,
+    .admate-ai-field::after,
+    .admate-ai-scan,
+    .admate-ai-connection,
+    .admate-ai-core::after,
+    .admate-ai-node,
+    .admate-ai-stream,
     .lifecycle-progress-fill,
     .lifecycle-signal-pulse,
     .system-link-segment::after,
