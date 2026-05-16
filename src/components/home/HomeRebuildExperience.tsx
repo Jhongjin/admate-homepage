@@ -12,6 +12,8 @@ import {
 import { Button } from "@/components/ui/button"
 import { officialLinks } from "@/lib/admate-content"
 
+import { HeroMotionCanvas } from "./HeroMotionCanvas"
+
 const platformChapters = [
   {
     name: "Compass",
@@ -85,28 +87,25 @@ export function HomeRebuildExperience() {
 
 function HeroWorld() {
   return (
-    <section id="top" className="relative isolate min-h-[100dvh] overflow-hidden bg-[#041019] text-white">
+    <section id="top" className="relative isolate min-h-[100dvh] overflow-hidden bg-[#020810] text-white">
       <div className="absolute inset-0 homepage-world-field" aria-hidden="true" />
-      <div className="absolute inset-x-0 top-0 z-0 h-px bg-gradient-to-r from-transparent via-[#D8F6EA]/50 to-transparent" aria-hidden="true" />
-      <div className="absolute inset-x-0 bottom-0 z-0 h-48 bg-gradient-to-b from-transparent via-[#071018]/50 to-[#F3F0E8]" aria-hidden="true" />
+      <HeroSignalScene />
+      <div className="absolute inset-x-0 bottom-0 z-0 h-44 bg-gradient-to-b from-transparent via-[#020810]/70 to-[#F3F0E8]" aria-hidden="true" />
 
-      <div className="section-shell relative z-10 grid min-h-[100dvh] content-center gap-8 pb-20 pt-24 lg:grid-cols-[minmax(420px,0.72fr)_minmax(620px,1fr)] lg:items-center lg:gap-4 lg:pt-28 xl:max-w-[1440px]">
-        <div className="relative z-20 max-w-[720px]">
-          <div className="inline-grid grid-cols-[auto_1fr_auto] items-center gap-3 border border-[#D8F6EA]/18 bg-[#06131D]/72 px-3 py-2 text-xs font-semibold text-[#DDEBE6] shadow-[0_0_36px_rgba(125,211,252,0.08)] backdrop-blur-md">
-            <span className="homepage-live-dot h-2 w-2 bg-[#9FE7C8]" aria-hidden="true" />
-            <span>AdMate spatial operating terminal</span>
-            <span className="font-mono text-[10px] text-white/42">CORE:SYNC</span>
+      <div className="section-shell relative z-10 flex min-h-[100dvh] items-center pb-20 pt-24 xl:max-w-[1440px]">
+        <div className="relative z-20 max-w-[900px]">
+          <div className="font-mono text-[11px] font-semibold uppercase tracking-[0.28em] text-[#9FE7C8]">
+            AdMate intelligence layer
           </div>
 
-          <h1 className="mt-8 text-balance text-[50px] font-semibold leading-[0.92] tracking-normal sm:text-[76px] lg:text-[92px]">
-            네 플랫폼이
-            <span className="block text-[#BFEBDD]">하나의 신호장 안에서</span>
-            작동합니다.
+          <h1 className="mt-7 max-w-[920px] text-balance text-[46px] font-semibold leading-[0.9] tracking-normal sm:text-[84px] lg:text-[112px]">
+            AdMate AI
+            <span className="block text-[#D8F6EA]">Operating System</span>
           </h1>
 
           <p className="mt-7 max-w-[620px] text-lg font-medium leading-8 text-white/72 sm:text-xl">
-            Compass, Sentinel, Lens, Foresight가 Agent Core와 계속 신호를 주고받으며
-            정책 확인, 위험 제어, 증빙, 예측을 하나의 AI 운영 공간으로 묶습니다.
+            네 개의 플랫폼이 정책, 위험, 증빙, 예측 신호를 하나의 운영 지능으로 엮어
+            캠페인의 다음 결정을 더 빠르게 만듭니다.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -132,8 +131,6 @@ function HeroWorld() {
             </Button>
           </div>
         </div>
-
-        <HeroSignalScene />
       </div>
     </section>
   )
@@ -141,106 +138,44 @@ function HeroWorld() {
 
 function HeroSignalScene() {
   return (
-    <div className="homepage-signal-scene relative min-h-[590px] min-w-0 overflow-visible lg:min-h-[650px]" aria-hidden="true">
-      <div className="absolute inset-0 homepage-scene-grid" />
-      <div className="absolute inset-0 homepage-scene-horizon" />
+    <div className="homepage-art-scene absolute inset-0 overflow-hidden" aria-hidden="true">
+      <HeroMotionCanvas />
+      <div className="homepage-art-sculpture">
+        <div className="homepage-art-disc" />
+        <div className="homepage-art-disc homepage-art-disc-secondary" />
+        <div className="homepage-art-plane homepage-art-plane-one" />
+        <div className="homepage-art-plane homepage-art-plane-two" />
+        <div className="homepage-art-packet packet-a" />
+        <div className="homepage-art-packet packet-b" />
+        <div className="homepage-art-packet packet-c" />
+        <div className="homepage-art-packet packet-d" />
+        <div className="homepage-art-pulse pulse-a" />
+        <div className="homepage-art-pulse pulse-b" />
 
-      <svg
-        className="homepage-signal-svg absolute inset-0 h-full w-full"
-        viewBox="0 0 1000 720"
-        preserveAspectRatio="none"
-        focusable="false"
-      >
-        <path className="homepage-orbit-line" d="M180 360c0-148 142-268 318-268s318 120 318 268-142 268-318 268-318-120-318-268Z" />
-        <path className="homepage-orbit-line homepage-orbit-line-alt" d="M276 124c120 58 322 118 430 246 78 92 84 178 44 244" />
-        <path className="homepage-laser-path" d="M178 156 C310 170 382 274 500 360" />
-        <path className="homepage-laser-path delay-1" d="M808 190 C684 192 610 292 500 360" />
-        <path className="homepage-laser-path delay-2" d="M180 568 C320 526 394 438 500 360" />
-        <path className="homepage-laser-path delay-3" d="M816 548 C696 526 612 434 500 360" />
-        <path className="homepage-laser-path homepage-laser-return" d="M500 360 C454 226 424 166 178 156" />
-        <path className="homepage-laser-path homepage-laser-return delay-2" d="M500 360 C554 490 642 536 816 548" />
-      </svg>
+        <svg className="homepage-art-svg" viewBox="0 0 1000 760" focusable="false">
+          <path className="homepage-art-orbit" d="M104 402C186 180 418 78 632 142c221 66 330 278 242 420-82 132-314 134-516 54C172 542 62 516 104 402Z" />
+          <path className="homepage-art-orbit homepage-art-orbit-alt" d="M190 152C342 68 602 92 760 246c150 146 130 330-10 416-148 91-410 48-556-92C48 430 38 236 190 152Z" />
+          <path className="homepage-art-thread thread-one" d="M24 472C210 448 292 356 404 304c180-84 330-8 572-110" />
+          <path className="homepage-art-thread thread-two" d="M30 276C224 320 322 420 476 470c168 54 314-8 494 72" />
+          <path className="homepage-art-thread thread-three" d="M136 654C300 524 430 508 570 394c122-100 188-226 330-270" />
+          <path className="homepage-art-thread thread-four" d="M128 128C250 268 390 272 500 380c120 118 176 220 384 264" />
+        </svg>
 
-      <div className="homepage-data-packet packet-1" />
-      <div className="homepage-data-packet packet-2" />
-      <div className="homepage-data-packet packet-3" />
-      <div className="homepage-data-packet packet-4" />
-
-      <div className="homepage-agent-core absolute left-1/2 top-[88px] z-30 w-[190px] -translate-x-1/2 translate-y-0 border border-[#D8F6EA]/22 bg-[#06131D]/86 p-4 text-center shadow-[0_0_120px_rgba(125,211,252,0.18)] backdrop-blur-xl sm:w-[218px] sm:p-5 lg:top-1/2 lg:-translate-y-1/2">
-        <div className="homepage-core-ring" />
-        <div className="font-mono text-[10px] font-semibold uppercase text-[#9FE7C8]">Agent Core</div>
-        <div className="mt-2 text-lg font-semibold leading-tight sm:text-xl">shared operating memory</div>
-        <div className="mx-auto mt-4 grid h-12 w-24 grid-cols-6 items-end gap-1" aria-hidden="true">
-          {[18, 34, 25, 46, 30, 40].map((height) => (
-            <span key={height} className="homepage-core-bar block bg-[#D8F6EA]/70" style={{ height }} />
-          ))}
+        <div className="homepage-art-core">
+          <span>Agent Core</span>
         </div>
-        <div className="mt-4 grid grid-cols-3 gap-1 font-mono text-[9px] text-white/42">
-          <span>POLICY</span>
-          <span>RISK</span>
-          <span>PROOF</span>
-        </div>
-      </div>
 
-      <div className="absolute inset-0 z-20 hidden lg:block">
         {platformChapters.map((platform, index) => (
-          <HeroSceneNode key={platform.name} platform={platform} index={index} />
+          <div key={platform.name} className={`homepage-art-label homepage-art-label-${index + 1}`}>
+            <span className="homepage-art-label-pin" style={{ backgroundColor: platform.accent }} />
+            <span>{platform.name}</span>
+            <small>{platform.signal}</small>
+          </div>
         ))}
       </div>
-
-      <div className="absolute inset-x-0 bottom-4 z-20 grid grid-cols-2 gap-3 px-0 sm:px-8 lg:hidden">
-        {platformChapters.map((platform, index) => (
-          <HeroSceneNode key={platform.name} platform={platform} index={index} compact />
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function HeroSceneNode({
-  platform,
-  index,
-  compact = false,
-}: {
-  platform: (typeof platformChapters)[number]
-  index: number
-  compact?: boolean
-}) {
-  const Icon = platform.icon
-  const positions = [
-    "left-[0%] top-[8%]",
-    "right-[0%] top-[16%]",
-    "left-[2%] bottom-[11%]",
-    "right-[1%] bottom-[7%]",
-  ]
-
-  return (
-    <div
-      className={`homepage-spatial-node border border-white/[0.12] bg-[#071823]/72 p-3 backdrop-blur-md sm:p-4 ${
-        compact ? "relative min-h-[118px]" : `absolute w-[248px] ${positions[index]}`
-      }`}
-      style={{ animationDelay: `${index * 0.45}s` }}
-    >
-      <div className="flex items-start justify-between gap-2">
-        <div>
-          <div className="font-mono text-[10px] font-semibold uppercase text-white/40">{platform.role}</div>
-          <div className="mt-1 text-xl font-semibold leading-none sm:text-2xl">{platform.name}</div>
-        </div>
-        <Icon className="h-5 w-5" style={{ color: platform.accent }} aria-hidden="true" />
-      </div>
-      <div className="mt-5">
-        <div className="font-mono text-[11px] font-semibold uppercase" style={{ color: platform.accent }}>
-          {platform.signal}
-        </div>
-        <div className="mt-2 h-px overflow-hidden bg-white/10">
-          <span className="homepage-signal-runner block h-px w-full" style={{ backgroundColor: platform.accent }} />
-        </div>
-        <div className="mt-3 grid grid-cols-5 gap-1" aria-hidden="true">
-          {[0, 1, 2, 3, 4].map((tick) => (
-            <span key={tick} className="h-1 bg-white/10" style={{ backgroundColor: tick === index ? platform.accent : undefined }} />
-          ))}
-        </div>
-      </div>
+      <div className="homepage-art-ribbon homepage-art-ribbon-one" />
+      <div className="homepage-art-ribbon homepage-art-ribbon-two" />
+      <div className="homepage-art-sweep" />
     </div>
   )
 }
