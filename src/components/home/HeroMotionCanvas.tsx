@@ -39,9 +39,6 @@ export function HeroMotionCanvas() {
     }
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
-    if (reducedMotion.matches) {
-      return
-    }
 
     let frame = 0
     let width = 0
@@ -58,7 +55,8 @@ export function HeroMotionCanvas() {
       canvas.style.width = `${width}px`
       canvas.style.height = `${height}px`
       context.setTransform(dpr, 0, 0, dpr, 0, 0)
-      particles = makeParticles(width < 700 ? 76 : 168)
+      const density = reducedMotion.matches ? 0.55 : 1
+      particles = makeParticles(Math.floor((width < 700 ? 76 : 168) * density))
     }
 
     const drawSignalLane = (time: number, laneIndex: number) => {
@@ -174,10 +172,10 @@ export function HeroMotionCanvas() {
     }
 
     const drawSweep = (time: number) => {
-      const sweepX = ((time * 0.11) % 1) * width * 1.8 - width * 0.45
+      const sweepX = ((time * 0.18) % 1) * width * 1.8 - width * 0.45
       const gradient = context.createLinearGradient(sweepX - 150, 0, sweepX + 260, height)
       gradient.addColorStop(0, "rgba(216, 246, 234, 0)")
-      gradient.addColorStop(0.48, "rgba(216, 246, 234, 0.32)")
+      gradient.addColorStop(0.48, "rgba(216, 246, 234, 0.5)")
       gradient.addColorStop(1, "rgba(216, 246, 234, 0)")
 
       context.save()
@@ -189,17 +187,66 @@ export function HeroMotionCanvas() {
       context.restore()
     }
 
+    const drawSignalCurtain = (time: number) => {
+      const x = ((time * 0.22) % 1) * width * 1.6 - width * 0.25
+      const gradient = context.createLinearGradient(x - 18, 0, x + 18, height)
+      gradient.addColorStop(0, "rgba(125, 211, 252, 0)")
+      gradient.addColorStop(0.5, "rgba(125, 211, 252, 0.55)")
+      gradient.addColorStop(1, "rgba(125, 211, 252, 0)")
+
+      context.save()
+      context.globalCompositeOperation = "screen"
+      context.translate(x, height * 0.5)
+      context.rotate(-0.34)
+      context.fillStyle = gradient
+      context.fillRect(-26, -height * 1.2, 52, height * 2.4)
+      context.restore()
+    }
+
+    const drawOrbitBeacons = (time: number) => {
+      const cx = width * (width < 700 ? 0.72 : 0.82)
+      const cy = height * (width < 700 ? 0.68 : 0.52)
+      const radii = width < 700 ? [88, 132, 176] : [128, 198, 278]
+
+      radii.forEach((radius, index) => {
+        const speed = 0.62 + index * 0.18
+        const angle = time * speed + index * 2.1
+        const x = cx + Math.cos(angle) * radius * 1.35
+        const y = cy + Math.sin(angle) * radius * 0.48
+        const color = index === 0 ? "216, 246, 234" : index === 1 ? "125, 211, 252" : "52, 211, 153"
+
+        context.save()
+        context.globalCompositeOperation = "screen"
+        const glow = context.createRadialGradient(x, y, 0, x, y, 34)
+        glow.addColorStop(0, `rgba(${color}, 0.92)`)
+        glow.addColorStop(0.3, `rgba(${color}, 0.34)`)
+        glow.addColorStop(1, `rgba(${color}, 0)`)
+        context.fillStyle = glow
+        context.beginPath()
+        context.arc(x, y, 34, 0, Math.PI * 2)
+        context.fill()
+        context.fillStyle = `rgba(${color}, 0.98)`
+        context.beginPath()
+        context.arc(x, y, 3.5, 0, Math.PI * 2)
+        context.fill()
+        context.restore()
+      })
+    }
+
     const render = (now: number) => {
-      const time = now / 1000
+      const motionScale = reducedMotion.matches ? 0.42 : 1
+      const time = (now / 1000) * motionScale
       context.clearRect(0, 0, width, height)
       context.globalCompositeOperation = "lighter"
 
       drawSweep(time)
+      drawSignalCurtain(time)
       for (let index = 0; index < lanes.length; index += 1) {
         drawSignalLane(time, index)
       }
       drawCorePulse(time)
       drawRotatingArcs(time)
+      drawOrbitBeacons(time)
       for (let index = 0; index < 5; index += 1) {
         drawComet(time, index)
       }
