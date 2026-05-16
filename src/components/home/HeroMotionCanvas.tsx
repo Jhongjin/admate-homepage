@@ -44,6 +44,26 @@ export function HeroMotionCanvas() {
     let width = 0
     let height = 0
     let particles: Particle[] = []
+    let coreCenter = { x: 0, y: 0 }
+
+    const readCoreCenter = () => {
+      const core = document.querySelector<HTMLElement>(".homepage-art-core")
+
+      if (!core) {
+        return {
+          x: width * (width < 700 ? 0.72 : 0.82),
+          y: height * (width < 700 ? 0.68 : 0.52),
+        }
+      }
+
+      const canvasRect = canvas.getBoundingClientRect()
+      const coreRect = core.getBoundingClientRect()
+
+      return {
+        x: coreRect.left - canvasRect.left + coreRect.width / 2,
+        y: coreRect.top - canvasRect.top + coreRect.height / 2,
+      }
+    }
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2)
@@ -52,11 +72,10 @@ export function HeroMotionCanvas() {
       height = Math.max(1, Math.floor(rect.height))
       canvas.width = Math.floor(width * dpr)
       canvas.height = Math.floor(height * dpr)
-      canvas.style.width = `${width}px`
-      canvas.style.height = `${height}px`
       context.setTransform(dpr, 0, 0, dpr, 0, 0)
       const density = reducedMotion.matches ? 0.55 : 1
       particles = makeParticles(Math.floor((width < 700 ? 76 : 168) * density))
+      coreCenter = readCoreCenter()
     }
 
     const drawSignalLane = (time: number, laneIndex: number) => {
@@ -112,9 +131,8 @@ export function HeroMotionCanvas() {
       context.restore()
     }
 
-    const drawCorePulse = (time: number) => {
-      const x = width * (width < 700 ? 0.72 : 0.82)
-      const y = height * (width < 700 ? 0.68 : 0.52)
+    const drawCorePulse = (time: number, center: { x: number; y: number }) => {
+      const { x, y } = center
 
       for (let index = 0; index < 4; index += 1) {
         const progress = (time * 0.34 + index * 0.25) % 1
@@ -128,9 +146,8 @@ export function HeroMotionCanvas() {
       }
     }
 
-    const drawRotatingArcs = (time: number) => {
-      const x = width * (width < 700 ? 0.72 : 0.82)
-      const y = height * (width < 700 ? 0.68 : 0.52)
+    const drawRotatingArcs = (time: number, center: { x: number; y: number }) => {
+      const { x, y } = center
       const baseRadius = width < 700 ? 94 : 156
 
       for (let index = 0; index < 5; index += 1) {
@@ -203,9 +220,8 @@ export function HeroMotionCanvas() {
       context.restore()
     }
 
-    const drawOrbitBeacons = (time: number) => {
-      const cx = width * (width < 700 ? 0.72 : 0.82)
-      const cy = height * (width < 700 ? 0.68 : 0.52)
+    const drawOrbitBeacons = (time: number, center: { x: number; y: number }) => {
+      const { x: cx, y: cy } = center
       const radii = width < 700 ? [88, 132, 176] : [128, 198, 278]
 
       radii.forEach((radius, index) => {
@@ -244,9 +260,9 @@ export function HeroMotionCanvas() {
       for (let index = 0; index < lanes.length; index += 1) {
         drawSignalLane(time, index)
       }
-      drawCorePulse(time)
-      drawRotatingArcs(time)
-      drawOrbitBeacons(time)
+      drawCorePulse(time, coreCenter)
+      drawRotatingArcs(time, coreCenter)
+      drawOrbitBeacons(time, coreCenter)
       for (let index = 0; index < 5; index += 1) {
         drawComet(time, index)
       }
@@ -258,6 +274,9 @@ export function HeroMotionCanvas() {
     }
 
     resize()
+    window.requestAnimationFrame(() => {
+      coreCenter = readCoreCenter()
+    })
     window.addEventListener("resize", resize)
     frame = window.requestAnimationFrame(render)
 
