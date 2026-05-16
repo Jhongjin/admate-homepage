@@ -507,7 +507,7 @@ function HomeFinalCta() {
       <div className="absolute inset-0 homepage-paper-grid opacity-70" aria-hidden="true" />
       <div className="section-shell relative xl:max-w-[1400px]">
         <div className="homepage-final-panel grid gap-10 lg:grid-cols-[minmax(0,0.98fr)_minmax(360px,0.52fr)] lg:items-center">
-          <div>
+          <div className="homepage-final-copy">
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#60706A]">Start from the operating board</div>
             <h2 className="mt-5 max-w-[780px] text-balance text-4xl font-semibold leading-[1.02] sm:text-6xl">
               회의가 길어지기 전에, 오늘의 운영판을 먼저 여세요.
@@ -517,6 +517,7 @@ function HomeFinalCta() {
               <span />
               <span />
             </div>
+            <div className="homepage-final-floor" aria-hidden="true" />
           </div>
           <div className="homepage-final-dock">
             <div className="homepage-final-preview">
