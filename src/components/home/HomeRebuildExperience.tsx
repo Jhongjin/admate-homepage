@@ -112,11 +112,41 @@ const operatingLayers = [
 ]
 
 const trustSignals = [
-  "출처 기반 정책 답변",
-  "운영 로그와 승인 이력",
-  "권한별 접근 경계",
-  "민감 정보 보호 설계",
-  "제품별 감사 가능성",
+  {
+    code: "01",
+    title: "출처 기반 정책 답변",
+    detail: "Compass가 정책 근거와 적용 조건을 같은 화면에 고정합니다.",
+    status: "Source lock",
+    accent: "#7DD3FC",
+  },
+  {
+    code: "02",
+    title: "운영 로그와 승인 이력",
+    detail: "모든 전환과 승인 흔적을 다음 판단의 감사선으로 남깁니다.",
+    status: "Audit trail",
+    accent: "#D8F6EA",
+  },
+  {
+    code: "03",
+    title: "권한별 접근 경계",
+    detail: "역할과 제품별 권한을 분리해 필요한 사람만 넘겨받습니다.",
+    status: "Access scope",
+    accent: "#34D399",
+  },
+  {
+    code: "04",
+    title: "민감 정보 보호 설계",
+    detail: "공유 전에 노출 범위와 보존 기준을 먼저 확인합니다.",
+    status: "PII shield",
+    accent: "#99F6E4",
+  },
+  {
+    code: "05",
+    title: "제품별 감사 가능성",
+    detail: "Compass, Sentinel, Lens, Foresight의 결정 흐름을 따로 추적합니다.",
+    status: "Product audit",
+    accent: "#F6C35B",
+  },
 ]
 
 type HomeRebuildExperienceProps = {
@@ -391,22 +421,79 @@ function OperatingFilm() {
 
 function TrustLayer() {
   return (
-    <section id="trust" className="bg-[#101820] py-24 text-white sm:py-32">
-      <div className="section-shell xl:max-w-[1400px]">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.84fr)_minmax(420px,0.7fr)] lg:items-start">
+    <section id="trust" className="homepage-trust-section relative overflow-hidden py-24 text-white sm:py-32">
+      <div className="absolute inset-0 homepage-scene-grid opacity-20" aria-hidden="true" />
+      <div className="section-shell relative xl:max-w-[1400px]">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,0.78fr)_minmax(520px,0.82fr)] lg:items-start">
           <div>
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#93A59E]">Trust layer</div>
             <h2 className="mt-5 max-w-[760px] text-balance text-4xl font-semibold leading-[1.02] sm:text-6xl">
               AI가 멋있어 보이는 것보다 중요한 것은, 운영자가 믿고 넘길 수 있는 경계입니다.
             </h2>
-          </div>
-          <div className="border-y border-white/[0.14]">
-            {trustSignals.map((signal, index) => (
-              <div key={signal} className="grid grid-cols-[56px_1fr] border-b border-white/[0.14] py-5 last:border-b-0">
-                <span className="font-mono text-xs text-white/42">{String(index + 1).padStart(2, "0")}</span>
-                <span className="text-lg font-semibold text-[#E6F0EC]">{signal}</span>
+            <div className="homepage-trust-rail mt-10 grid gap-3 sm:grid-cols-3" aria-label="AdMate trust anchors">
+              <div>
+                <span>policy</span>
+                <strong>grounded</strong>
               </div>
-            ))}
+              <div>
+                <span>risk</span>
+                <strong>gated</strong>
+              </div>
+              <div>
+                <span>proof</span>
+                <strong>auditable</strong>
+              </div>
+            </div>
+          </div>
+
+          <div className="homepage-trust-console">
+            <div className="homepage-trust-glow" aria-hidden="true" />
+            <div className="relative z-10 flex flex-col gap-4 border-b border-white/[0.08] pb-5 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <div className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-[#9DB0A8]">boundary assurance map</div>
+                <div className="mt-2 text-2xl font-semibold leading-tight text-[#F7FBF9]">permissioned AI handoff</div>
+              </div>
+              <div className="homepage-trust-live">
+                <span aria-hidden="true" />
+                guarded
+              </div>
+            </div>
+
+            <div className="homepage-trust-map relative z-10" aria-hidden="true">
+              <svg className="homepage-trust-route" viewBox="0 0 620 250" focusable="false">
+                <path d="M52 154C132 82 222 68 306 116c76 43 130 64 260 18" />
+                <path className="homepage-trust-route-soft" d="M70 188C150 160 218 166 300 188c110 30 184 4 252-58" />
+                <circle cx="52" cy="154" r="5" />
+                <circle cx="306" cy="116" r="5" />
+                <circle cx="566" cy="134" r="5" />
+              </svg>
+              <div className="homepage-trust-core">
+                <span>operator trust</span>
+                <strong>bounded memory</strong>
+              </div>
+            </div>
+
+            <div className="homepage-trust-list relative z-10">
+              {trustSignals.map((signal) => (
+                <div
+                  key={signal.code}
+                  className="homepage-trust-row"
+                  style={{ "--trust-accent": signal.accent } as CSSProperties}
+                >
+                  <div className="homepage-trust-code">
+                    <span>{signal.code}</span>
+                    <strong>{signal.status}</strong>
+                  </div>
+                  <div>
+                    <div className="text-base font-semibold text-[#F7FBF9]">{signal.title}</div>
+                    <p className="mt-1 text-sm font-medium leading-6 text-white/58">{signal.detail}</p>
+                  </div>
+                  <span className="homepage-trust-meter" aria-hidden="true">
+                    <span />
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -416,28 +503,72 @@ function TrustLayer() {
 
 function HomeFinalCta() {
   return (
-    <section id="access" className="relative overflow-hidden bg-[#F3F0E8] py-24 sm:py-32">
-      <div className="section-shell xl:max-w-[1400px]">
-        <div className="grid gap-10 border-y border-[#BDB2A2] py-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+    <section id="access" className="homepage-final-section relative overflow-hidden bg-[#F3F0E8] py-24 sm:py-32">
+      <div className="absolute inset-0 homepage-paper-grid opacity-70" aria-hidden="true" />
+      <div className="section-shell relative xl:max-w-[1400px]">
+        <div className="homepage-final-panel grid gap-10 lg:grid-cols-[minmax(0,0.98fr)_minmax(360px,0.52fr)] lg:items-center">
           <div>
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#60706A]">Start from the operating board</div>
             <h2 className="mt-5 max-w-[780px] text-balance text-4xl font-semibold leading-[1.02] sm:text-6xl">
               회의가 길어지기 전에, 오늘의 운영판을 먼저 여세요.
             </h2>
+            <div className="homepage-final-signal mt-8" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </div>
           </div>
-          <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
-            <Button asChild size="lg" className="h-12 rounded-full bg-[#101820] px-5 font-semibold text-white hover:bg-[#26342E]">
-              <Link href={officialLinks.commandCenter}>
-                <MonitorCog className="h-4 w-4" aria-hidden="true" />
-                운영판 보기
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="h-12 rounded-full border-[#BDB2A2] bg-transparent px-5 font-semibold text-[#101820] hover:bg-[#E8E3D7]">
-              <Link href={officialLinks.accessRequest} target="_blank" rel="noreferrer">
-                권한 요청
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </Link>
-            </Button>
+          <div className="homepage-final-dock">
+            <div className="homepage-final-preview">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <div className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-[#6C8178]">today board</div>
+                  <div className="mt-2 text-xl font-semibold leading-tight">ready for operator review</div>
+                </div>
+                <div className="homepage-final-pulse" aria-hidden="true" />
+              </div>
+              <div className="mt-6 space-y-3">
+                <div className="homepage-final-line">
+                  <span>policy</span>
+                  <strong>synced</strong>
+                </div>
+                <div className="homepage-final-line">
+                  <span>risk gate</span>
+                  <strong>armed</strong>
+                </div>
+                <div className="homepage-final-line">
+                  <span>proof lane</span>
+                  <strong>open</strong>
+                </div>
+              </div>
+            </div>
+            <div className="mt-4 flex flex-col gap-3">
+              <Button
+                asChild
+                size="lg"
+                className="group h-12 rounded-full bg-[#101820] px-5 font-semibold text-white transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[#26342E] active:scale-[0.98]"
+              >
+                <Link href={officialLinks.commandCenter}>
+                  운영판 보기
+                  <span className="ml-2 flex h-7 w-7 items-center justify-center rounded-full bg-white/10 transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:bg-[#D8F6EA] group-hover:text-[#101820]">
+                    <MonitorCog className="h-4 w-4" aria-hidden="true" />
+                  </span>
+                </Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="group h-12 rounded-full border-[#BDB2A2] bg-[#F7F4EC]/70 px-5 font-semibold text-[#101820] transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-[#101820] hover:bg-white active:scale-[0.98]"
+              >
+                <Link href={officialLinks.accessRequest} target="_blank" rel="noreferrer">
+                  권한 요청
+                  <span className="ml-2 flex h-7 w-7 items-center justify-center rounded-full bg-[#101820]/6 transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:bg-[#101820] group-hover:text-white">
+                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                  </span>
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </div>
