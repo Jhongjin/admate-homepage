@@ -6,7 +6,7 @@ export default function Home() {
     <>
       <SiteHeader />
       <main>
-        <HomeRebuildExperience />
+        <HomeRebuildExperience heroMotionLineMode="no-dotted" />
       </main>
     </>
   )
