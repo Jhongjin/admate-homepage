@@ -85,26 +85,28 @@ export function HomeRebuildExperience() {
 
 function HeroWorld() {
   return (
-    <section id="top" className="relative isolate min-h-[100dvh] overflow-hidden bg-[#071018] text-white">
+    <section id="top" className="relative isolate min-h-[100dvh] overflow-hidden bg-[#041019] text-white">
       <div className="absolute inset-0 homepage-world-field" aria-hidden="true" />
-      <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-b from-transparent to-[#F3F0E8]" aria-hidden="true" />
+      <div className="absolute inset-x-0 top-0 z-0 h-px bg-gradient-to-r from-transparent via-[#D8F6EA]/50 to-transparent" aria-hidden="true" />
+      <div className="absolute inset-x-0 bottom-0 z-0 h-48 bg-gradient-to-b from-transparent via-[#071018]/50 to-[#F3F0E8]" aria-hidden="true" />
 
-      <div className="section-shell relative z-10 grid min-h-[100dvh] content-center gap-10 pb-20 pt-28 lg:grid-cols-[minmax(0,0.92fr)_minmax(560px,1.08fr)] lg:items-center xl:max-w-[1400px]">
-        <div className="max-w-[760px]">
-          <div className="inline-flex items-center gap-3 border border-white/[0.14] bg-white/[0.06] px-3 py-2 text-xs font-semibold text-[#DDEBE6]">
-            <span className="h-2 w-2 bg-[#9FE7C8]" aria-hidden="true" />
-            AdMate AI operating layer
+      <div className="section-shell relative z-10 grid min-h-[100dvh] content-center gap-8 pb-20 pt-24 lg:grid-cols-[minmax(420px,0.72fr)_minmax(620px,1fr)] lg:items-center lg:gap-4 lg:pt-28 xl:max-w-[1440px]">
+        <div className="relative z-20 max-w-[720px]">
+          <div className="inline-grid grid-cols-[auto_1fr_auto] items-center gap-3 border border-[#D8F6EA]/18 bg-[#06131D]/72 px-3 py-2 text-xs font-semibold text-[#DDEBE6] shadow-[0_0_36px_rgba(125,211,252,0.08)] backdrop-blur-md">
+            <span className="homepage-live-dot h-2 w-2 bg-[#9FE7C8]" aria-hidden="true" />
+            <span>AdMate spatial operating terminal</span>
+            <span className="font-mono text-[10px] text-white/42">CORE:SYNC</span>
           </div>
 
-          <h1 className="mt-8 text-balance text-[54px] font-semibold leading-[0.9] tracking-normal sm:text-[76px] lg:text-[94px]">
-            광고 운영은
-            <span className="block text-[#BFEBDD]">하나의 AI 흐름으로</span>
-            움직입니다.
+          <h1 className="mt-8 text-balance text-[50px] font-semibold leading-[0.92] tracking-normal sm:text-[76px] lg:text-[92px]">
+            네 플랫폼이
+            <span className="block text-[#BFEBDD]">하나의 신호장 안에서</span>
+            작동합니다.
           </h1>
 
-          <p className="mt-7 max-w-[640px] text-lg font-medium leading-8 text-white/74 sm:text-xl">
-            AdMate는 Compass, Sentinel, Lens, Foresight를 하나의 Agent Core로 연결해
-            정책 확인, 위험 제어, 증빙, 예측을 캠페인 운영의 같은 장면 안에 올립니다.
+          <p className="mt-7 max-w-[620px] text-lg font-medium leading-8 text-white/72 sm:text-xl">
+            Compass, Sentinel, Lens, Foresight가 Agent Core와 계속 신호를 주고받으며
+            정책 확인, 위험 제어, 증빙, 예측을 하나의 AI 운영 공간으로 묶습니다.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -139,37 +141,57 @@ function HeroWorld() {
 
 function HeroSignalScene() {
   return (
-    <div className="relative min-h-[520px] min-w-0">
-      <div className="absolute inset-0 rounded-lg border border-white/[0.08] bg-white/[0.035] p-3 shadow-[0_44px_140px_rgba(0,0,0,0.36)]">
-        <div className="relative h-full overflow-hidden rounded-md border border-white/[0.1] bg-[#07131D]">
-          <div className="absolute inset-0 homepage-scene-grid" aria-hidden="true" />
-          <div className="absolute left-1/2 top-1/2 h-[292px] w-[292px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#D8F6EA]/20" aria-hidden="true" />
-          <div className="absolute left-1/2 top-1/2 h-[184px] w-[184px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#7DD3FC]/18" aria-hidden="true" />
-          <div className="absolute left-1/2 top-1/2 hidden h-px w-[78%] -translate-x-1/2 bg-gradient-to-r from-transparent via-white/18 to-transparent lg:block" aria-hidden="true" />
-          <div className="absolute left-1/2 top-1/2 hidden h-[78%] w-px -translate-y-1/2 bg-gradient-to-b from-transparent via-white/18 to-transparent lg:block" aria-hidden="true" />
+    <div className="homepage-signal-scene relative min-h-[590px] min-w-0 overflow-visible lg:min-h-[650px]" aria-hidden="true">
+      <div className="absolute inset-0 homepage-scene-grid" />
+      <div className="absolute inset-0 homepage-scene-horizon" />
 
-          <div className="absolute left-1/2 top-1/2 z-20 w-[198px] -translate-x-1/2 -translate-y-1/2 border border-white/[0.14] bg-[#081823]/92 p-4 text-center shadow-[0_0_90px_rgba(125,211,252,0.12)]">
-            <div className="text-xs font-semibold text-[#AEEAD8]">Agent Core</div>
-            <div className="mt-2 text-xl font-semibold leading-tight">shared operating memory</div>
-            <div className="mx-auto mt-4 grid h-12 w-24 grid-cols-4 items-end gap-1" aria-hidden="true">
-              {[22, 38, 28, 48].map((height) => (
-                <span key={height} className="block bg-[#D8F6EA]/70" style={{ height }} />
-              ))}
-            </div>
-          </div>
+      <svg
+        className="homepage-signal-svg absolute inset-0 h-full w-full"
+        viewBox="0 0 1000 720"
+        preserveAspectRatio="none"
+        focusable="false"
+      >
+        <path className="homepage-orbit-line" d="M180 360c0-148 142-268 318-268s318 120 318 268-142 268-318 268-318-120-318-268Z" />
+        <path className="homepage-orbit-line homepage-orbit-line-alt" d="M276 124c120 58 322 118 430 246 78 92 84 178 44 244" />
+        <path className="homepage-laser-path" d="M178 156 C310 170 382 274 500 360" />
+        <path className="homepage-laser-path delay-1" d="M808 190 C684 192 610 292 500 360" />
+        <path className="homepage-laser-path delay-2" d="M180 568 C320 526 394 438 500 360" />
+        <path className="homepage-laser-path delay-3" d="M816 548 C696 526 612 434 500 360" />
+        <path className="homepage-laser-path homepage-laser-return" d="M500 360 C454 226 424 166 178 156" />
+        <path className="homepage-laser-path homepage-laser-return delay-2" d="M500 360 C554 490 642 536 816 548" />
+      </svg>
 
-          <div className="absolute inset-5 hidden lg:block">
-            {platformChapters.map((platform, index) => (
-              <HeroSceneNode key={platform.name} platform={platform} index={index} />
-            ))}
-          </div>
+      <div className="homepage-data-packet packet-1" />
+      <div className="homepage-data-packet packet-2" />
+      <div className="homepage-data-packet packet-3" />
+      <div className="homepage-data-packet packet-4" />
 
-          <div className="relative z-30 grid gap-3 p-5 pt-[310px] lg:hidden">
-            {platformChapters.map((platform, index) => (
-              <HeroSceneNode key={platform.name} platform={platform} index={index} compact />
-            ))}
-          </div>
+      <div className="homepage-agent-core absolute left-1/2 top-[88px] z-30 w-[190px] -translate-x-1/2 translate-y-0 border border-[#D8F6EA]/22 bg-[#06131D]/86 p-4 text-center shadow-[0_0_120px_rgba(125,211,252,0.18)] backdrop-blur-xl sm:w-[218px] sm:p-5 lg:top-1/2 lg:-translate-y-1/2">
+        <div className="homepage-core-ring" />
+        <div className="font-mono text-[10px] font-semibold uppercase text-[#9FE7C8]">Agent Core</div>
+        <div className="mt-2 text-lg font-semibold leading-tight sm:text-xl">shared operating memory</div>
+        <div className="mx-auto mt-4 grid h-12 w-24 grid-cols-6 items-end gap-1" aria-hidden="true">
+          {[18, 34, 25, 46, 30, 40].map((height) => (
+            <span key={height} className="homepage-core-bar block bg-[#D8F6EA]/70" style={{ height }} />
+          ))}
         </div>
+        <div className="mt-4 grid grid-cols-3 gap-1 font-mono text-[9px] text-white/42">
+          <span>POLICY</span>
+          <span>RISK</span>
+          <span>PROOF</span>
+        </div>
+      </div>
+
+      <div className="absolute inset-0 z-20 hidden lg:block">
+        {platformChapters.map((platform, index) => (
+          <HeroSceneNode key={platform.name} platform={platform} index={index} />
+        ))}
+      </div>
+
+      <div className="absolute inset-x-0 bottom-4 z-20 grid grid-cols-2 gap-3 px-0 sm:px-8 lg:hidden">
+        {platformChapters.map((platform, index) => (
+          <HeroSceneNode key={platform.name} platform={platform} index={index} compact />
+        ))}
       </div>
     </div>
   )
@@ -186,32 +208,37 @@ function HeroSceneNode({
 }) {
   const Icon = platform.icon
   const positions = [
-    "left-[4%] top-[6%]",
-    "right-[4%] top-[6%]",
-    "left-[4%] bottom-[6%]",
-    "right-[4%] bottom-[6%]",
+    "left-[0%] top-[8%]",
+    "right-[0%] top-[16%]",
+    "left-[2%] bottom-[11%]",
+    "right-[1%] bottom-[7%]",
   ]
 
   return (
     <div
-      className={`homepage-platform-node border border-white/[0.1] bg-white/[0.045] p-4 ${
-        compact ? "relative" : `absolute w-[260px] ${positions[index]}`
+      className={`homepage-spatial-node border border-white/[0.12] bg-[#071823]/72 p-3 backdrop-blur-md sm:p-4 ${
+        compact ? "relative min-h-[118px]" : `absolute w-[248px] ${positions[index]}`
       }`}
       style={{ animationDelay: `${index * 0.45}s` }}
     >
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex items-start justify-between gap-2">
         <div>
-          <div className="text-xs font-semibold text-white/48">{platform.role}</div>
-          <div className="mt-1 text-2xl font-semibold leading-none">{platform.name}</div>
+          <div className="font-mono text-[10px] font-semibold uppercase text-white/40">{platform.role}</div>
+          <div className="mt-1 text-xl font-semibold leading-none sm:text-2xl">{platform.name}</div>
         </div>
         <Icon className="h-5 w-5" style={{ color: platform.accent }} aria-hidden="true" />
       </div>
-      <div className="mt-6">
-        <div className="text-sm font-semibold" style={{ color: platform.accent }}>
+      <div className="mt-5">
+        <div className="font-mono text-[11px] font-semibold uppercase" style={{ color: platform.accent }}>
           {platform.signal}
         </div>
-        <div className="mt-2 h-px bg-white/10">
-          <span className="homepage-signal-runner block h-px w-1/2" style={{ backgroundColor: platform.accent }} />
+        <div className="mt-2 h-px overflow-hidden bg-white/10">
+          <span className="homepage-signal-runner block h-px w-full" style={{ backgroundColor: platform.accent }} />
+        </div>
+        <div className="mt-3 grid grid-cols-5 gap-1" aria-hidden="true">
+          {[0, 1, 2, 3, 4].map((tick) => (
+            <span key={tick} className="h-1 bg-white/10" style={{ backgroundColor: tick === index ? platform.accent : undefined }} />
+          ))}
         </div>
       </div>
     </div>
