@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowUpRight, Menu } from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -55,13 +55,7 @@ export function SiteHeader() {
         </div>
 
         <div className="lg:hidden">
-          <SheetlessMobileNav
-            trigger={
-              <Button size="icon" variant="outline" aria-label="메뉴 열기">
-                <Menu className="h-4 w-4" aria-hidden="true" />
-              </Button>
-            }
-          />
+          <SheetlessMobileNav />
         </div>
       </div>
     </header>

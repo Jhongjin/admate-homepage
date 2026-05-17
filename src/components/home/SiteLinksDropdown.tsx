@@ -74,7 +74,7 @@ export function SiteLinksDropdown({ className, dark = false, size = "sm" }: Site
       </summary>
       <div
         className={cn(
-          "absolute right-0 z-50 mt-2 w-72 overflow-hidden rounded-lg border p-1 shadow-soft",
+          "absolute right-0 z-50 mt-2 hidden w-72 overflow-hidden rounded-lg border p-1 shadow-soft group-open:block",
           dark ? "border-white/10 bg-[#111827] text-white" : "border-border bg-card text-foreground"
         )}
       >
