@@ -180,12 +180,12 @@ type HeroWorldProps = {
 
 function HeroWorld({ heroMotionLineMode }: HeroWorldProps) {
   return (
-    <section id="top" className="relative isolate min-h-[100dvh] overflow-hidden bg-[#020810] text-white">
+    <section id="top" className="relative isolate min-h-[92dvh] overflow-hidden bg-[#020810] text-white">
       <div className="absolute inset-0 homepage-world-field" aria-hidden="true" />
       <HeroSignalScene lineMode={heroMotionLineMode} />
       <div className="absolute inset-x-0 bottom-0 z-0 h-44 bg-gradient-to-b from-transparent via-[#020810]/70 to-[#F3F0E8]" aria-hidden="true" />
 
-      <div className="section-shell relative z-10 flex min-h-[100dvh] items-center pb-20 pt-24 xl:max-w-[1440px]">
+      <div className="section-shell relative z-10 flex min-h-[92dvh] items-center pb-20 pt-24 xl:max-w-[1440px]">
         <div className="relative z-20 max-w-[900px]">
           <div className="font-mono text-[11px] font-semibold uppercase tracking-[0.28em] text-[#9FE7C8]">
             AdMate intelligence layer
