@@ -283,6 +283,13 @@
     animation: homepage-terminal-scan 11s linear infinite;
   }
 
+  @media (max-width: 360px) {
+    .homepage-hero-title {
+      font-size: 2.5rem;
+      line-height: 0.94;
+    }
+  }
+
   .homepage-scene-grid {
     background-image:
       linear-gradient(rgba(216, 246, 234, 0.052) 1px, transparent 1px),

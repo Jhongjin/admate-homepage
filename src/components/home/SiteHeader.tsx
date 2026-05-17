@@ -54,7 +54,7 @@ export function SiteHeader() {
           <SiteLinksDropdown className="w-[110px]" />
         </div>
 
-        <div className="sm:hidden">
+        <div className="lg:hidden">
           <SheetlessMobileNav
             trigger={
               <Button size="icon" variant="outline" aria-label="메뉴 열기">

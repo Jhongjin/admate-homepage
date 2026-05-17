@@ -191,7 +191,7 @@ function HeroWorld({ heroMotionLineMode }: HeroWorldProps) {
             AdMate intelligence layer
           </div>
 
-          <h1 className="mt-7 max-w-[920px] text-balance text-[46px] font-semibold leading-[0.9] tracking-normal sm:text-[84px] lg:text-[112px]">
+          <h1 className="homepage-hero-title mt-7 max-w-[920px] text-balance text-[46px] font-semibold leading-[0.9] tracking-normal sm:text-[84px] lg:text-[112px]">
             AdMate AI
             <span className="block text-[#D8F6EA]">Operating System</span>
           </h1>
@@ -354,7 +354,7 @@ function OperatingFilm() {
     <section id="flow" className="relative overflow-hidden bg-[#E8E3D7] py-24 sm:py-32">
       <div className="absolute inset-0 homepage-paper-grid opacity-70" aria-hidden="true" />
       <div className="section-shell relative xl:max-w-[1400px]">
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,0.68fr)_minmax(640px,1.12fr)] lg:items-center">
+        <div className="grid gap-12 xl:grid-cols-[minmax(0,0.68fr)_minmax(640px,1.12fr)] xl:items-center">
           <div>
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#6B6258]">Operating sequence</div>
             <h2 className="mt-5 max-w-[620px] text-balance text-4xl font-semibold leading-[1.02] sm:text-6xl">
