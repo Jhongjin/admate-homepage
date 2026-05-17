@@ -188,7 +188,7 @@ function DecisionLane({
             </div>
             <div className="min-w-0 rounded-md border border-white/12 bg-white/[0.05] p-3">
               <div className="flex items-center justify-between gap-3">
-                <span className="text-[11px] font-semibold text-[#AEB8B0]">운영 준비도</span>
+                <span className="text-[11px] font-semibold text-[#AEB8B0]">전체 프로젝트 진척률</span>
                 <Gauge className="h-4 w-4 shrink-0 text-[#9FE5C1]" aria-hidden="true" />
               </div>
               <div className="mt-3 text-4xl font-semibold leading-none tabular-nums">{overallProgress}%</div>
@@ -273,8 +273,8 @@ function OperatingMemory({ project }: { project: CommandCenterProject }) {
     <aside className="min-w-0 rounded-lg border border-[#C9D1C8] bg-[#FAFAF7] p-4 sm:p-5">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <div className="text-[11px] font-semibold uppercase text-[#687267]">Workspace</div>
-          <h2 className="mt-1 break-words text-xl font-semibold leading-tight text-[#101412]">운영 기억</h2>
+          <div className="text-[11px] font-semibold uppercase text-[#687267]">Agent Core</div>
+          <h2 className="mt-1 break-words text-xl font-semibold leading-tight text-[#101412]">공통 운영 현황</h2>
         </div>
         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-[#101820] text-white">
           <Database className="h-4 w-4" aria-hidden="true" />
@@ -282,14 +282,14 @@ function OperatingMemory({ project }: { project: CommandCenterProject }) {
       </div>
 
       <div className="mt-5 grid gap-4">
-        <MemoryMetric label="상태 기준" value={project.statusLabel} icon={CheckCircle2} />
-        <MemoryMetric label="운영 기록" value={project.deliverable} icon={ClipboardCheck} />
-        <MemoryMetric label="다음 고도화" value={project.nextMilestone} icon={History} />
+        <MemoryMetric label="현재 상태" value={project.statusLabel} icon={CheckCircle2} />
+        <MemoryMetric label="관리 기준" value={project.deliverable} icon={ClipboardCheck} />
+        <MemoryMetric label="다음 개선 항목" value={project.nextMilestone} icon={History} />
       </div>
 
       <div className="mt-5 border-t border-[#DDE2DA] pt-4">
         <div className="mb-2 flex items-center justify-between gap-3">
-          <span className="text-[11px] font-semibold uppercase text-[#687267]">기억 준비도</span>
+          <span className="text-[11px] font-semibold uppercase text-[#687267]">Agent Core 진행률</span>
           <span className="text-xl font-semibold leading-none tabular-nums text-[#101412]">{project.progress}%</span>
         </div>
         <ProgressBar value={project.progress} />
