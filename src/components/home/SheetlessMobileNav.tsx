@@ -6,6 +6,14 @@ import { ArrowUpRight, Menu, X } from "lucide-react"
 
 import { navLinks, officialLinks } from "@/lib/admate-content"
 
+const mobileSiteLinks = [
+  { label: "AdMate Home", href: officialLinks.home },
+  { label: "Compass", href: officialLinks.compass },
+  { label: "Sentinel", href: officialLinks.sentinel },
+  { label: "Lens", href: officialLinks.lens },
+  { label: "Foresight", href: officialLinks.foresight },
+]
+
 export function SheetlessMobileNav() {
   const [open, setOpen] = useState(false)
 
@@ -52,6 +60,32 @@ export function SheetlessMobileNav() {
             >
               대시보드
               <ArrowUpRight className="h-3.5 w-3.5 transition duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
+            </Link>
+          </div>
+          <div className="mt-1.5 grid gap-1 border-t border-[#D8CFBE] pt-1.5">
+            <p className="px-3 pt-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#756B5D]">
+              사이트 이동
+            </p>
+            {mobileSiteLinks.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => setOpen(false)}
+                className="rounded-[7px] px-3 py-2 text-sm font-semibold text-[#2E3832] transition duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-white hover:text-[#101820]"
+              >
+                {item.label}
+              </Link>
+            ))}
+            <Link
+              href={officialLinks.account}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => setOpen(false)}
+              className="rounded-[7px] border border-[#C9BFAF] px-3 py-2 text-sm font-semibold text-[#101820] transition duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-white"
+            >
+              내 정보
             </Link>
           </div>
         </div>

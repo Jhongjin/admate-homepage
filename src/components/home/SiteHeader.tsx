@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import { BrandMark } from "@/components/home/BrandMark"
 import { SheetlessMobileNav } from "@/components/home/SheetlessMobileNav"
-import { SiteLinksDropdown } from "@/components/home/SiteLinksDropdown"
+import { AdMateAccountDropdown, SiteLinksDropdown } from "@/components/home/SiteLinksDropdown"
 import { navLinks, officialLinks } from "@/lib/admate-content"
 import { cn } from "@/lib/utils"
 
@@ -26,7 +26,7 @@ export function SiteHeader() {
           <span className="text-sm font-semibold">AdMate</span>
         </Link>
 
-        <NavigationMenu className="hidden lg:flex">
+        <NavigationMenu className="hidden xl:flex">
           <NavigationMenuList>
             {navLinks.map((item) => (
               <NavigationMenuItem key={item.href}>
@@ -38,20 +38,30 @@ export function SiteHeader() {
           </NavigationMenuList>
         </NavigationMenu>
 
-        <div className="hidden items-center gap-2 sm:flex">
-          <Button asChild variant="outline" size="sm" className="w-[124px] rounded-full border-[#C9BFAF] bg-transparent text-[13px]">
+        <div className="hidden items-center gap-2 lg:flex">
+          <Button
+            asChild
+            size="sm"
+            className="h-9 w-[132px] rounded-full bg-[#101820] text-[13px] text-white shadow-[0_10px_24px_rgba(16,24,32,0.12)] hover:bg-[#26342E]"
+          >
             <Link href={officialLinks.accessRequest} target="_blank" rel="noreferrer">
               AdMate 시작하기
               <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
             </Link>
           </Button>
-          <Button asChild size="sm" className="w-[118px] rounded-full bg-[#101820] text-[13px] text-white hover:bg-[#26342E]">
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            className="h-9 w-[112px] rounded-full border-[#C9BFAF] bg-white/35 text-[13px] text-[#101820] hover:border-[#101820]/25 hover:bg-white"
+          >
             <Link href={officialLinks.commandCenter}>
               대시보드
               <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
             </Link>
           </Button>
-          <SiteLinksDropdown className="w-[110px]" />
+          <SiteLinksDropdown className="w-[112px]" />
+          <AdMateAccountDropdown className="w-[136px]" />
         </div>
 
         <div className="lg:hidden">

@@ -46,21 +46,22 @@ export type Product = {
 }
 
 export const navLinks = [
-  { label: "AI 운영층", href: "#top" },
-  { label: "플랫폼", href: "#suite" },
-  { label: "운영 흐름", href: "#flow" },
-  { label: "신뢰 경계", href: "#trust" },
-  { label: "시작", href: "#access" },
+  { label: "서비스 개요", href: "#top" },
+  { label: "제품", href: "#suite" },
+  { label: "업무 흐름", href: "#flow" },
+  { label: "권한/보안", href: "#trust" },
+  { label: "이용 신청", href: "#access" },
 ]
 
 export const officialLinks = {
   home: "https://home.admate.ai.kr",
   commandCenter: "https://home.admate.ai.kr/command-center",
+  account: "https://sentinel.admate.ai.kr/account",
   compass: "https://compass.admate.ai.kr",
   sentinel: "https://sentinel.admate.ai.kr",
   lens: "https://lens.admate.ai.kr",
-  foresight: "",
-  accessRequest: "https://sentinel.admate.ai.kr/access-request",
+  foresight: "https://foresight.admate.ai.kr",
+  accessRequest: "https://home.admate.ai.kr/access-request",
 }
 
 export const products: Product[] = [
@@ -121,8 +122,8 @@ export const products: Product[] = [
     description:
       "과거 캠페인 데이터와 시장 트렌드를 기반으로 캠페인 기획 단계에서 예상 성과와 전략 방향을 제안합니다.",
     features: ["예상 CPM/CPC/CTR/VTR 제공", "업종/목표별 벤치마크", "예산 대비 성과 시뮬레이션", "Meta PoC 후 타 매체 확장"],
-    linkLabel: "연결 예정",
-    linkDisabled: true,
+    href: officialLinks.foresight,
+    linkLabel: "Foresight 열기",
     color: "#B45309",
     softColor: "#FFF8EC",
     borderColor: "#F5CE8B",
