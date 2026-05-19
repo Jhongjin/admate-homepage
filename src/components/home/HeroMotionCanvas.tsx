@@ -444,7 +444,7 @@ export function HeroMotionCanvas({ lineMode = "all" }: HeroMotionCanvasProps) {
     }
 
     const render = (now: number) => {
-      const motionScale = reducedMotion.matches ? 0 : 1
+      const motionScale = reducedMotion.matches ? 0.24 : 1
       const time = (now / 1000) * motionScale
       context.clearRect(0, 0, width, height)
       context.globalCompositeOperation = "lighter"
@@ -474,9 +474,7 @@ export function HeroMotionCanvas({ lineMode = "all" }: HeroMotionCanvasProps) {
       }
       applyCopyQuietZone()
 
-      if (!reducedMotion.matches) {
-        frame = window.requestAnimationFrame(render)
-      }
+      frame = window.requestAnimationFrame(render)
     }
 
     const restart = () => {
