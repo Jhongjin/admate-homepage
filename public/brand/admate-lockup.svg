@@ -1,0 +1,11 @@
+<svg width="360" height="88" viewBox="0 0 360 88" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AdMate">
+  <rect x="8" y="12" width="64" height="64" rx="18" fill="#101820"/>
+  <path d="M40 27.5L53 35V53L40 60.5L27 53V35L40 27.5Z" stroke="#F8FBF7" stroke-width="4.2" stroke-linejoin="round"/>
+  <path d="M27 35L40 42.5L53 35" stroke="#9FE5C1" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M40 42.5V60.5" stroke="#9FE5C1" stroke-width="3.2" stroke-linecap="round"/>
+  <circle cx="40" cy="42.5" r="3.5" fill="#F2C85B"/>
+  <path d="M24 54C20.7 49.2 20.7 38.8 24 34" stroke="#9FE5C1" stroke-width="3" stroke-linecap="round" opacity=".86"/>
+  <path d="M56 34C59.3 38.8 59.3 49.2 56 54" stroke="#9FE5C1" stroke-width="3" stroke-linecap="round" opacity=".86"/>
+  <text x="92" y="44" fill="#101820" font-family="Geist, Noto Sans KR, Segoe UI, Arial, sans-serif" font-size="27" font-weight="800">AdMate</text>
+  <text x="94" y="64" fill="#61706A" font-family="Geist, Noto Sans KR, Segoe UI, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="1.9">AI OPERATING SYSTEM</text>
+</svg>

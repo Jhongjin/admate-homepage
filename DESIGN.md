@@ -28,11 +28,11 @@ Avoid a flashy startup marketing mood. The design should read as an AI operation
 - **AdMate Purple (#5E6AD2):** Primary AI/Agent accent. Used sparingly for Agent Core links, focus rings, and system highlights.
 - **Compass Indigo (#4F63D8):** Product accent for AdMate Compass. Used on small icons, tags, and card highlights.
 - **Sentinel Emerald (#177D4E):** Product accent for AdMate Sentinel. Used for validation, monitoring, and safety indicators.
-- **Lens Violet (#7C3AED):** Product accent for AdMate Lens. Used for capture and visual proof surfaces.
+- **Lens Teal (#0F766E):** Product accent for AdMate Lens. Used for capture, screen review, and work record surfaces.
 - **Foresight Amber (#B45309):** Product accent for AdMate Foresight. Used for planning, forecast, and cost-aware moments.
 - **Soft Purple Tint (#ECEDF9):** Low-emphasis Agent/Compass background.
 - **Soft Green Tint (#EFFAF4):** Low-emphasis success/monitoring background.
-- **Soft Violet Tint (#F3E8FF):** Low-emphasis capture background.
+- **Soft Teal Tint (#E7F6F3):** Low-emphasis capture background.
 - **Soft Amber Tint (#FFF8EC):** Low-emphasis planning/cost background.
 
 Color usage should be functional. Product colors should appear as small signals, not full-page themes.
@@ -153,6 +153,7 @@ The visual hierarchy should come from layout, spacing, typography, and semantic 
 - Use Lucide icons for scanning and tool-like affordance.
 - Use shadcn-style primitives for cards, buttons, badges, tabs, tooltips, navigation, and tables.
 - Keep product colors as restrained accents.
+- Keep favicon and product marks shape-first: AdMate uses the system kernel, Compass the evidence needle, Lens the capture frame, Foresight the forecast curve, and Sentinel the risk gate.
 
 ### Don't
 
@@ -196,5 +197,5 @@ Quick reference:
 - Agent Core: #111827 + #5E6AD2
 - Compass: #4F63D8
 - Sentinel: #177D4E
-- Lens: #7C3AED
+- Lens: #0F766E
 - Foresight: #B45309
