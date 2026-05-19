@@ -265,13 +265,6 @@ function HeroSignalScene({ lineMode }: HeroSignalSceneProps) {
           <span>Agent Core</span>
         </div>
 
-        {platformChapters.map((platform, index) => (
-          <div key={platform.name} className={`homepage-art-label homepage-art-label-${index + 1}`}>
-            <span className="homepage-art-label-pin" style={{ backgroundColor: platform.accent }} />
-            <span>{platform.name}</span>
-            <small>{platform.signal}</small>
-          </div>
-        ))}
       </div>
       <div className="homepage-art-ribbon homepage-art-ribbon-one" />
       <div className="homepage-art-ribbon homepage-art-ribbon-two" />

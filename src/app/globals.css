@@ -2042,58 +2042,6 @@
     border-radius: 50%;
   }
 
-  .homepage-art-label {
-    position: absolute;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    column-gap: 10px;
-    align-items: center;
-    min-width: 180px;
-    color: rgba(255, 255, 255, 0.84);
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: 0;
-    text-shadow: 0 10px 38px rgba(0, 0, 0, 0.46);
-  }
-
-  .homepage-art-label small {
-    grid-column: 2;
-    color: rgba(216, 246, 234, 0.52);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-  }
-
-  .homepage-art-label-pin {
-    grid-row: span 2;
-    height: 8px;
-    width: 8px;
-    border-radius: 50%;
-    box-shadow: 0 0 22px currentColor;
-  }
-
-  .homepage-art-label-1 {
-    left: 8%;
-    top: 23%;
-  }
-
-  .homepage-art-label-2 {
-    right: 0;
-    top: 34%;
-  }
-
-  .homepage-art-label-3 {
-    left: 10%;
-    bottom: 22%;
-  }
-
-  .homepage-art-label-4 {
-    right: 5%;
-    bottom: 20%;
-  }
-
   .homepage-art-ribbon {
     position: absolute;
     z-index: 4;
@@ -2231,10 +2179,6 @@
       min-height: 560px;
       min-width: 560px;
       opacity: 0.72;
-    }
-
-    .homepage-art-label {
-      display: none;
     }
 
     .homepage-data-packet.packet-1 {
