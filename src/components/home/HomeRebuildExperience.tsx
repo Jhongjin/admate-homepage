@@ -343,11 +343,12 @@ function OperatingFilm() {
           <div>
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#6B6258]">Operating sequence</div>
             <h2 className="mt-5 max-w-[620px] text-balance text-4xl font-semibold leading-[1.02] sm:text-6xl">
-              제안서에서 보고서까지, 같은 화면 언어로 이어집니다.
+              캠페인 운영은 한 흐름으로 이어집니다.
             </h2>
             <p className="mt-6 max-w-[560px] text-lg font-medium leading-8 text-[#4E4A43]">
-              하나의 캠페인은 목표와 예산에서 시작해 정책, 검수, 증빙, 예측 신호를 차례로 통과합니다.
-              AdMate는 이 신호들을 같은 운영 기억 안에 남겨 다음 의사결정으로 넘깁니다.
+              하나의 캠페인은 목표와 예산을 정리하는 일에서 시작해, 정책 확인과 사전 점검,
+              캡처 기록, 성과 예측으로 이어집니다. AdMate는 이 과정을 한 흐름으로 연결해
+              운영자가 다음 판단을 빠르게 이어갈 수 있게 합니다.
             </p>
           </div>
 
