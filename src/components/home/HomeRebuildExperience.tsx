@@ -114,36 +114,36 @@ const operatingLayers = [
 const trustSignals = [
   {
     code: "01",
-    title: "출처 기반 정책 답변",
-    detail: "Compass가 정책 근거와 적용 조건을 같은 화면에 고정합니다.",
+    title: "정책 기준과 출처 확인",
+    detail: "Compass는 답변에 사용한 정책 기준과 출처를 함께 보여줍니다.",
     status: "Source lock",
     accent: "#7DD3FC",
   },
   {
     code: "02",
-    title: "운영 로그와 승인 이력",
-    detail: "모든 전환과 승인 흔적을 다음 판단의 감사선으로 남깁니다.",
+    title: "작업 기록과 승인 이력",
+    detail: "주요 변경과 승인 내역을 남겨 이후 확인에 사용할 수 있게 합니다.",
     status: "Audit trail",
     accent: "#D8F6EA",
   },
   {
     code: "03",
-    title: "권한별 접근 경계",
-    detail: "역할과 제품별 권한을 분리해 필요한 사람만 넘겨받습니다.",
+    title: "역할별 접근 권한",
+    detail: "제품과 역할에 따라 필요한 화면과 기능만 사용할 수 있게 구분합니다.",
     status: "Access scope",
     accent: "#34D399",
   },
   {
     code: "04",
-    title: "민감 정보 보호 설계",
-    detail: "공유 전에 노출 범위와 보존 기준을 먼저 확인합니다.",
+    title: "민감 정보 보호",
+    detail: "공유 전에 노출 범위와 보관 기준을 확인해 불필요한 정보 노출을 줄입니다.",
     status: "PII shield",
     accent: "#99F6E4",
   },
   {
     code: "05",
-    title: "제품별 감사 가능성",
-    detail: "Compass, Sentinel, Lens, Foresight의 결정 흐름을 따로 추적합니다.",
+    title: "제품별 처리 기록",
+    detail: "Compass, Sentinel, Lens, Foresight에서 발생한 주요 처리 과정을 제품별로 확인할 수 있습니다.",
     status: "Product audit",
     accent: "#F6C35B",
   },
@@ -424,11 +424,13 @@ function TrustLayer() {
           <div>
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#93A59E]">Trust layer</div>
             <h2 className="mt-5 max-w-[980px] text-balance text-4xl font-semibold leading-[1.02] sm:text-6xl">
-              AI가 멋있어 보이는 것보다 중요한 것은, 운영자가 믿고 넘길 수 있는 경계입니다.
+              <span className="block">AI가 처리한 일도</span>
+              <span className="block">사람이 확인할 수 있어야 합니다.</span>
             </h2>
           </div>
           <p className="max-w-[420px] text-lg font-medium leading-8 text-white/58">
-            AdMate는 신호를 빠르게 넘기는 것만큼, 누가 어떤 근거로 넘겼는지 남기는 경계를 중요하게 둡니다.
+            AdMate는 자동화된 처리 결과를 그대로 넘기지 않습니다. 어떤 기준으로 확인했고, 누가 승인했으며,
+            어떤 기록이 남았는지 함께 확인할 수 있게 합니다.
           </p>
         </div>
 
@@ -489,7 +491,7 @@ function TrustLayer() {
 
           <div className="homepage-trust-lock">
             <span>operator handoff</span>
-            <strong>모든 경계가 남은 뒤에 다음 운영 판단으로 넘어갑니다.</strong>
+            <strong>확인 기준과 기록이 남은 뒤 다음 운영 단계로 이어집니다.</strong>
           </div>
         </div>
       </div>
