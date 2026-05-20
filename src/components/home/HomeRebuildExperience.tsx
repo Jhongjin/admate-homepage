@@ -197,30 +197,22 @@ function HeroWorld({ heroMotionLineMode }: HeroWorldProps) {
           </h1>
 
           <p className="mt-7 max-w-[620px] text-lg font-medium leading-8 text-white/72 sm:text-xl">
-            네 개의 플랫폼이 정책, 위험, 증빙, 예측 신호를 하나의 운영 지능으로 엮어
-            캠페인의 다음 결정을 더 빠르게 만듭니다.
+            정책 확인, 위험 감지, 캡처 검수, 성과 예측을 한 흐름으로 연결해
+            캠페인 운영의 다음 판단을 빠르게 돕습니다.
           </p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-8 flex">
             <Button
               asChild
               size="lg"
               className="group h-12 rounded-full bg-[#D8F6EA] px-5 font-semibold text-[#061018] shadow-none transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-white active:scale-[0.98]"
             >
-              <Link href={officialLinks.commandCenter}>
-                운영판 보기
+              <Link href="#suite">
+                AdMate 살펴보기
                 <span className="ml-2 flex h-7 w-7 items-center justify-center rounded-full bg-[#061018] text-white transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5">
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </span>
               </Link>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="h-12 rounded-full border-white/[0.18] bg-white/[0.04] px-5 font-semibold text-white transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-white/[0.1] active:scale-[0.98]"
-            >
-              <Link href="#suite">네 플랫폼 보기</Link>
             </Button>
           </div>
         </div>
