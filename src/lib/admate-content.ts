@@ -56,6 +56,7 @@ export const navLinks = [
 export const officialLinks = {
   home: "https://home.admate.ai.kr",
   commandCenter: "https://home.admate.ai.kr/command-center",
+  login: "https://sentinel.admate.ai.kr/login",
   account: "https://sentinel.admate.ai.kr/account",
   compass: "https://compass.admate.ai.kr",
   sentinel: "https://sentinel.admate.ai.kr",

@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { ArrowUpRight, Menu, X } from "lucide-react"
+import { ArrowUpRight, LogIn, Menu, X } from "lucide-react"
 
 import { navLinks, officialLinks } from "@/lib/admate-content"
 
@@ -44,16 +44,6 @@ export function SheetlessMobileNav() {
           </nav>
           <div className="mt-1.5 grid gap-1.5 border-t border-[#D8CFBE] pt-1.5">
             <Link
-              href={officialLinks.accessRequest}
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => setOpen(false)}
-              className="group flex items-center justify-between rounded-[7px] border border-[#C9BFAF] px-3 py-2 text-sm font-semibold text-[#101820] transition duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-white"
-            >
-              AdMate 시작하기
-              <ArrowUpRight className="h-3.5 w-3.5 transition duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
-            </Link>
-            <Link
               href={officialLinks.commandCenter}
               onClick={() => setOpen(false)}
               className="group flex items-center justify-between rounded-[7px] bg-[#101820] px-3 py-2 text-sm font-semibold text-white transition duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[#26342E]"
@@ -79,13 +69,14 @@ export function SheetlessMobileNav() {
               </Link>
             ))}
             <Link
-              href={officialLinks.account}
+              href={officialLinks.login}
               target="_blank"
               rel="noreferrer"
               onClick={() => setOpen(false)}
-              className="rounded-[7px] border border-[#C9BFAF] px-3 py-2 text-sm font-semibold text-[#101820] transition duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-white"
+              className="flex items-center justify-between rounded-[7px] border border-[#C9BFAF] px-3 py-2 text-sm font-semibold text-[#101820] transition duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-white"
             >
-              내 정보
+              로그인
+              <LogIn className="h-3.5 w-3.5" aria-hidden="true" />
             </Link>
           </div>
         </div>

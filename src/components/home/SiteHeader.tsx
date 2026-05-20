@@ -1,9 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowUpRight } from "lucide-react"
+import { ArrowUpRight, LogIn } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -13,7 +12,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import { BrandMark } from "@/components/home/BrandMark"
 import { SheetlessMobileNav } from "@/components/home/SheetlessMobileNav"
-import { AdMateAccountDropdown, SiteLinksDropdown } from "@/components/home/SiteLinksDropdown"
+import { SiteLinksDropdown } from "@/components/home/SiteLinksDropdown"
 import { navLinks, officialLinks } from "@/lib/admate-content"
 import { cn } from "@/lib/utils"
 
@@ -39,29 +38,23 @@ export function SiteHeader() {
         </NavigationMenu>
 
         <div className="hidden items-center gap-2 lg:flex">
-          <Button
-            asChild
-            size="sm"
-            className="h-9 w-[132px] rounded-full bg-[#101820] text-[13px] text-white shadow-[0_10px_24px_rgba(16,24,32,0.12)] hover:bg-[#26342E]"
+          <Link
+            href={officialLinks.commandCenter}
+            className="inline-flex h-9 w-[112px] items-center justify-center gap-2 rounded-[8px] border border-[#C9BFAF] bg-white/45 px-3 text-[13px] font-semibold text-[#101820] transition duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-[#101820]/25 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#101820]/35 focus-visible:ring-offset-2"
           >
-            <Link href={officialLinks.accessRequest} target="_blank" rel="noreferrer">
-              AdMate 시작하기
-              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-            </Link>
-          </Button>
-          <Button
-            asChild
-            variant="outline"
-            size="sm"
-            className="h-9 w-[112px] rounded-full border-[#C9BFAF] bg-white/35 text-[13px] text-[#101820] hover:border-[#101820]/25 hover:bg-white"
-          >
-            <Link href={officialLinks.commandCenter}>
-              대시보드
-              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-            </Link>
-          </Button>
+            대시보드
+            <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+          </Link>
           <SiteLinksDropdown className="w-[112px]" />
-          <AdMateAccountDropdown className="w-[136px]" />
+          <Link
+            href={officialLinks.login}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex h-9 w-[96px] items-center justify-center gap-2 rounded-[8px] bg-[#101820] px-3 text-[13px] font-semibold text-white shadow-[0_10px_24px_rgba(16,24,32,0.12)] transition duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[#26342E] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#101820]/35 focus-visible:ring-offset-2"
+          >
+            <LogIn className="h-3.5 w-3.5" aria-hidden="true" />
+            로그인
+          </Link>
         </div>
 
         <div className="lg:hidden">
