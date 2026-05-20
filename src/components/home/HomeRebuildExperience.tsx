@@ -20,7 +20,7 @@ const platformChapters = [
     name: "Compass",
     role: "Policy intelligence",
     verb: "Find the rule",
-    korean: "정책 근거와 집행 가능성을 먼저 확인합니다.",
+    korean: "광고 정책과 매체 기준을 근거와 함께 확인합니다.",
     signal: "RAG evidence",
     accent: "#7DD3FC",
     readableAccent: "#0875A8",
@@ -42,7 +42,7 @@ const platformChapters = [
     name: "Lens",
     role: "Capture & proof",
     verb: "Prove the delivery",
-    korean: "게재 화면과 보고 증빙을 자동으로 남깁니다.",
+    korean: "광고 소재와 노출 화면, 검수 결과를 작업 기록으로 남깁니다.",
     signal: "Proof capture",
     accent: "#99F6E4",
     readableAccent: "#007D73",
@@ -53,7 +53,7 @@ const platformChapters = [
     name: "Foresight",
     role: "Planning intelligence",
     verb: "Predict the next move",
-    korean: "성과 기준선과 예산 판단을 기획 단계에 올립니다.",
+    korean: "성과 예측과 기준 데이터를 바탕으로 예산 판단을 돕습니다.",
     signal: "Forecast",
     accent: "#F6C35B",
     readableAccent: "#A76500",
@@ -273,12 +273,12 @@ function SuiteManifest() {
           <div>
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#60706A]">Platform suite</div>
             <h2 className="mt-5 max-w-[620px] text-balance text-4xl font-semibold leading-[1.02] sm:text-6xl">
-              네 개의 제품이 한 팀처럼 판단합니다.
+              캠페인 운영의 네 가지 판단을 연결합니다.
             </h2>
           </div>
           <p className="max-w-[620px] text-lg font-medium leading-8 text-[#465650] lg:justify-self-end">
-            AdMate는 기능 목록보다 운영 감각을 먼저 보여줍니다. 네 플랫폼은 서로 다른 제품이지만,
-            캠페인을 판단하고 지키고 증명하고 예측하는 하나의 흐름으로 작동합니다.
+            AdMate는 캠페인 운영에 필요한 정책 확인, 사전 점검, 캡처 기록, 성과 예측을 하나의
+            흐름으로 연결합니다. 각 플랫폼은 서로 다른 역할을 맡지만, 같은 운영 맥락 안에서 함께 작동합니다.
           </p>
         </div>
 
