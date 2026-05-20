@@ -139,14 +139,14 @@ function DropdownPanel({ links, ariaLabel, dark = false, onNavigate }: DropdownP
       role="menu"
       aria-label={ariaLabel}
       className={cn(
-        "absolute right-0 z-50 mt-2 w-[432px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-[10px] border p-3 shadow-[0_24px_70px_rgba(16,24,32,0.18)]",
+        "absolute right-0 z-50 mt-2 w-[400px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-[10px] border p-2 shadow-[0_20px_56px_rgba(16,24,32,0.16)]",
         dark ? "border-white/10 bg-[#111827] text-white" : "border-[#D7DCE3] bg-white text-[#101820]"
       )}
     >
-      <p className={cn("px-4 py-3 text-[13px] font-bold uppercase tracking-[0.2em]", dark ? "text-white/55" : "text-[#68707C]")}>
+      <p className={cn("px-3 py-2 text-[11px] font-bold uppercase tracking-[0.18em]", dark ? "text-white/55" : "text-[#68707C]")}>
         ADMATE SUITE
       </p>
-      <div className={cn("mb-2 h-px", dark ? "bg-white/10" : "bg-[#D8DEE6]")} />
+      <div className={cn("mb-1.5 h-px", dark ? "bg-white/10" : "bg-[#D8DEE6]")} />
       {links.map((site) => {
         const isExternal = site.href.startsWith("http")
         const Icon = site.icon
@@ -160,23 +160,23 @@ function DropdownPanel({ links, ariaLabel, dark = false, onNavigate }: DropdownP
             role="menuitem"
             onClick={onNavigate}
             className={cn(
-              "grid min-h-[76px] grid-cols-[56px_minmax(0,1fr)] items-center gap-4 rounded-[8px] px-4 py-3 text-left transition duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]",
+              "grid min-h-[66px] grid-cols-[48px_minmax(0,1fr)] items-center gap-3 rounded-[8px] px-3 py-2.5 text-left transition duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]",
               dark ? "hover:bg-white/10" : "hover:bg-[#F4F7FB]"
             )}
           >
-            <span className={cn("grid h-14 w-14 shrink-0 place-items-center rounded-[10px] border", dark ? "border-white/10 bg-white/5" : "border-[#D7DCE3] bg-[#F8F6F1]")}>
-              <Icon className={cn("h-[22px] w-[22px]", dark ? "text-white/70" : "text-[#2764D9]")} aria-hidden="true" />
+            <span className={cn("grid h-12 w-12 shrink-0 place-items-center rounded-[8px] border", dark ? "border-white/10 bg-white/5" : "border-[#D7DCE3] bg-[#F8F6F1]")}>
+              <Icon className={cn("h-5 w-5", dark ? "text-white/70" : "text-[#2764D9]")} aria-hidden="true" />
             </span>
             <span className="min-w-0 flex-1">
-              <span className="flex items-center gap-2 text-[17px] font-extrabold leading-tight">
+              <span className="flex items-center gap-2 text-[15px] font-bold leading-tight">
                 {site.label}
                 {site.active ? (
-                  <span className="rounded-[8px] bg-[#FFF3D8] px-2 py-1 text-xs font-bold text-[#7A5518]">
+                  <span className="rounded-[6px] bg-[#FFF3D8] px-1.5 py-0.5 text-[11px] font-bold text-[#7A5518]">
                     현재
                   </span>
                 ) : null}
               </span>
-              <span className={cn("mt-1 block text-[15px] font-medium leading-5", dark ? "text-white/55" : "text-[#68707C]")}>
+              <span className={cn("mt-0.5 block text-[13px] font-medium leading-[18px]", dark ? "text-white/55" : "text-[#68707C]")}>
                 {site.description}
               </span>
             </span>
