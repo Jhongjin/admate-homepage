@@ -504,42 +504,79 @@ function HomeFinalCta() {
     <section id="access" className="homepage-final-section relative overflow-hidden bg-[#F3F0E8] py-24 sm:py-32">
       <div className="absolute inset-0 homepage-paper-grid opacity-70" aria-hidden="true" />
       <div className="section-shell relative xl:max-w-[1400px]">
-        <div className="homepage-final-panel grid gap-10 lg:grid-cols-[minmax(0,0.98fr)_minmax(360px,0.52fr)] lg:items-center">
+        <div className="homepage-final-panel grid gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(390px,0.55fr)] lg:items-center">
           <div className="homepage-final-copy">
-            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#60706A]">Start from the operating board</div>
+            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#60706A]">Today&apos;s operating handoff</div>
             <h2 className="mt-5 max-w-[780px] text-balance text-4xl font-semibold leading-[1.02] sm:text-6xl">
-              회의가 길어지기 전에, 오늘의 운영판을 먼저 여세요.
+              <span className="block">회의 전에,</span>
+              <span className="block">오늘 결정할 것부터 정리하세요.</span>
             </h2>
+            <p className="homepage-final-support mt-6 max-w-[670px] text-lg font-medium leading-8 text-[#46564F]">
+              <span className="block">AdMate는 정책 근거, 리스크 신호, 증빙 이력을 한 운영판에 모아</span>
+              <span className="block"> 승인·수정·공유가 필요한 일을 먼저 보여줍니다.</span>
+            </p>
             <div className="homepage-final-signal mt-8" aria-hidden="true">
               <span />
               <span />
               <span />
             </div>
+            <div className="homepage-final-flow-table mt-8" aria-label="AdMate operating handoff scope">
+              <div>
+                <span>01</span>
+                <strong>근거</strong>
+                <p>정책 기준과 출처</p>
+              </div>
+              <div>
+                <span>02</span>
+                <strong>리스크</strong>
+                <p>수정이 필요한 항목</p>
+              </div>
+              <div>
+                <span>03</span>
+                <strong>기록</strong>
+                <p>공유 가능한 결과</p>
+              </div>
+            </div>
             <div className="homepage-final-floor" aria-hidden="true" />
           </div>
           <div className="homepage-final-dock">
-            <div className="homepage-final-preview">
+            <div className="homepage-final-preview homepage-final-handoff-board">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <div className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-[#6C8178]">today board</div>
-                  <div className="mt-2 text-xl font-semibold leading-tight">ready for operator review</div>
+                  <div className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-[#6C8178]">handoff board</div>
+                  <div className="mt-2 text-2xl font-semibold leading-tight">오늘의 운영 인계</div>
                 </div>
                 <div className="homepage-final-pulse" aria-hidden="true" />
               </div>
-              <div className="mt-6 space-y-3">
-                <div className="homepage-final-line">
-                  <span>policy</span>
-                  <strong>synced</strong>
+              <div className="homepage-final-board-map mt-6" aria-hidden="true">
+                <div className="homepage-final-map-node is-policy">정책</div>
+                <div className="homepage-final-map-node is-risk">검토</div>
+                <div className="homepage-final-map-node is-proof">공유</div>
+              </div>
+              <div className="homepage-final-handoff-table mt-6">
+                <div className="homepage-final-handoff-row">
+                  <span>01</span>
+                  <div>
+                    <strong>정책 근거</strong>
+                    <p>확인 완료</p>
+                  </div>
                 </div>
-                <div className="homepage-final-line">
-                  <span>risk gate</span>
-                  <strong>armed</strong>
+                <div className="homepage-final-handoff-row">
+                  <span>02</span>
+                  <div>
+                    <strong>리스크 신호</strong>
+                    <p>검토 필요 항목 표시</p>
+                  </div>
                 </div>
-                <div className="homepage-final-line">
-                  <span>proof lane</span>
-                  <strong>open</strong>
+                <div className="homepage-final-handoff-row">
+                  <span>03</span>
+                  <div>
+                    <strong>증빙 기록</strong>
+                    <p>공유 가능한 상태</p>
+                  </div>
                 </div>
               </div>
+              <div className="homepage-final-note mt-5">다음 회의는 설명이 아니라 판단에서 시작됩니다.</div>
             </div>
             <div className="mt-4 flex flex-col gap-3">
               <Button
@@ -548,7 +585,7 @@ function HomeFinalCta() {
                 className="group h-12 rounded-full bg-[#101820] px-5 font-semibold text-white transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[#26342E] active:scale-[0.98]"
               >
                 <Link href={officialLinks.commandCenter}>
-                  운영판 보기
+                  운영판 열기
                   <span className="ml-2 flex h-7 w-7 items-center justify-center rounded-full bg-white/10 transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:bg-[#D8F6EA] group-hover:text-[#101820]">
                     <MonitorCog className="h-4 w-4" aria-hidden="true" />
                   </span>
@@ -561,7 +598,7 @@ function HomeFinalCta() {
                 className="group h-12 rounded-full border-[#BDB2A2] bg-[#F7F4EC]/70 px-5 font-semibold text-[#101820] transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-[#101820] hover:bg-white active:scale-[0.98]"
               >
                 <Link href={officialLinks.accessRequest} target="_blank" rel="noreferrer">
-                  권한 요청
+                  데스크 권한 요청
                   <span className="ml-2 flex h-7 w-7 items-center justify-center rounded-full bg-[#101820]/6 transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:bg-[#101820] group-hover:text-white">
                     <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </span>
