@@ -197,8 +197,8 @@ function HeroWorld({ heroMotionLineMode }: HeroWorldProps) {
           </h1>
 
           <p className="mt-7 max-w-[620px] text-lg font-medium leading-8 text-white/72 sm:text-xl">
-            정책 확인, 위험 감지, 캡처 검수, 성과 예측을 한 흐름으로 연결해
-            캠페인 운영의 다음 판단을 빠르게 돕습니다.
+            <span className="block">정책 확인, 위험 감지, 캡처 검수, 성과 예측을 한 흐름으로 연결해</span>
+            <span className="block">캠페인 운영의 다음 판단을 빠르게 돕습니다.</span>
           </p>
 
           <div className="mt-8 flex">
