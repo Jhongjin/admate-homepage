@@ -343,12 +343,13 @@ function OperatingFilm() {
           <div>
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#6B6258]">Operating sequence</div>
             <h2 className="mt-5 max-w-[620px] text-balance text-4xl font-semibold leading-[1.02] sm:text-6xl">
-              캠페인 운영은 한 흐름으로 이어집니다.
+              <span className="block">캠페인 운영은</span>
+              <span className="block">한 흐름으로 이어집니다.</span>
             </h2>
             <p className="mt-6 max-w-[560px] text-lg font-medium leading-8 text-[#4E4A43]">
-              하나의 캠페인은 목표와 예산을 정리하는 일에서 시작해, 정책 확인과 사전 점검,
-              캡처 기록, 성과 예측으로 이어집니다. AdMate는 이 과정을 한 흐름으로 연결해
-              운영자가 다음 판단을 빠르게 이어갈 수 있게 합니다.
+              <span className="block">하나의 캠페인은 목표와 예산을 정리하는 일에서 시작해,</span>
+              <span className="block">정책 확인과 사전 점검, 캡처 기록, 성과 예측으로 이어집니다.</span>
+              <span className="block">AdMate는 이 과정을 한 흐름으로 연결해 다음 판단을 빠르게 돕습니다.</span>
             </p>
           </div>
 
