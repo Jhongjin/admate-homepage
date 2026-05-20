@@ -597,8 +597,8 @@ function HomeFinalCta() {
                 size="lg"
                 className="group h-12 rounded-full border-[#BDB2A2] bg-[#F7F4EC]/70 px-5 font-semibold text-[#101820] transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-[#101820] hover:bg-white active:scale-[0.98]"
               >
-                <Link href={officialLinks.accessRequest} target="_blank" rel="noreferrer">
-                  데스크 권한 요청
+                <Link href={officialLinks.accessRequest}>
+                  이용 권한 요청
                   <span className="ml-2 flex h-7 w-7 items-center justify-center rounded-full bg-[#101820]/6 transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:bg-[#101820] group-hover:text-white">
                     <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </span>

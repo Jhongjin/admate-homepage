@@ -50,7 +50,7 @@ export const navLinks = [
   { label: "제품", href: "#suite" },
   { label: "업무 흐름", href: "#flow" },
   { label: "권한/보안", href: "#trust" },
-  { label: "이용 신청", href: "#access" },
+  { label: "이용 신청", href: "/access-request" },
 ]
 
 export const officialLinks = {
@@ -62,7 +62,7 @@ export const officialLinks = {
   sentinel: "https://sentinel.admate.ai.kr",
   lens: "https://lens.admate.ai.kr",
   foresight: "https://foresight.admate.ai.kr",
-  accessRequest: "https://home.admate.ai.kr/access-request",
+  accessRequest: "/access-request",
 }
 
 export const products: Product[] = [

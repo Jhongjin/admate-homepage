@@ -8,6 +8,7 @@ import { navLinks, officialLinks } from "@/lib/admate-content"
 
 const mobileSiteLinks = [
   { label: "AdMate Home", href: officialLinks.home },
+  { label: "이용 권한 요청", href: officialLinks.accessRequest },
   { label: "Compass", href: officialLinks.compass },
   { label: "Sentinel", href: officialLinks.sentinel },
   { label: "Lens", href: officialLinks.lens },
@@ -56,18 +57,22 @@ export function SheetlessMobileNav() {
             <p className="px-3 pt-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#756B5D]">
               사이트 이동
             </p>
-            {mobileSiteLinks.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => setOpen(false)}
-                className="rounded-[7px] px-3 py-2 text-sm font-semibold text-[#2E3832] transition duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-white hover:text-[#101820]"
-              >
-                {item.label}
-              </Link>
-            ))}
+            {mobileSiteLinks.map((item) => {
+              const isExternal = item.href.startsWith("http")
+
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  target={isExternal ? "_blank" : undefined}
+                  rel={isExternal ? "noreferrer" : undefined}
+                  onClick={() => setOpen(false)}
+                  className="rounded-[7px] px-3 py-2 text-sm font-semibold text-[#2E3832] transition duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-white hover:text-[#101820]"
+                >
+                  {item.label}
+                </Link>
+              )
+            })}
             <Link
               href={officialLinks.login}
               target="_blank"

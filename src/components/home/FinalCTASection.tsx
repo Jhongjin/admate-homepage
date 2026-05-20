@@ -26,7 +26,7 @@ export function FinalCTASection() {
                   Agent Core의 운영 기억으로 다음 승인, 수정, 공유, 투자 안건을 정리합니다.
                 </span>
                 <span className="block">
-                  필요한 데스크 권한을 신청하고 운영판에서 포트폴리오 상태를 확인할 수 있습니다.
+                  필요한 AdMate 이용 권한을 신청하고 운영판에서 포트폴리오 상태를 확인할 수 있습니다.
                 </span>
               </p>
             </div>
@@ -39,9 +39,9 @@ export function FinalCTASection() {
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="w-full justify-center border-[#AEBAB2] bg-white text-[#101820] hover:bg-[#F7F8F6]">
-                <Link href={officialLinks.accessRequest} target="_blank" rel="noreferrer">
+                <Link href={officialLinks.accessRequest}>
                   <UserPlus className="h-4 w-4" aria-hidden="true" />
-                  데스크 권한 요청
+                  이용 권한 요청
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
               </Button>

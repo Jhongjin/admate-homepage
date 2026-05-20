@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import {
   ChevronDown,
   Compass,
@@ -22,7 +23,7 @@ type SiteLink = {
   description: string
   href: string
   icon: LucideIcon
-  active?: boolean
+  matchPath?: string
 }
 
 const siteLinks: SiteLink[] = [
@@ -31,13 +32,14 @@ const siteLinks: SiteLink[] = [
     description: "제품군 안내와 공지",
     href: officialLinks.home,
     icon: Home,
-    active: true,
+    matchPath: "/",
   },
   {
     label: "이용 권한 요청",
     description: "필요한 제품 권한 신청",
     href: officialLinks.accessRequest,
     icon: UserPlus,
+    matchPath: "/access-request",
   },
   {
     label: "Compass",
@@ -74,6 +76,7 @@ type SiteLinksDropdownProps = {
 export function SiteLinksDropdown({ className, dark = false, size = "sm" }: SiteLinksDropdownProps) {
   const [open, setOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
+  const pathname = usePathname()
 
   useEffect(() => {
     if (!open) return
@@ -120,7 +123,7 @@ export function SiteLinksDropdown({ className, dark = false, size = "sm" }: Site
         <ChevronDown className={cn("h-4 w-4 transition", open ? "rotate-180" : null)} aria-hidden="true" />
       </button>
       {open ? (
-        <DropdownPanel links={siteLinks} dark={dark} onNavigate={() => setOpen(false)} ariaLabel="AdMate 사이트 이동" />
+        <DropdownPanel links={siteLinks} dark={dark} onNavigate={() => setOpen(false)} ariaLabel="AdMate 사이트 이동" pathname={pathname} />
       ) : null}
     </div>
   )
@@ -131,9 +134,10 @@ type DropdownPanelProps = {
   ariaLabel: string
   dark?: boolean
   onNavigate: () => void
+  pathname: string
 }
 
-function DropdownPanel({ links, ariaLabel, dark = false, onNavigate }: DropdownPanelProps) {
+function DropdownPanel({ links, ariaLabel, dark = false, onNavigate, pathname }: DropdownPanelProps) {
   return (
     <div
       role="menu"
@@ -149,6 +153,7 @@ function DropdownPanel({ links, ariaLabel, dark = false, onNavigate }: DropdownP
       <div className={cn("mb-1.5 h-px", dark ? "bg-white/10" : "bg-[#D8DEE6]")} />
       {links.map((site) => {
         const isExternal = site.href.startsWith("http")
+        const isActive = site.matchPath === pathname
         const Icon = site.icon
 
         return (
@@ -170,7 +175,7 @@ function DropdownPanel({ links, ariaLabel, dark = false, onNavigate }: DropdownP
             <span className="min-w-0 flex-1">
               <span className="flex items-center gap-2 text-[15px] font-bold leading-tight">
                 {site.label}
-                {site.active ? (
+                {isActive ? (
                   <span className="rounded-[6px] bg-[#FFF3D8] px-1.5 py-0.5 text-[11px] font-bold text-[#7A5518]">
                     현재
                   </span>
