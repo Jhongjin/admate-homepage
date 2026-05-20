@@ -74,7 +74,7 @@ const operatingSequence = [
   {
     code: "02",
     title: "Policy",
-    detail: "Compass가 정책 근거와 출처를 같은 화면에 붙입니다.",
+    detail: "Compass가 질문에 필요한 정책 기준과 확인 항목을 정리합니다.",
     signal: "Evidence lock",
     accent: "#7DD3FC",
     frameClass: "homepage-flow-frame-2",
