@@ -39,7 +39,7 @@ Color usage should be functional. Product colors should appear as small signals,
 
 ## 3. Typography Rules
 
-The interface uses **Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif**. Typography should feel like a polished product dashboard expanded into a brand page.
+AdMate 모든 신규/개편 페이지의 기본 UI 폰트는 **Geist**. Use **Geist, Geist Fallback, Noto Sans KR, system sans** in that order. Keep **Noto Sans KR** as the Korean fallback so Korean business copy remains natural and readable when Geist does not cover a glyph. Typography should feel like a polished product dashboard expanded into a brand page.
 
 - **Hero brand name:** Large, direct, and weighty. Use 56-72px on desktop, with normal letter spacing.
 - **Hero subtitle:** Strong but smaller than the brand name. Use 28-32px on desktop.
@@ -181,7 +181,7 @@ When generating new AdMate homepage screens, use this prompt direction:
 
 ```text
 Create a calm, enterprise-grade AI Agent platform page for AdMate.
-Use a light operational canvas (#F7F7F7), white bordered cards (#FFFFFF / #E5E5E5), compact Inter typography, and restrained product accent colors.
+Use a light operational canvas (#F7F7F7), white bordered cards (#FFFFFF / #E5E5E5), compact Geist typography with Noto Sans KR fallback for Korean text, and restrained product accent colors.
 The page should feel like Openclaw operational reliability expanded into a brand landing page.
 Show system relationships through clean diagrams, lifecycle steps, cards, badges, tabs, and tables.
 Avoid flashy startup gradients, decorative blobs, fake ROI metrics, or anything that makes AI feel like it replaces people.
