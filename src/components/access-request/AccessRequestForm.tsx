@@ -8,7 +8,6 @@ import {
   CheckCircle2,
   CircleAlert,
   ClipboardList,
-  FileText,
   Mail,
   ShieldCheck,
   UserRound,
@@ -33,11 +32,8 @@ type AccessRequestFormState = {
   email_local_part: string
   requester_division: string
   requester_team_name: string
-  usage_purposes: string[]
   requested_platforms: AccessRequestPlatform[]
   requested_permission_level: RequestedPermissionLevel
-  requested_hermes_reviewer: boolean
-  request_note: string
 }
 
 type SubmitState =
@@ -50,24 +46,13 @@ const initialForm: AccessRequestFormState = {
   email_local_part: "",
   requester_division: "",
   requester_team_name: "",
-  usage_purposes: [],
   requested_platforms: [],
   requested_permission_level: "view",
-  requested_hermes_reviewer: false,
-  request_note: "",
 }
 
 const requestProducts = products.filter((product) =>
   HOME_ACCESS_REQUEST_PRODUCTS.includes(product.id as AccessRequestPlatform),
 )
-
-const usagePurposeOptions = [
-  "정책/가이드 검색",
-  "캠페인 사전 검수",
-  "실시간 모니터링",
-  "캡처/게재 증빙",
-  "예측/성과 분석",
-] as const
 
 const permissionLevels: Array<{
   key: RequestedPermissionLevel
@@ -77,17 +62,17 @@ const permissionLevels: Array<{
   {
     key: "view",
     label: "확인만 필요",
-    description: "선택한 제품의 정보를 확인하는 용도입니다.",
+    description: "기능과 결과를 조회합니다.",
   },
   {
     key: "operate",
     label: "업무에 직접 사용",
-    description: "담당 업무를 처리하기 위해 사용합니다.",
+    description: "본인 업무와 참여 캠페인에 사용합니다.",
   },
   {
     key: "project_manage",
     label: "팀 운영에 필요",
-    description: "팀 단위 이용과 운영 확인이 필요합니다.",
+    description: "팀원 작업 현황 확인이 필요합니다.",
   },
 ]
 
@@ -104,8 +89,14 @@ function formWithPreset(product: string) {
   return {
     ...initialForm,
     requested_platforms: mergeUnique(initialForm.requested_platforms, preset.requested_platforms),
-    usage_purposes: mergeUnique(initialForm.usage_purposes, preset.usage_purposes),
   }
+}
+
+function getUsagePurposesFromPlatforms(platforms: AccessRequestPlatform[]) {
+  return platforms.reduce<string[]>((purposes, platform) => {
+    const preset = ACCESS_REQUEST_PRODUCT_PRESETS[platform]
+    return preset ? mergeUnique(purposes, preset.usage_purposes) : purposes
+  }, [])
 }
 
 function getErrorDetails(value: unknown) {
@@ -131,7 +122,6 @@ export function AccessRequestForm() {
           isEmailLocalPart(emailLocalPart) &&
           form.requester_division &&
           form.requester_team_name.trim() &&
-          form.usage_purposes.length > 0 &&
           form.requested_platforms.length > 0,
       ),
     [emailLocalPart, form],
@@ -140,16 +130,6 @@ export function AccessRequestForm() {
   const setField = <K extends keyof AccessRequestFormState>(key: K, value: AccessRequestFormState[K]) => {
     setSubmitState({ type: "idle" })
     setForm((current) => ({ ...current, [key]: value }))
-  }
-
-  const toggleUsagePurpose = (value: string) => {
-    setSubmitState({ type: "idle" })
-    setForm((current) => ({
-      ...current,
-      usage_purposes: current.usage_purposes.includes(value)
-        ? current.usage_purposes.filter((item) => item !== value)
-        : [...current.usage_purposes, value],
-    }))
   }
 
   const togglePlatform = (value: AccessRequestPlatform) => {
@@ -186,6 +166,8 @@ export function AccessRequestForm() {
     setSubmitState({ type: "idle" })
 
     try {
+      const usagePurposes = getUsagePurposesFromPlatforms(form.requested_platforms)
+      const teamOperationsRequested = form.requested_permission_level === "project_manage"
       const payload = {
         requester_name: form.requester_name,
         requester_email_local_part: emailLocalPart,
@@ -193,18 +175,19 @@ export function AccessRequestForm() {
         requester_division: form.requester_division,
         requester_team_name: form.requester_team_name,
         requester_team: requesterTeam,
-        purpose: form.usage_purposes.join(", "),
-        usage_purposes: form.usage_purposes,
+        purpose: usagePurposes.join(", "),
+        usage_purposes: usagePurposes,
         requested_platforms: form.requested_platforms,
         requested_permission_level: form.requested_permission_level,
-        requested_hermes_reviewer: form.requested_hermes_reviewer,
-        request_note: form.request_note,
+        requested_hermes_reviewer: teamOperationsRequested,
+        request_note: "",
         metadata: {
           form_version: "v2",
           email_domain: NASMEDIA_EMAIL_DOMAIN,
           division: form.requester_division,
           team: form.requester_team_name,
-          usage_purposes: form.usage_purposes,
+          usage_purposes: usagePurposes,
+          team_operations_requested: teamOperationsRequested,
           requested_from: "admate-homepage",
           requested_product_query: requestedProduct || null,
           nasmedia_default_viewer_candidate: form.requester_division === "나스미디어",
@@ -380,36 +363,6 @@ export function AccessRequestForm() {
 
         <fieldset className="grid gap-3">
           <legend className="flex items-center gap-2 text-sm font-semibold text-[#25314A]">
-            <FileText className="h-4 w-4 text-[#60706A]" aria-hidden="true" />
-            사용 목적
-          </legend>
-          <div className="grid gap-2 sm:grid-cols-2">
-            {usagePurposeOptions.map((purpose) => {
-              const checked = form.usage_purposes.includes(purpose)
-
-              return (
-                <label
-                  key={purpose}
-                  className="flex min-h-11 cursor-pointer items-center gap-2 rounded-[8px] border border-[#D7DCE3] bg-white px-3 py-2 text-sm font-semibold text-[#25314A] transition hover:border-[#B8C7BE] has-[:checked]:border-[#177D4E] has-[:checked]:bg-[#E5F5ED] has-[:checked]:text-[#14633F]"
-                >
-                  <input
-                    type="checkbox"
-                    name="usagePurposes"
-                    value={purpose}
-                    checked={checked}
-                    onChange={() => toggleUsagePurpose(purpose)}
-                    className="h-4 w-4 rounded border-[#B8C7BE]"
-                    style={{ accentColor: "#177D4E" }}
-                  />
-                  {purpose}
-                </label>
-              )
-            })}
-          </div>
-        </fieldset>
-
-        <fieldset className="grid gap-3">
-          <legend className="flex items-center gap-2 text-sm font-semibold text-[#25314A]">
             <ShieldCheck className="h-4 w-4 text-[#60706A]" aria-hidden="true" />
             필요한 이용 범위
           </legend>
@@ -435,22 +388,6 @@ export function AccessRequestForm() {
             })}
           </div>
         </fieldset>
-
-        <label className="grid gap-2 rounded-[8px] border border-[#D7DCE3] bg-[#F7F8FA] p-3">
-          <span className="flex items-center gap-2 text-sm font-semibold text-[#25314A]">
-            <input
-              type="checkbox"
-              checked={form.requested_hermes_reviewer}
-              onChange={(event) => setField("requested_hermes_reviewer", event.target.checked)}
-              className="h-4 w-4 rounded border-[#B8C7BE]"
-              style={{ accentColor: "#177D4E" }}
-            />
-            팀 운영 확인도 필요합니다
-          </span>
-          <span className="pl-6 text-xs leading-5 text-[#68707C]">
-            여러 사람의 이용 현황을 함께 확인해야 하는 경우 선택하세요.
-          </span>
-        </label>
 
         {submitState.type === "success" ? (
           <div className="rounded-[8px] border border-[#9FE5C1] bg-[#EFFAF4] p-4 text-sm leading-6 text-[#177D4E]">
