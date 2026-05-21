@@ -20,7 +20,6 @@ import { products } from "@/lib/admate-content"
 import {
   ACCESS_REQUEST_DIVISIONS,
   ACCESS_REQUEST_PRODUCT_PRESETS,
-  ACCESS_REQUEST_USAGE_PURPOSES,
   HOME_ACCESS_REQUEST_PRODUCTS,
   NASMEDIA_EMAIL_DOMAIN,
   isEmailLocalPart,
@@ -62,6 +61,14 @@ const requestProducts = products.filter((product) =>
   HOME_ACCESS_REQUEST_PRODUCTS.includes(product.id as AccessRequestPlatform),
 )
 
+const usagePurposeOptions = [
+  "정책/가이드 검색",
+  "캠페인 사전 검수",
+  "실시간 모니터링",
+  "캡처/게재 증빙",
+  "예측/성과 분석",
+] as const
+
 const permissionLevels: Array<{
   key: RequestedPermissionLevel
   label: string
@@ -69,18 +76,18 @@ const permissionLevels: Array<{
 }> = [
   {
     key: "view",
-    label: "조회",
-    description: "허용된 제품 화면과 운영 상태를 확인합니다.",
+    label: "확인만 필요",
+    description: "선택한 제품의 정보를 확인하는 용도입니다.",
   },
   {
     key: "operate",
-    label: "입력/운영",
-    description: "담당 범위의 데이터를 입력하고 운영합니다.",
+    label: "업무에 직접 사용",
+    description: "담당 업무를 처리하기 위해 사용합니다.",
   },
   {
     key: "project_manage",
-    label: "프로젝트 관리",
-    description: "제품 운영 관리 권한 검토를 요청합니다.",
+    label: "팀 운영에 필요",
+    description: "팀 단위 이용과 운영 확인이 필요합니다.",
   },
 ]
 
@@ -125,7 +132,8 @@ export function AccessRequestForm() {
           form.requester_division &&
           form.requester_team_name.trim() &&
           form.usage_purposes.length > 0 &&
-          form.requested_platforms.length > 0,
+          form.requested_platforms.length > 0 &&
+          form.request_note.trim().length >= 10,
       ),
     [emailLocalPart, form],
   )
@@ -206,7 +214,7 @@ export function AccessRequestForm() {
       if (!response.ok || result.ok === false) {
         setSubmitState({
           type: "error",
-          message: result.error || "이용 권한 요청을 접수하지 못했습니다.",
+          message: result.error || "이용 권한 신청을 접수하지 못했습니다.",
           details: getErrorDetails(result.validation_errors),
         })
         return
@@ -214,7 +222,7 @@ export function AccessRequestForm() {
 
       setSubmitState({
         type: "success",
-        message: "이용 권한 요청이 접수되었습니다. 담당자가 검토한 뒤 필요한 권한을 안내합니다.",
+        message: "이용 권한 신청이 접수되었습니다. 담당자가 확인한 뒤 안내드립니다.",
         requestId: result.request_id,
       })
       setForm(formWithPreset(requestedProduct))
@@ -229,16 +237,16 @@ export function AccessRequestForm() {
   }
 
   return (
-    <Card className="border-[#C9BFAF] bg-white p-5 shadow-[0_24px_80px_rgba(16,24,32,0.10)] sm:p-6">
-      <div className="flex items-start justify-between gap-4 border-b border-[#E2DACF] pb-5">
+    <Card className="border-[#DDE2E8] bg-white p-5 shadow-[0_24px_80px_rgba(16,24,32,0.10)] sm:p-6">
+      <div className="flex items-start justify-between gap-4 border-b border-[#E5EAF0] pb-5">
         <div className="min-w-0">
-          <div className="text-[12px] font-bold uppercase tracking-[0.16em] text-[#8A765B]">Request form</div>
-          <h2 className="mt-2 text-2xl font-semibold leading-tight text-[#101820]">이용 권한 요청서</h2>
-          <p className="mt-2 text-sm leading-6 text-[#5E5E5E]">
-            신청 내용은 담당자가 검토하며 승인 후 제품별 접근 범위를 안내합니다.
+          <div className="text-[12px] font-bold text-[#60706A]">신청서</div>
+          <h2 className="mt-2 text-2xl font-semibold leading-tight text-[#101820]">신청 정보를 입력해 주세요</h2>
+          <p className="mt-2 text-sm leading-6 text-[#5A6672]">
+            입력한 내용은 담당자 확인에만 사용됩니다.
           </p>
         </div>
-        <div className="grid h-11 w-11 shrink-0 place-items-center rounded-[8px] border border-[#D6CCBC] bg-[#F8F6F1] text-[#60706A]">
+        <div className="grid h-11 w-11 shrink-0 place-items-center rounded-[8px] border border-[#DDE2E8] bg-[#F7F8FA] text-[#60706A]">
           <ClipboardList className="h-5 w-5" aria-hidden="true" />
         </div>
       </div>
@@ -257,9 +265,9 @@ export function AccessRequestForm() {
           <div className="grid gap-2">
             <label htmlFor="email-local-part" className="flex items-center gap-2 text-sm font-semibold text-[#25314A]">
               <Mail className="h-4 w-4 text-[#60706A]" aria-hidden="true" />
-              회사 이메일
+              업무 이메일
             </label>
-            <div className="grid overflow-hidden rounded-[8px] border border-[#D7DCE3] bg-white focus-within:border-[#5E6AD2] focus-within:ring-2 focus-within:ring-[#ECEDF9] sm:grid-cols-[minmax(0,1fr)_auto]">
+            <div className="grid overflow-hidden rounded-[8px] border border-[#D7DCE3] bg-white focus-within:border-[#177D4E] focus-within:ring-2 focus-within:ring-[#E5F5ED] sm:grid-cols-[minmax(0,1fr)_auto]">
               <input
                 id="email-local-part"
                 name="emailLocalPart"
@@ -268,57 +276,60 @@ export function AccessRequestForm() {
                 autoComplete="username"
                 value={form.email_local_part}
                 onChange={(event) => setField("email_local_part", event.target.value.replace(/@.*/, "").trim())}
-                placeholder="local-part"
+                placeholder="이메일 앞부분"
                 pattern="[a-zA-Z0-9._%+-]+"
                 className="min-h-11 min-w-0 border-0 bg-transparent px-3 text-sm font-medium text-[#101820] outline-none placeholder:text-[#9A9A9A]"
                 aria-describedby="email-help"
               />
-              <div className="flex min-h-11 items-center gap-2 border-t border-[#E5E5E5] bg-[#F8F6F1] px-3 text-sm font-semibold text-[#60706A] sm:border-l sm:border-t-0">
+              <div className="flex min-h-11 items-center gap-2 border-t border-[#E5E5E5] bg-[#F7F8FA] px-3 text-sm font-semibold text-[#60706A] sm:border-l sm:border-t-0">
                 <AtSign className="h-4 w-4" aria-hidden="true" />
                 {NASMEDIA_EMAIL_DOMAIN}
               </div>
             </div>
             <p id="email-help" className="text-xs leading-5 text-[#68707C]">
-              회사 도메인은 고정입니다. 앞부분만 입력하세요.
+              이메일 앞부분만 입력하면 됩니다.
             </p>
           </div>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div className="grid gap-2">
-            <label htmlFor="requester-division" className="flex items-center gap-2 text-sm font-semibold text-[#25314A]">
-              <Building2 className="h-4 w-4 text-[#60706A]" aria-hidden="true" />
-              소속 실
-            </label>
+        <div className="grid gap-2">
+          <label className="flex items-center gap-2 text-sm font-semibold text-[#25314A]">
+            <Building2 className="h-4 w-4 text-[#60706A]" aria-hidden="true" />
+            회사/팀
+          </label>
+          <div className="grid gap-3 sm:grid-cols-[0.82fr_1fr]">
             <select
               id="requester-division"
               value={form.requester_division}
               onChange={(event) => setField("requester_division", event.target.value)}
-              className="min-h-11 rounded-[8px] border border-[#D7DCE3] bg-white px-3 text-sm font-medium text-[#101820] outline-none focus:border-[#5E6AD2] focus:ring-2 focus:ring-[#ECEDF9]"
+              className="min-h-11 rounded-[8px] border border-[#D7DCE3] bg-white px-3 text-sm font-medium text-[#101820] outline-none focus:border-[#177D4E] focus:ring-2 focus:ring-[#E5F5ED]"
+              aria-label="회사 또는 소속"
             >
-              <option value="">소속 실 선택</option>
+              <option value="">회사 또는 소속 선택</option>
               {ACCESS_REQUEST_DIVISIONS.map((division) => (
                 <option key={division} value={division}>
                   {division}
                 </option>
               ))}
             </select>
+            <input
+              id="requester-team"
+              name="requester-team"
+              type="text"
+              autoComplete="organization"
+              value={form.requester_team_name}
+              onChange={(event) => setField("requester_team_name", event.target.value)}
+              placeholder="팀 이름"
+              className="min-h-11 rounded-[8px] border border-[#D7DCE3] bg-white px-3 text-sm font-medium text-[#101820] outline-none placeholder:text-[#9A9A9A] focus:border-[#177D4E] focus:ring-2 focus:ring-[#E5F5ED]"
+              aria-label="팀 이름"
+            />
           </div>
-
-          <FieldInput
-            id="requester-team"
-            label="부서/팀"
-            value={form.requester_team_name}
-            placeholder="Data Analytics Team"
-            icon={Building2}
-            onChange={(value) => setField("requester_team_name", value)}
-          />
         </div>
 
         <fieldset className="grid gap-3">
           <legend className="flex items-center gap-2 text-sm font-semibold text-[#25314A]">
             <ShieldCheck className="h-4 w-4 text-[#60706A]" aria-hidden="true" />
-            요청 제품
+            필요한 제품
           </legend>
           <div className="grid gap-2 sm:grid-cols-2">
             {requestProducts.map((product) => {
@@ -329,7 +340,7 @@ export function AccessRequestForm() {
               return (
                 <label
                   key={product.id}
-                  className="grid min-h-[104px] cursor-pointer grid-cols-[auto_minmax(0,1fr)] gap-3 rounded-[8px] border border-[#D7DCE3] bg-[#FBFAF7] p-3 transition hover:border-[#B8C7BE] hover:bg-white has-[:checked]:border-[#101820] has-[:checked]:bg-white"
+                  className="grid min-h-[104px] cursor-pointer grid-cols-[auto_minmax(0,1fr)] gap-3 rounded-[8px] border border-[#D7DCE3] bg-[#F7F8FA] p-3 transition hover:border-[#B8C7BE] hover:bg-white has-[:checked]:border-[#101820] has-[:checked]:bg-white"
                 >
                   <input
                     type="checkbox"
@@ -345,7 +356,6 @@ export function AccessRequestForm() {
                       <Icon className="h-4 w-4 shrink-0" style={{ color: product.color }} aria-hidden="true" />
                       {product.shortName}
                     </span>
-                    <span className="mt-1 block text-xs font-semibold leading-5 text-[#68707C]">{product.subtitle}</span>
                     <span className="mt-2 block text-xs leading-5 text-[#5E5E5E]">{product.tagline}</span>
                   </span>
                 </label>
@@ -360,13 +370,13 @@ export function AccessRequestForm() {
             사용 목적
           </legend>
           <div className="grid gap-2 sm:grid-cols-2">
-            {ACCESS_REQUEST_USAGE_PURPOSES.map((purpose) => {
+            {usagePurposeOptions.map((purpose) => {
               const checked = form.usage_purposes.includes(purpose)
 
               return (
                 <label
                   key={purpose}
-                  className="flex min-h-11 cursor-pointer items-center gap-2 rounded-[8px] border border-[#D7DCE3] bg-white px-3 py-2 text-sm font-semibold text-[#25314A] transition hover:border-[#B8C7BE] has-[:checked]:border-[#5E6AD2] has-[:checked]:bg-[#ECEDF9] has-[:checked]:text-[#3943A8]"
+                  className="flex min-h-11 cursor-pointer items-center gap-2 rounded-[8px] border border-[#D7DCE3] bg-white px-3 py-2 text-sm font-semibold text-[#25314A] transition hover:border-[#B8C7BE] has-[:checked]:border-[#177D4E] has-[:checked]:bg-[#E5F5ED] has-[:checked]:text-[#14633F]"
                 >
                   <input
                     type="checkbox"
@@ -375,7 +385,7 @@ export function AccessRequestForm() {
                     checked={checked}
                     onChange={() => toggleUsagePurpose(purpose)}
                     className="h-4 w-4 rounded border-[#B8C7BE]"
-                    style={{ accentColor: "#5E6AD2" }}
+                    style={{ accentColor: "#177D4E" }}
                   />
                   {purpose}
                 </label>
@@ -387,7 +397,7 @@ export function AccessRequestForm() {
         <fieldset className="grid gap-3">
           <legend className="flex items-center gap-2 text-sm font-semibold text-[#25314A]">
             <ShieldCheck className="h-4 w-4 text-[#60706A]" aria-hidden="true" />
-            요청 권한
+            필요한 이용 범위
           </legend>
           <div className="grid gap-2 sm:grid-cols-3">
             {permissionLevels.map((level) => {
@@ -400,7 +410,7 @@ export function AccessRequestForm() {
                   onClick={() => setField("requested_permission_level", level.key)}
                   className={`min-h-[96px] rounded-[8px] border p-3 text-left transition ${
                     selected
-                      ? "border-[#101820] bg-[#FBFAF7] text-[#101820]"
+                      ? "border-[#101820] bg-[#F7F8FA] text-[#101820]"
                       : "border-[#D7DCE3] bg-white text-[#25314A] hover:border-[#B8C7BE]"
                   }`}
                 >
@@ -412,26 +422,26 @@ export function AccessRequestForm() {
           </div>
         </fieldset>
 
-        <label className="grid gap-2 rounded-[8px] border border-[#D7DCE3] bg-[#FBFAF7] p-3">
+        <label className="grid gap-2 rounded-[8px] border border-[#D7DCE3] bg-[#F7F8FA] p-3">
           <span className="flex items-center gap-2 text-sm font-semibold text-[#25314A]">
             <input
               type="checkbox"
               checked={form.requested_hermes_reviewer}
               onChange={(event) => setField("requested_hermes_reviewer", event.target.checked)}
               className="h-4 w-4 rounded border-[#B8C7BE]"
-              style={{ accentColor: "#5E6AD2" }}
+              style={{ accentColor: "#177D4E" }}
             />
-            운영 관리 권한도 요청
+            팀 운영 확인도 필요합니다
           </span>
           <span className="pl-6 text-xs leading-5 text-[#68707C]">
-            제품 운영 관리나 검토 업무가 필요한 경우 선택하세요. 실제 권한은 승인 단계에서 확정됩니다.
+            여러 사람의 이용 현황을 함께 확인해야 하는 경우 선택하세요.
           </span>
         </label>
 
         <div className="grid gap-2">
           <label htmlFor="request-note" className="flex items-center gap-2 text-sm font-semibold text-[#25314A]">
             <FileText className="h-4 w-4 text-[#60706A]" aria-hidden="true" />
-            요청 사유 / 추가 메모
+            상세 내용
           </label>
           <textarea
             id="request-note"
@@ -439,11 +449,11 @@ export function AccessRequestForm() {
             rows={5}
             value={form.request_note}
             onChange={(event) => setField("request_note", event.target.value)}
-            placeholder="업무 목적, 필요한 접근 범위, 사용 예정 제품을 간단히 적어주세요."
-            className="min-h-[132px] resize-y rounded-[8px] border border-[#D7DCE3] bg-white px-3 py-3 text-sm font-medium leading-6 text-[#101820] outline-none placeholder:text-[#9A9A9A] focus:border-[#5E6AD2] focus:ring-2 focus:ring-[#ECEDF9]"
+            placeholder="어떤 업무에 필요한지 10자 이상 적어주세요."
+            className="min-h-[132px] resize-y rounded-[8px] border border-[#D7DCE3] bg-white px-3 py-3 text-sm font-medium leading-6 text-[#101820] outline-none placeholder:text-[#9A9A9A] focus:border-[#177D4E] focus:ring-2 focus:ring-[#E5F5ED]"
           />
           <p className="text-xs leading-5 text-[#68707C]">
-            광고주, 캠페인, 계정 식별값 같은 민감 정보는 입력하지 않아도 됩니다.
+            광고주, 캠페인, 계정 번호 같은 자세한 정보는 적지 않아도 됩니다.
           </p>
         </div>
 
@@ -451,7 +461,10 @@ export function AccessRequestForm() {
           <div className="rounded-[8px] border border-[#9FE5C1] bg-[#EFFAF4] p-4 text-sm leading-6 text-[#177D4E]">
             <div className="flex gap-2 font-semibold">
               <CheckCircle2 className="mt-1 h-4 w-4 shrink-0" aria-hidden="true" />
-              <span>{submitState.message}</span>
+              <span>
+                {submitState.message}
+                {submitState.requestId ? ` 접수번호: ${submitState.requestId}` : ""}
+              </span>
             </div>
           </div>
         ) : null}
@@ -473,7 +486,7 @@ export function AccessRequestForm() {
         ) : null}
 
         <Button type="submit" disabled={!canSubmit || loading} className="h-11 w-full bg-[#101820] text-white hover:bg-[#26342E]">
-          {loading ? "요청 접수 중..." : "이용 권한 요청 제출"}
+          {loading ? "신청 접수 중..." : "이용 권한 신청"}
         </Button>
       </form>
     </Card>
@@ -509,7 +522,7 @@ function FieldInput({
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
-        className="min-h-11 rounded-[8px] border border-[#D7DCE3] bg-white px-3 text-sm font-medium text-[#101820] outline-none placeholder:text-[#9A9A9A] focus:border-[#5E6AD2] focus:ring-2 focus:ring-[#ECEDF9]"
+        className="min-h-11 rounded-[8px] border border-[#D7DCE3] bg-white px-3 text-sm font-medium text-[#101820] outline-none placeholder:text-[#9A9A9A] focus:border-[#177D4E] focus:ring-2 focus:ring-[#E5F5ED]"
       />
     </div>
   )
