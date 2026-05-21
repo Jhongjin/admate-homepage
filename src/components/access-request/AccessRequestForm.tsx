@@ -132,8 +132,7 @@ export function AccessRequestForm() {
           form.requester_division &&
           form.requester_team_name.trim() &&
           form.usage_purposes.length > 0 &&
-          form.requested_platforms.length > 0 &&
-          form.request_note.trim().length >= 10,
+          form.requested_platforms.length > 0,
       ),
     [emailLocalPart, form],
   )
@@ -160,6 +159,21 @@ export function AccessRequestForm() {
       requested_platforms: current.requested_platforms.includes(value)
         ? current.requested_platforms.filter((item) => item !== value)
         : [...current.requested_platforms, value],
+    }))
+  }
+
+  const handleDivisionChange = (value: string) => {
+    setSubmitState({ type: "idle" })
+    setForm((current) => ({
+      ...current,
+      requester_division: value,
+      requester_team_name:
+        value === "나스미디어"
+          ? "나스미디어"
+          : current.requester_team_name === "나스미디어"
+            ? ""
+            : current.requester_team_name,
+      requested_permission_level: value === "나스미디어" ? "view" : current.requested_permission_level,
     }))
   }
 
@@ -252,7 +266,7 @@ export function AccessRequestForm() {
       </div>
 
       <form className="mt-5 grid gap-5" onSubmit={submit}>
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-4">
           <FieldInput
             id="requester-name"
             label="이름"
@@ -301,7 +315,7 @@ export function AccessRequestForm() {
             <select
               id="requester-division"
               value={form.requester_division}
-              onChange={(event) => setField("requester_division", event.target.value)}
+              onChange={(event) => handleDivisionChange(event.target.value)}
               className="min-h-11 rounded-[8px] border border-[#D7DCE3] bg-white px-3 text-sm font-medium text-[#101820] outline-none focus:border-[#177D4E] focus:ring-2 focus:ring-[#E5F5ED]"
               aria-label="회사 또는 소속"
             >
@@ -319,7 +333,7 @@ export function AccessRequestForm() {
               autoComplete="organization"
               value={form.requester_team_name}
               onChange={(event) => setField("requester_team_name", event.target.value)}
-              placeholder="팀 이름"
+              placeholder="광고1팀"
               className="min-h-11 rounded-[8px] border border-[#D7DCE3] bg-white px-3 text-sm font-medium text-[#101820] outline-none placeholder:text-[#9A9A9A] focus:border-[#177D4E] focus:ring-2 focus:ring-[#E5F5ED]"
               aria-label="팀 이름"
             />
@@ -437,25 +451,6 @@ export function AccessRequestForm() {
             여러 사람의 이용 현황을 함께 확인해야 하는 경우 선택하세요.
           </span>
         </label>
-
-        <div className="grid gap-2">
-          <label htmlFor="request-note" className="flex items-center gap-2 text-sm font-semibold text-[#25314A]">
-            <FileText className="h-4 w-4 text-[#60706A]" aria-hidden="true" />
-            상세 내용
-          </label>
-          <textarea
-            id="request-note"
-            name="requestNote"
-            rows={5}
-            value={form.request_note}
-            onChange={(event) => setField("request_note", event.target.value)}
-            placeholder="어떤 업무에 필요한지 10자 이상 적어주세요."
-            className="min-h-[132px] resize-y rounded-[8px] border border-[#D7DCE3] bg-white px-3 py-3 text-sm font-medium leading-6 text-[#101820] outline-none placeholder:text-[#9A9A9A] focus:border-[#177D4E] focus:ring-2 focus:ring-[#E5F5ED]"
-          />
-          <p className="text-xs leading-5 text-[#68707C]">
-            광고주, 캠페인, 계정 번호 같은 자세한 정보는 적지 않아도 됩니다.
-          </p>
-        </div>
 
         {submitState.type === "success" ? (
           <div className="rounded-[8px] border border-[#9FE5C1] bg-[#EFFAF4] p-4 text-sm leading-6 text-[#177D4E]">
