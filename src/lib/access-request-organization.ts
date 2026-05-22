@@ -118,7 +118,15 @@ export const ACCESS_REQUEST_ORGANIZATION_TREE: readonly AccessRequestOrganizatio
           { name: "9팀(박민용팀)", code: "ad_hq_2_office_6_team_09", category: adPlannerCategory },
           { name: "10팀(이창민팀)", code: "ad_hq_2_office_6_team_10", category: adPlannerCategory },
           { name: "11팀(박연주팀)", code: "ad_hq_2_office_6_team_11", category: adPlannerCategory },
-          { name: "MIC", code: "ad_hq_2_office_6_mic", category: "non_ad" },
+        ],
+      },
+      {
+        name: "MIC",
+        code: "ad_hq_2_mic_office",
+        category: "non_ad",
+        children: [
+          { name: "데이터디자인팀", code: "ad_hq_2_mic_data_design_team", category: "non_ad" },
+          { name: "마케팅플랫폼팀", code: "ad_hq_2_mic_marketing_platform_team", category: "non_ad" },
         ],
       },
     ],
