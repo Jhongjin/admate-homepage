@@ -33,11 +33,11 @@ const productDeskCopy: Record<
     cadence: "검수/집행 중",
   },
   lens: {
-    desk: "보고 증빙",
+    desk: "보고 기록",
     signal: "광고 게재 화면과 보고 캡처가 필요할 때",
     evidence: "모바일/데스크톱 캡처와 보존 이력",
     decision: "보고 확정, 재촬영, 광고주 공유",
-    handoff: "보고 산출물과 증빙 이력으로 전달",
+    handoff: "보고 산출물과 화면 기록으로 전달",
     cadence: "보고 전",
   },
   foresight: {
@@ -53,7 +53,7 @@ const productDeskCopy: Record<
 const docketItems = [
   {
     label: "오늘 열어볼 신호",
-    value: "정책 보류, 세팅 불일치, 보고 증빙 누락, 예산 선택지",
+    value: "정책 보류, 세팅 불일치, 보고 기록 누락, 예산 선택지",
   },
   {
     label: "회의에서 필요한 근거",
@@ -131,7 +131,7 @@ export function ProductCardsSection() {
             <div className="grid grid-cols-[0.85fr_1.2fr_1fr] border-b border-[#101820] bg-[#101820] px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-white max-md:hidden">
               <span>Desk</span>
               <span>Evidence lane</span>
-              <span>Decision handoff</span>
+              <span>Next decision</span>
             </div>
 
             <div className="divide-y divide-[#D5DED8]">

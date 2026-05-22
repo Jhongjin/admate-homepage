@@ -24,7 +24,7 @@ const problemStages = [
   },
   {
     group: "캡처",
-    action: "증빙 생성",
+    action: "화면 기록",
     risk: "보고 리소스 소모",
   },
   {
@@ -48,7 +48,7 @@ export function ProblemSection() {
         <SectionHeading
           eyebrow="운영 리스크"
           title="의사결정이 늦어지는 지점이 캠페인 리스크가 됩니다"
-          description="매체 정책, 세팅값, 예산 신호, 증빙 상태가 따로 움직이면 운영자는 문제를 늦게 봅니다. AdMate는 이 지점들을 하나의 리스크 체인으로 올려 의사결정 순서를 정리합니다."
+          description="매체 정책, 세팅값, 예산 신호, 화면 기록 상태가 따로 움직이면 운영자는 문제를 늦게 봅니다. AdMate는 이 지점들을 하나의 리스크 체인으로 올려 의사결정 순서를 정리합니다."
         />
 
         <div className="mb-5 flex flex-col gap-3 border-y border-border py-4 lg:flex-row lg:items-center lg:justify-between">

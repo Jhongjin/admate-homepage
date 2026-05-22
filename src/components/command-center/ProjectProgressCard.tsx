@@ -17,7 +17,7 @@ const accentStyles: Record<string, string> = {
 const commandLabels: Record<string, string> = {
   compass: "정책 근거",
   sentinel: "검수/감시",
-  lens: "증빙 자동화",
+  lens: "화면 기록",
   foresight: "예측 판단",
   agent_core: "운영 기준",
 }

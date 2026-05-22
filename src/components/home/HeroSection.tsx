@@ -26,7 +26,7 @@ const platformNodes: Array<{
     name: "Compass",
     role: "Policy Intelligence",
     verb: "정책을 찾다",
-    signal: "RAG 근거와 집행 가능성",
+    signal: "정책 출처와 집행 가능성",
     proof: "Policy",
     accent: "#7DD3FC",
     icon: FileCheck2,
@@ -42,10 +42,10 @@ const platformNodes: Array<{
   },
   {
     name: "Lens",
-    role: "Capture & Proof",
-    verb: "증빙을 만들다",
-    signal: "게재 화면, 캡처, 보고 증빙",
-    proof: "Proof",
+    role: "Capture Record",
+    verb: "화면 기록을 만들다",
+    signal: "게재 화면, 캡처, 보고 기록",
+    proof: "Record",
     accent: "#A7F3D0",
     icon: Camera,
   },
@@ -62,22 +62,22 @@ const platformNodes: Array<{
 
 const signalStream = [
   "Policy evidence",
-  "Launch gate",
-  "Proof capture",
+  "Launch check",
+  "Capture record",
   "Forecast curve",
   "Agent memory",
 ]
 
 const coreSignals = [
   { label: "AI Core", value: "4 platforms" },
-  { label: "Decision layer", value: "policy / risk / proof / forecast" },
+  { label: "Decision layer", value: "policy / risk / record / forecast" },
   { label: "Operating memory", value: "auditable context" },
 ]
 
 const heroMetrics = [
   { label: "Compass", value: "근거", accent: "#7DD3FC" },
   { label: "Sentinel", value: "검수", accent: "#34D399" },
-  { label: "Lens", value: "증빙", accent: "#A7F3D0" },
+  { label: "Lens", value: "기록", accent: "#A7F3D0" },
   { label: "Foresight", value: "예측", accent: "#FBBF24" },
 ]
 
@@ -119,7 +119,7 @@ function HeroCopy() {
       </h1>
 
       <p className="mt-6 max-w-[660px] text-balance text-lg font-medium leading-8 text-slate-200 sm:text-xl">
-        정책을 찾는 Compass, 운영을 지키는 Sentinel, 증빙을 만드는 Lens, 다음을 예측하는 Foresight.
+        정책을 찾는 Compass, 운영을 지키는 Sentinel, 화면 기록을 만드는 Lens, 다음을 예측하는 Foresight.
         AdMate는 네 플랫폼을 Agent Core로 연결해 광고 운영을 하나의 판단 흐름으로 정렬합니다.
       </p>
 
@@ -227,7 +227,7 @@ function AgentCore() {
       <div className="relative z-10 mt-2 text-xl font-semibold leading-none text-white xl:text-2xl">AI Platform Quartet</div>
       <div className="relative z-10 mt-3 text-sm font-medium leading-6 text-slate-300">
         <span className="sm:hidden">네 플랫폼의 판단을 하나로 연결</span>
-        <span className="hidden sm:inline">정책, 검수, 증빙, 예측을 하나의 운영 기억으로 연결</span>
+        <span className="hidden sm:inline">정책, 검수, 기록, 예측을 하나의 운영 기억으로 연결</span>
       </div>
     </div>
   )

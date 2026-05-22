@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     "AI Agent",
     "미디어플래닝",
     "캠페인 모니터링",
-    "광고 정책 RAG",
+    "광고 정책 검색",
     "광고 캡처 자동화",
     "성과 예측",
     "나스미디어",

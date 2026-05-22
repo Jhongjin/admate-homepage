@@ -20,7 +20,7 @@ export function FinalCTASection() {
               </h2>
               <p className="mt-5 max-w-[640px] text-sm leading-7 text-[#405149] sm:text-base">
                 <span className="block">
-                  정책 근거, 세팅 리스크, 증빙 이력, 예산 판단을 제품 데스크별로 모으고
+                  정책 근거, 세팅 리스크, 화면 기록, 예산 판단을 제품 데스크별로 모으고
                 </span>
                 <span className="block">
                   Agent Core의 운영 기억으로 다음 승인, 수정, 공유, 투자 안건을 정리합니다.

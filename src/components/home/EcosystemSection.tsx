@@ -7,16 +7,16 @@ import { products } from "@/lib/admate-content"
 import { SectionHeading } from "./SectionHeading"
 
 const productRoles: Record<string, string[]> = {
-  compass: ["Evidence desk", "Policy gate"],
+  compass: ["Evidence desk", "Policy check"],
   sentinel: ["Control loop", "Risk watch"],
-  lens: ["Proof desk", "Report trail"],
+  lens: ["Capture desk", "Report trail"],
   foresight: ["Forecast desk", "Budget call"],
 }
 
 const productConnections: Record<string, string> = {
   compass: "정책 근거와 승인 기준을 다음 검수 판단으로 전달",
   sentinel: "세팅 검수와 이상 신호를 수정/알림 이력으로 전달",
-  lens: "캡처 증빙과 보고 산출물을 캠페인 기록으로 전달",
+  lens: "캡처 기록과 보고 산출물을 캠페인 기록으로 전달",
   foresight: "성과 기대치와 예산 기준을 다음 기획 안건으로 전달",
 }
 
@@ -28,7 +28,7 @@ const coreCapabilities = [
 ]
 
 const routingLedger = [
-  { label: "Desk signal", value: "근거 · 리스크 · 증빙 · 예산" },
+  { label: "Desk signal", value: "근거 · 리스크 · 기록 · 예산" },
   { label: "Core memory", value: "판단 근거와 예외 기준" },
   { label: "Board action", value: "승인 · 수정 · 공유 · 투자" },
 ]
@@ -49,7 +49,7 @@ export function EcosystemSection() {
                 AdMate는 정책, 검수, 캡처, 예측 화면을 나열하지 않고 캠페인 판단이 흐르는 경로로 묶습니다.
               </span>
               <span className="block">
-                각 데스크에서 나온 근거, 리스크, 증빙, 예산 판단은 Agent Core를 통해 다음 운영 회의의 기억이 됩니다.
+                각 데스크에서 나온 근거, 리스크, 기록, 예산 판단은 Agent Core를 통해 다음 운영 회의의 기억이 됩니다.
               </span>
             </>
           }
@@ -174,7 +174,7 @@ function EcosystemProduct({ product }: { product: (typeof products)[number] }) {
       </div>
       <div className="mt-4 border-t border-border pt-4">
         <p className="text-sm font-semibold leading-6" style={{ color: product.color }}>
-          {product.shortName} handoff
+          {product.shortName} 다음 전달
         </p>
         <p className="mt-2 text-xs font-medium leading-5 text-muted-foreground">{product.tagline}</p>
         {product.href && !product.linkDisabled ? (

@@ -31,7 +31,7 @@ export const commandCenterData: CommandCenterData = {
     {
       id: "compass",
       name: "AdMate Compass",
-      role: "광고 정책/가이드 RAG",
+      role: "광고 정책/가이드 검색",
       owner: "Compass 담당",
       status: "normal",
       statusLabel: "정상",
@@ -59,7 +59,7 @@ export const commandCenterData: CommandCenterData = {
     {
       id: "lens",
       name: "AdMate Lens",
-      role: "광고 캡처/증빙 자동화",
+      role: "광고 캡처/화면 기록 자동화",
       owner: "Lens 담당",
       status: "normal",
       statusLabel: "정상",

@@ -52,9 +52,9 @@ const productOperatingNotes: Record<
   },
   lens: {
     lane: "Evidence desk",
-    decision: "증빙 산출물을 보고 체계에 바로 넣을 수 있는가",
+    decision: "캡처 기록을 보고 체계에 바로 넣을 수 있는가",
     proof: "캡처 요청, 이력, 이미지 품질",
-    operatingQuestion: "운영 비용을 줄이는 증빙인가",
+    operatingQuestion: "운영 비용을 줄이는 기록인가",
   },
   foresight: {
     lane: "Planning room",
@@ -73,7 +73,7 @@ const productOperatingNotes: Record<
 const commandStrips = [
   { label: "정책 리스크", product: "Compass", metric: "근거 확인", tone: "steel" },
   { label: "캠페인 감시", product: "Sentinel", metric: "운영 개입", tone: "green" },
-  { label: "증빙 생산", product: "Lens", metric: "보고 연결", tone: "slate" },
+  { label: "화면 기록", product: "Lens", metric: "보고 연결", tone: "slate" },
   { label: "예산 판단", product: "Foresight", metric: "기준 확정", tone: "amber" },
 ]
 
@@ -303,7 +303,7 @@ function ReadinessLedger({ projects }: { projects: CommandCenterProject[] }) {
                   {notes?.decision || project.nextMilestone}
                 </div>
                 <div className="mt-1 break-words text-[12px] leading-5 text-[#667065]">
-                  증거: {notes?.proof || project.deliverable}
+                        근거: {notes?.proof || project.deliverable}
                 </div>
               </div>
               <div className="min-w-0">

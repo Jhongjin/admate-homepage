@@ -33,7 +33,7 @@ export function SystemMapSection() {
           </div>
           <p className="max-w-[440px] text-sm leading-7 text-[#405149] lg:justify-self-end">
             <span className="block">각 제품은 기능 소개 카드가 아니라 운영실의 계기판입니다.</span>
-            <span className="block">정책 근거, 세팅 리스크, 증빙 이력, 예산 판단이 같은 판단 보드에 올라옵니다.</span>
+            <span className="block">정책 근거, 세팅 리스크, 화면 기록, 예산 판단이 같은 판단 보드에 올라옵니다.</span>
           </p>
         </div>
 
@@ -43,7 +43,7 @@ export function SystemMapSection() {
               <div className="text-xs font-semibold uppercase tracking-[0.14em] text-[#5B6B62]">
                 Decision routing
               </div>
-              <div className="mt-1 text-lg font-semibold text-[#101820]">승인 대기 · 위험 신호 · 증빙 · 예산 판단</div>
+              <div className="mt-1 text-lg font-semibold text-[#101820]">승인 대기 · 위험 신호 · 화면 기록 · 예산 판단</div>
             </div>
             <Badge variant="outline" className="border-[#C9D2CC] bg-[#F6F8F5] text-[#405149]">
               운영판 보기
@@ -111,7 +111,7 @@ export function SystemMapSection() {
 
           <Separator className="my-4" />
           <div className="grid gap-2 text-xs text-[#405149] sm:grid-cols-3">
-            {["정책 근거", "운영 이력", "증빙/학습 피드백"].map((item) => (
+            {["정책 근거", "운영 이력", "기록/학습 피드백"].map((item) => (
               <div key={item} className="flex items-center gap-2">
                 <CheckCircle2 className="h-3.5 w-3.5 text-[#2F7D50]" aria-hidden="true" />
                 {item}
@@ -171,7 +171,7 @@ function getSignalSurface(productId: string, fallback: string) {
   const surfaces: Record<string, string> = {
     compass: "정책 근거와 집행 가능성",
     sentinel: "세팅 리스크와 운영 이상",
-    lens: "렌더 증빙과 보존 이력",
+    lens: "화면 기록과 보존 이력",
     foresight: "예산 시나리오와 계획 기준",
   }
 

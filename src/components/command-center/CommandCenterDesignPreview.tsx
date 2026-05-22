@@ -61,8 +61,8 @@ const productCues: Record<string, ProductCue> = {
   },
   lens: {
     label: "Lens",
-    desk: "증빙 캡처",
-    cue: "증빙 캡처",
+  desk: "화면 기록",
+  cue: "화면 기록",
     question: "보고에 바로 넣을 수 있는 증거가 남는가",
     icon: Eye,
     accent: "text-[#4E665B]",
@@ -370,7 +370,7 @@ function ProductStream({ projects }: { projects: CommandCenterProject[] }) {
           <h2 className="mt-1 text-xl font-semibold text-[#101412]">운영 흐름</h2>
         </div>
         <div className="max-w-md break-words text-[12px] leading-5 text-[#606B61]">
-          제품 설명 대신 근거, 위험 관문, 증빙, 예측 기준을 한 줄씩 맞춥니다.
+            제품 설명 대신 근거, 위험 신호, 화면 기록, 예측 기준을 한 줄씩 맞춥니다.
         </div>
       </div>
 

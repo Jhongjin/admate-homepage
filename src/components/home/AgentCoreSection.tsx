@@ -23,12 +23,12 @@ const ledgerFlow = [
 ]
 
 const engineCopy: Record<string, { role: string; record: string; boundary: string }> = {
-  Openclaw: {
+  "업무 실행 엔진": {
     role: "실행과 외부 시스템 연결",
-    record: "검수, 알림, Slack action, workflow 실행 이력을 남깁니다.",
+    record: "점검, 알림, 요청 처리, 실행 이력을 남깁니다.",
     boundary: "실행은 조건과 승인 기준 안에서만 움직입니다.",
   },
-  Hermes: {
+  "운영 기억 엔진": {
     role: "판단 기준과 기억",
     record: "정책 근거, 예외 판단, 운영자 피드백을 지식 후보로 정리합니다.",
     boundary: "반복 판단은 검토와 승인 이후에만 기준으로 올라갑니다.",
@@ -87,7 +87,7 @@ export function AgentCoreSection() {
                 운영 판단을 흘려보내지 않고, 다시 꺼낼 수 있는 기준으로 묶습니다.
               </h3>
               <p className="mt-5 text-sm leading-7 text-[#C9D2CC]">
-                정책 근거, 세팅 리스크, 증빙 이력, 예산 판단은 같은 장부 형식으로 남아 Command Center와
+                정책 근거, 세팅 리스크, 화면 기록, 예산 판단은 같은 장부 형식으로 남아 Command Center와
                 후속 제품 판단의 입력이 됩니다.
               </p>
             </div>

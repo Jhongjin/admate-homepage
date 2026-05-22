@@ -83,7 +83,7 @@ export const ACCESS_REQUEST_USAGE_PURPOSES = [
   "정책/가이드 검색",
   "캠페인 사전 검수",
   "실시간 모니터링",
-  "캡처/게재 증빙",
+  "캡처/화면 기록",
   "예측/성과 분석",
   "Command Center 조회",
   "Agent Core / Hermes 검토",
@@ -103,7 +103,7 @@ export const ACCESS_REQUEST_PRODUCT_PRESETS: Record<
   },
   lens: {
     requested_platforms: ["lens"],
-    usage_purposes: ["캡처/게재 증빙"],
+    usage_purposes: ["캡처/화면 기록"],
   },
   foresight: {
     requested_platforms: ["foresight"],

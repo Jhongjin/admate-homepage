@@ -18,7 +18,7 @@ const roadmapStages = [
   },
   {
     title: "운영 데스크 제품화",
-    subtitle: "정책, 검수, 증빙, 예산 판단을 실제 업무 안에서 반복 가능한 리듬으로 연결합니다.",
+          subtitle: "정책, 검수, 기록, 예산 판단을 실제 업무 안에서 반복 가능한 리듬으로 연결합니다.",
     phase: "Phase 3-5",
     signal: "운영자가 매주 확인하는 승인/수정/공유 안건",
     decision: "각 데스크가 다음 회의에 올릴 근거를 남기는가",
@@ -61,7 +61,7 @@ export function RoadmapSection() {
             >
               <div className="border-b border-[#D5DDD8] bg-[#F6F8F5] p-4 lg:border-b-0 lg:border-r">
                 <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#587067]">
-                  Gate 0{index + 1}
+                    Step 0{index + 1}
                 </div>
                 <Badge variant="outline" className="mt-3 border-[#B8C7BE] bg-white text-[#2F5D50]">
                   {stage.phase}
@@ -84,7 +84,7 @@ export function RoadmapSection() {
                 </div>
                 <div className="pt-3 sm:pl-4 sm:pt-0">
                   <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#587067]">
-                    Proof ledger
+              Record ledger
                   </div>
                   <div className="mt-3 grid gap-2">
                     {stage.items.map((item, itemIndex) => (
