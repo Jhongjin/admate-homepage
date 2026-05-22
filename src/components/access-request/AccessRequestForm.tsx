@@ -223,6 +223,7 @@ export function AccessRequestForm() {
       const result = (await response.json()) as {
         ok?: boolean
         error?: string
+        message?: string
         request_id?: string
         validation_errors?: unknown
       }
@@ -230,7 +231,7 @@ export function AccessRequestForm() {
       if (!response.ok || result.ok === false) {
         setSubmitState({
           type: "error",
-          message: result.error || "이용 권한 신청을 접수하지 못했습니다.",
+          message: result.message || result.error || "이용 권한 신청을 접수하지 못했습니다.",
           details: getErrorDetails(result.validation_errors),
         })
         return

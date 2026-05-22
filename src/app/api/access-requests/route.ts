@@ -114,15 +114,18 @@ export async function POST(req: Request) {
 
     if (!upstream.ok || responseJson?.ok === false) {
       const upstreamError = typeof responseJson?.error === "string" ? responseJson.error : null
+      const upstreamMessage = typeof responseJson?.message === "string" ? responseJson.message : null
       const status = upstream.status === 409 ? 409 : upstream.status >= 400 && upstream.status < 500 ? 400 : 502
 
       return NextResponse.json(
         {
           ok: false,
-          error:
-            upstreamError === "pending request already exists"
+          error: upstreamMessage
+            ? upstreamMessage
+            : upstreamError === "pending request already exists"
               ? "이미 검토 중인 이용 권한 요청이 있습니다."
               : "권한 요청을 접수하지 못했습니다. 입력 내용을 확인하거나 잠시 후 다시 시도해 주세요.",
+          message: upstreamMessage,
           request_id: responseJson?.request_id ?? null,
           request_status: responseJson?.request_status ?? null,
           validation_errors: responseJson?.validation_errors ?? undefined,
@@ -151,4 +154,3 @@ export async function POST(req: Request) {
     )
   }
 }
-
