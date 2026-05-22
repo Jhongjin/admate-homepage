@@ -1,6 +1,9 @@
 import {
   ACCESS_REQUEST_ORGANIZATION_HEADQUARTERS,
   formatAccessRequestOrganizationPath,
+  getAccessRequestOrganizationMetadata,
+  getAccessRequestPolicyMetadata,
+  isAccessRequestOrganizationSelectionValid,
   type AccessRequestOrganizationSelection,
 } from "./access-request-organization"
 
@@ -195,6 +198,9 @@ export function normalizeAccessRequestInput(input: AccessRequestInput): Normaliz
     department: organizationDepartment,
     team: organizationTeam,
   }
+  const organizationSelectionValid = organizationHeadquarters
+    ? isAccessRequestOrganizationSelectionValid(organizationSelection)
+    : false
   const organizationPathText = organizationHeadquarters ? formatAccessRequestOrganizationPath(organizationSelection) : ""
   const requesterTeamName = text(input.requester_team_name, 80)
   const fallbackTeam = text(input.requester_team, 120)
@@ -208,6 +214,12 @@ export function normalizeAccessRequestInput(input: AccessRequestInput): Normaliz
   const normalizedPermissionLevel = REQUESTED_PERMISSION_LEVELS.includes(requestedPermissionLevel)
     ? requestedPermissionLevel
     : "view"
+  const organizationTreeMetadata = organizationSelectionValid
+    ? getAccessRequestOrganizationMetadata(organizationSelection)
+    : {}
+  const organizationPolicyMetadata = organizationSelectionValid
+    ? getAccessRequestPolicyMetadata(organizationSelection, normalizedPermissionLevel)
+    : {}
   const requestedPlatforms = stringArray(input.requested_platforms).filter((item): item is AccessRequestPlatform =>
     ACCESS_REQUEST_PLATFORMS.includes(item as AccessRequestPlatform),
   )
@@ -232,6 +244,9 @@ export function normalizeAccessRequestInput(input: AccessRequestInput): Normaliz
     organization_team: organizationTeam || null,
     organization_path: [organizationHeadquarters, organizationDepartment, organizationTeam].filter(Boolean),
     organization_path_text: organizationPathText || requesterTeam,
+    organization_selection_valid: organizationHeadquarters ? organizationSelectionValid : null,
+    ...organizationTreeMetadata,
+    ...organizationPolicyMetadata,
     usage_purposes: usagePurposes,
     requested_permission_role_hint: permissionRoleHint(normalizedPermissionLevel),
     nasmedia_default_viewer_candidate: requesterDivision === "나스미디어",
@@ -265,6 +280,9 @@ export function validateAccessRequestInput(input: NormalizedAccessRequestInput) 
     errors.push("valid email local part is required")
   }
   if (input.metadata.form_version === "v2" && !input.requester_division) errors.push("division is required")
+  if (input.metadata.form_version === "v2" && input.metadata.organization_selection_valid === false) {
+    errors.push("organization selection is invalid")
+  }
   if (!input.requester_team) errors.push("team is required")
   if (input.usage_purposes.length === 0 && (!input.purpose || input.purpose.length < 10)) {
     errors.push("purpose must be selected or be at least 10 characters")

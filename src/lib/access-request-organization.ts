@@ -22,9 +22,33 @@ export type AccessRequestOrganizationSelection = {
   team: string
 }
 
+export type AccessRequestPermissionIntent = "view" | "operate" | "project_manage"
+export type AccessRequestRoleCandidate =
+  | "super_admin"
+  | "access_approver"
+  | "admin"
+  | "executive_viewer"
+  | "manager"
+  | "practitioner"
+  | "viewer"
+  | "suspended"
+export type AccessRequestScopeCandidate =
+  | "self"
+  | "campaign"
+  | "team"
+  | "office"
+  | "headquarters"
+  | "company"
+
 const adPlannerCategory = "ad_planner" satisfies AccessRequestOrganizationCategory
 const platformCategory = "platform" satisfies AccessRequestOrganizationCategory
 const managementCategory = "management" satisfies AccessRequestOrganizationCategory
+export const ACCESS_REQUEST_POLICY_VERSION = "org_access_2026_05_22"
+export const ACCESS_REQUEST_APPROVAL_CHANNEL = {
+  code: "admate_access_request",
+  notification_email: "adso@nasmedia.co.kr",
+  actor_policy: "personal_account_required",
+} as const
 
 export const ACCESS_REQUEST_ORGANIZATION_TREE: readonly AccessRequestOrganizationNode[] = [
   {
@@ -278,6 +302,22 @@ export function getAccessRequestOrganizationNodePath(selection: AccessRequestOrg
   return nodePath
 }
 
+export function isAccessRequestOrganizationSelectionValid(selection: AccessRequestOrganizationSelection) {
+  if (!selection.headquarters) return false
+
+  const headquarters = ACCESS_REQUEST_ORGANIZATION_TREE.find((node) => node.name === selection.headquarters)
+  if (!headquarters) return false
+  if (!headquarters.children?.length) return !selection.department && !selection.team
+  if (!selection.department) return false
+
+  const department = headquarters.children.find((node) => node.name === selection.department)
+  if (!department) return false
+  if (!department.children?.length) return !selection.team
+  if (!selection.team) return false
+
+  return department.children.some((node) => node.name === selection.team)
+}
+
 export function getAccessRequestOrganizationMetadata(selection: AccessRequestOrganizationSelection) {
   const nodePath = getAccessRequestOrganizationNodePath(selection)
   const leaf = nodePath[nodePath.length - 1]
@@ -294,6 +334,59 @@ export function getAccessRequestOrganizationMetadata(selection: AccessRequestOrg
     organization_primary_user_org: category === "ad_planner",
     organization_admin_org: category === "media_admin",
     organization_non_ad_org: ["audit", "management", "non_ad", "platform", "support"].includes(category),
+  }
+}
+
+function defaultRoleCandidates(
+  category: AccessRequestOrganizationCategory,
+  permissionIntent: AccessRequestPermissionIntent,
+): AccessRequestRoleCandidate[] {
+  if (category === "media_admin") return ["super_admin", "access_approver"]
+  if (category === "executive_viewer") return ["executive_viewer"]
+  if (category !== "ad_planner") return ["viewer"]
+  if (permissionIntent === "project_manage") return ["manager"]
+  if (permissionIntent === "operate") return ["practitioner"]
+  return ["viewer"]
+}
+
+function defaultScopeCandidates(
+  category: AccessRequestOrganizationCategory,
+  permissionIntent: AccessRequestPermissionIntent,
+): AccessRequestScopeCandidate[] {
+  if (category === "media_admin") return ["company"]
+  if (category === "executive_viewer") return ["company"]
+  if (category !== "ad_planner") return ["self"]
+  if (permissionIntent === "project_manage") return ["team"]
+  if (permissionIntent === "operate") return ["campaign"]
+  return ["self"]
+}
+
+function visibilityPolicy(category: AccessRequestOrganizationCategory) {
+  if (category === "media_admin") return "admin_operations"
+  if (category === "executive_viewer") return "summary_first_detail_on_request"
+  if (category !== "ad_planner") return "menu_structure_only"
+  return "product_access_requested"
+}
+
+export function getAccessRequestPolicyMetadata(
+  selection: AccessRequestOrganizationSelection,
+  permissionIntent: AccessRequestPermissionIntent,
+) {
+  const organizationMetadata = getAccessRequestOrganizationMetadata(selection)
+  const category = organizationMetadata.organization_category
+  const roleCandidates = defaultRoleCandidates(category, permissionIntent)
+  const scopeCandidates = defaultScopeCandidates(category, permissionIntent)
+
+  return {
+    access_policy_version: ACCESS_REQUEST_POLICY_VERSION,
+    approval_channel: ACCESS_REQUEST_APPROVAL_CHANNEL.code,
+    approval_notification_email: ACCESS_REQUEST_APPROVAL_CHANNEL.notification_email,
+    approval_actor_policy: ACCESS_REQUEST_APPROVAL_CHANNEL.actor_policy,
+    role_candidates: roleCandidates,
+    scope_candidates: scopeCandidates,
+    access_role_candidates: roleCandidates,
+    access_scope_candidates: scopeCandidates,
+    access_visibility_policy: visibilityPolicy(category),
   }
 }
 

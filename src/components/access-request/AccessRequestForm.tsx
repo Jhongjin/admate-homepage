@@ -28,6 +28,7 @@ import {
   formatAccessRequestOrganizationPath,
   getAccessRequestOrganizationMetadata,
   getAccessRequestOrganizationPath,
+  getAccessRequestPolicyMetadata,
   isAccessRequestOrganizationSelectionComplete,
   type AccessRequestOrganizationSelection,
 } from "@/lib/access-request-organization"
@@ -114,6 +115,7 @@ function getErrorDetails(value: unknown) {
     "valid @nasmedia.co.kr email is required": "업무 이메일을 확인해 주세요.",
     "valid email local part is required": "이메일 앞부분을 확인해 주세요.",
     "division is required": "본부를 선택해 주세요.",
+    "organization selection is invalid": "소속 선택을 다시 확인해 주세요.",
     "team is required": "소속을 선택해 주세요.",
     "purpose must be selected or be at least 10 characters": "필요한 제품을 선택해 주세요.",
     "at least one platform is required": "필요한 제품을 하나 이상 선택해 주세요.",
@@ -138,6 +140,7 @@ export function AccessRequestForm() {
   const organizationPathText = formatAccessRequestOrganizationPath(form.organization)
   const organizationLeafName = organizationPath[organizationPath.length - 1] || ""
   const organizationMetadata = getAccessRequestOrganizationMetadata(form.organization)
+  const organizationPolicyMetadata = getAccessRequestPolicyMetadata(form.organization, form.requested_permission_level)
   const organizationComplete = isAccessRequestOrganizationSelectionComplete(form.organization)
   const canSubmit = useMemo(
     () =>
@@ -200,7 +203,9 @@ export function AccessRequestForm() {
           organization_team: form.organization.team || null,
           organization_path: organizationPath,
           organization_path_text: organizationPathText,
+          organization_selection_valid: true,
           ...organizationMetadata,
+          ...organizationPolicyMetadata,
           usage_purposes: usagePurposes,
           team_operations_requested: teamOperationsRequested,
           requested_from: "admate-homepage",
