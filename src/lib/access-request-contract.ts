@@ -1,3 +1,9 @@
+import {
+  ACCESS_REQUEST_ORGANIZATION_HEADQUARTERS,
+  formatAccessRequestOrganizationPath,
+  type AccessRequestOrganizationSelection,
+} from "./access-request-organization"
+
 export type AccessRequestPlatform = "compass" | "sentinel" | "lens" | "foresight" | "agent_core" | "command_center"
 export type RequestedPermissionLevel = "view" | "operate" | "project_manage"
 
@@ -8,6 +14,9 @@ export type AccessRequestInput = {
   requester_division?: unknown
   requester_team_name?: unknown
   requester_team?: unknown
+  organization_headquarters?: unknown
+  organization_department?: unknown
+  organization_team?: unknown
   purpose?: unknown
   usage_purposes?: unknown
   requested_platforms?: unknown
@@ -51,7 +60,7 @@ export const ACCESS_REQUEST_PLATFORMS: AccessRequestPlatform[] = [
 
 export const REQUESTED_PERMISSION_LEVELS: RequestedPermissionLevel[] = ["view", "operate", "project_manage"]
 
-export const ACCESS_REQUEST_DIVISIONS = [
+const LEGACY_ACCESS_REQUEST_DIVISIONS = [
   "광고1실",
   "광고2실",
   "광고3실",
@@ -61,6 +70,11 @@ export const ACCESS_REQUEST_DIVISIONS = [
   "광고7실",
   "나스미디어",
 ] as const
+
+export const ACCESS_REQUEST_DIVISIONS: readonly string[] = [
+  ...ACCESS_REQUEST_ORGANIZATION_HEADQUARTERS,
+  ...LEGACY_ACCESS_REQUEST_DIVISIONS,
+]
 
 export const ACCESS_REQUEST_USAGE_PURPOSES = [
   "정책/가이드 검색",
@@ -123,6 +137,10 @@ function plainRecord(value: unknown): Record<string, unknown> {
   return value as Record<string, unknown>
 }
 
+function metadataText(metadata: Record<string, unknown>, key: string, maxLength: number) {
+  return text(metadata[key], maxLength)
+}
+
 function normalizeEmailLocalPart(value: unknown) {
   return String(value ?? "")
     .trim()
@@ -158,15 +176,31 @@ function permissionRoleHint(value: RequestedPermissionLevel) {
 export function normalizeAccessRequestInput(input: AccessRequestInput): NormalizedAccessRequestInput {
   const { emailLocalPart, email } = normalizeNasmediaEmail(input)
   const inputMetadata = plainRecord(input.metadata)
-  const divisionText = text(input.requester_division, 40)
-  const requesterDivision = ACCESS_REQUEST_DIVISIONS.includes(divisionText as (typeof ACCESS_REQUEST_DIVISIONS)[number])
+  const divisionText = text(input.requester_division, 80)
+  const organizationHeadquartersInput =
+    text(input.organization_headquarters, 80) || metadataText(inputMetadata, "organization_headquarters", 80)
+  const organizationDepartment = text(input.organization_department, 80) || metadataText(inputMetadata, "organization_department", 80)
+  const organizationTeam = text(input.organization_team, 80) || metadataText(inputMetadata, "organization_team", 80)
+  const organizationHeadquarters = ACCESS_REQUEST_ORGANIZATION_HEADQUARTERS.includes(organizationHeadquartersInput)
+    ? organizationHeadquartersInput
+    : ACCESS_REQUEST_ORGANIZATION_HEADQUARTERS.includes(divisionText)
+      ? divisionText
+      : ""
+  const legacyDivision = LEGACY_ACCESS_REQUEST_DIVISIONS.includes(divisionText as (typeof LEGACY_ACCESS_REQUEST_DIVISIONS)[number])
     ? divisionText
     : ""
+  const requesterDivision = organizationHeadquarters || legacyDivision
+  const organizationSelection: AccessRequestOrganizationSelection = {
+    headquarters: organizationHeadquarters,
+    department: organizationDepartment,
+    team: organizationTeam,
+  }
+  const organizationPathText = organizationHeadquarters ? formatAccessRequestOrganizationPath(organizationSelection) : ""
   const requesterTeamName = text(input.requester_team_name, 80)
   const fallbackTeam = text(input.requester_team, 120)
-  const requesterTeam = requesterDivision || requesterTeamName
+  const requesterTeam = organizationPathText || (requesterDivision || requesterTeamName
     ? [requesterDivision, requesterTeamName].filter(Boolean).join(" / ")
-    : fallbackTeam
+    : fallbackTeam)
   const usagePurposes = stringArray(input.usage_purposes).filter((item): item is (typeof ACCESS_REQUEST_USAGE_PURPOSES)[number] =>
     ACCESS_REQUEST_USAGE_PURPOSES.includes(item as (typeof ACCESS_REQUEST_USAGE_PURPOSES)[number]),
   )
@@ -193,6 +227,11 @@ export function normalizeAccessRequestInput(input: AccessRequestInput): Normaliz
     email_domain: NASMEDIA_EMAIL_DOMAIN,
     division: requesterDivision,
     team: requesterTeamName,
+    organization_headquarters: organizationHeadquarters || null,
+    organization_department: organizationDepartment || null,
+    organization_team: organizationTeam || null,
+    organization_path: [organizationHeadquarters, organizationDepartment, organizationTeam].filter(Boolean),
+    organization_path_text: organizationPathText || requesterTeam,
     usage_purposes: usagePurposes,
     requested_permission_role_hint: permissionRoleHint(normalizedPermissionLevel),
     nasmedia_default_viewer_candidate: requesterDivision === "나스미디어",
@@ -234,4 +273,3 @@ export function validateAccessRequestInput(input: NormalizedAccessRequestInput) 
 
   return errors
 }
-

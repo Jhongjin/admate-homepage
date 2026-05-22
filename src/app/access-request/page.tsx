@@ -54,7 +54,7 @@ const processSteps = [
 const guidanceItems = [
   "업무 이메일 앞부분만 입력해 주세요.",
   "필요한 제품과 이용 범위를 선택해 주세요.",
-  "회사와 팀 정보는 업무 기준으로 입력해 주세요.",
+  "본부, 실, 팀은 현재 소속 기준으로 선택해 주세요.",
 ]
 
 export default function AccessRequestRoute() {

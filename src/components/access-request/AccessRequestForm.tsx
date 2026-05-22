@@ -4,7 +4,6 @@ import { FormEvent, useMemo, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import {
   AtSign,
-  Building2,
   CheckCircle2,
   CircleAlert,
   ClipboardList,
@@ -17,7 +16,6 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { products } from "@/lib/admate-content"
 import {
-  ACCESS_REQUEST_DIVISIONS,
   ACCESS_REQUEST_PRODUCT_PRESETS,
   HOME_ACCESS_REQUEST_PRODUCTS,
   NASMEDIA_EMAIL_DOMAIN,
@@ -26,12 +24,19 @@ import {
   type AccessRequestPlatform,
   type RequestedPermissionLevel,
 } from "@/lib/access-request-contract"
+import {
+  formatAccessRequestOrganizationPath,
+  getAccessRequestOrganizationMetadata,
+  getAccessRequestOrganizationPath,
+  isAccessRequestOrganizationSelectionComplete,
+  type AccessRequestOrganizationSelection,
+} from "@/lib/access-request-organization"
+import { OrganizationPicker } from "./OrganizationPicker"
 
 type AccessRequestFormState = {
   requester_name: string
   email_local_part: string
-  requester_division: string
-  requester_team_name: string
+  organization: AccessRequestOrganizationSelection
   requested_platforms: AccessRequestPlatform[]
   requested_permission_level: RequestedPermissionLevel
 }
@@ -44,8 +49,11 @@ type SubmitState =
 const initialForm: AccessRequestFormState = {
   requester_name: "",
   email_local_part: "",
-  requester_division: "",
-  requester_team_name: "",
+  organization: {
+    headquarters: "",
+    department: "",
+    team: "",
+  },
   requested_platforms: [],
   requested_permission_level: "view",
 }
@@ -101,7 +109,20 @@ function getUsagePurposesFromPlatforms(platforms: AccessRequestPlatform[]) {
 
 function getErrorDetails(value: unknown) {
   if (!Array.isArray(value)) return undefined
-  return value.map((item) => String(item)).filter(Boolean).slice(0, 5)
+  const copyByError: Record<string, string> = {
+    "name is required": "이름을 입력해 주세요.",
+    "valid @nasmedia.co.kr email is required": "업무 이메일을 확인해 주세요.",
+    "valid email local part is required": "이메일 앞부분을 확인해 주세요.",
+    "division is required": "본부를 선택해 주세요.",
+    "team is required": "소속을 선택해 주세요.",
+    "purpose must be selected or be at least 10 characters": "필요한 제품을 선택해 주세요.",
+    "at least one platform is required": "필요한 제품을 하나 이상 선택해 주세요.",
+  }
+
+  return value
+    .map((item) => copyByError[String(item)] || String(item))
+    .filter(Boolean)
+    .slice(0, 5)
 }
 
 export function AccessRequestForm() {
@@ -113,18 +134,21 @@ export function AccessRequestForm() {
 
   const emailLocalPart = form.email_local_part.trim().toLowerCase().replace(/@.*/, "")
   const requesterEmail = emailLocalPart ? `${emailLocalPart}@${NASMEDIA_EMAIL_DOMAIN}` : ""
-  const requesterTeam = [form.requester_division, form.requester_team_name.trim()].filter(Boolean).join(" / ")
+  const organizationPath = getAccessRequestOrganizationPath(form.organization)
+  const organizationPathText = formatAccessRequestOrganizationPath(form.organization)
+  const organizationLeafName = organizationPath[organizationPath.length - 1] || ""
+  const organizationMetadata = getAccessRequestOrganizationMetadata(form.organization)
+  const organizationComplete = isAccessRequestOrganizationSelectionComplete(form.organization)
   const canSubmit = useMemo(
     () =>
       Boolean(
         form.requester_name.trim() &&
           emailLocalPart &&
           isEmailLocalPart(emailLocalPart) &&
-          form.requester_division &&
-          form.requester_team_name.trim() &&
+          organizationComplete &&
           form.requested_platforms.length > 0,
       ),
-    [emailLocalPart, form],
+    [emailLocalPart, form, organizationComplete],
   )
 
   const setField = <K extends keyof AccessRequestFormState>(key: K, value: AccessRequestFormState[K]) => {
@@ -139,21 +163,6 @@ export function AccessRequestForm() {
       requested_platforms: current.requested_platforms.includes(value)
         ? current.requested_platforms.filter((item) => item !== value)
         : [...current.requested_platforms, value],
-    }))
-  }
-
-  const handleDivisionChange = (value: string) => {
-    setSubmitState({ type: "idle" })
-    setForm((current) => ({
-      ...current,
-      requester_division: value,
-      requester_team_name:
-        value === "나스미디어"
-          ? "나스미디어"
-          : current.requester_team_name === "나스미디어"
-            ? ""
-            : current.requester_team_name,
-      requested_permission_level: value === "나스미디어" ? "view" : current.requested_permission_level,
     }))
   }
 
@@ -172,9 +181,9 @@ export function AccessRequestForm() {
         requester_name: form.requester_name,
         requester_email_local_part: emailLocalPart,
         requester_email: requesterEmail,
-        requester_division: form.requester_division,
-        requester_team_name: form.requester_team_name,
-        requester_team: requesterTeam,
+        requester_division: form.organization.headquarters,
+        requester_team_name: organizationLeafName,
+        requester_team: organizationPathText,
         purpose: usagePurposes.join(", "),
         usage_purposes: usagePurposes,
         requested_platforms: form.requested_platforms,
@@ -184,13 +193,18 @@ export function AccessRequestForm() {
         metadata: {
           form_version: "v2",
           email_domain: NASMEDIA_EMAIL_DOMAIN,
-          division: form.requester_division,
-          team: form.requester_team_name,
+          division: form.organization.headquarters,
+          team: organizationLeafName,
+          organization_headquarters: form.organization.headquarters,
+          organization_department: form.organization.department || null,
+          organization_team: form.organization.team || null,
+          organization_path: organizationPath,
+          organization_path_text: organizationPathText,
+          ...organizationMetadata,
           usage_purposes: usagePurposes,
           team_operations_requested: teamOperationsRequested,
           requested_from: "admate-homepage",
           requested_product_query: requestedProduct || null,
-          nasmedia_default_viewer_candidate: form.requester_division === "나스미디어",
         },
       }
 
@@ -289,39 +303,7 @@ export function AccessRequestForm() {
           </div>
         </div>
 
-        <div className="grid gap-2">
-          <label className="flex items-center gap-2 text-sm font-semibold text-[#25314A]">
-            <Building2 className="h-4 w-4 text-[#60706A]" aria-hidden="true" />
-            회사/팀
-          </label>
-          <div className="grid gap-3 sm:grid-cols-[0.82fr_1fr]">
-            <select
-              id="requester-division"
-              value={form.requester_division}
-              onChange={(event) => handleDivisionChange(event.target.value)}
-              className="min-h-11 rounded-[8px] border border-[#D7DCE3] bg-white px-3 text-sm font-medium text-[#101820] outline-none focus:border-[#177D4E] focus:ring-2 focus:ring-[#E5F5ED]"
-              aria-label="회사 또는 소속"
-            >
-              <option value="">회사 또는 소속 선택</option>
-              {ACCESS_REQUEST_DIVISIONS.map((division) => (
-                <option key={division} value={division}>
-                  {division}
-                </option>
-              ))}
-            </select>
-            <input
-              id="requester-team"
-              name="requester-team"
-              type="text"
-              autoComplete="organization"
-              value={form.requester_team_name}
-              onChange={(event) => setField("requester_team_name", event.target.value)}
-              placeholder="광고1팀"
-              className="min-h-11 rounded-[8px] border border-[#D7DCE3] bg-white px-3 text-sm font-medium text-[#101820] outline-none placeholder:text-[#9A9A9A] focus:border-[#177D4E] focus:ring-2 focus:ring-[#E5F5ED]"
-              aria-label="팀 이름"
-            />
-          </div>
-        </div>
+        <OrganizationPicker value={form.organization} onChange={(value) => setField("organization", value)} />
 
         <fieldset className="grid gap-3">
           <legend className="flex items-center gap-2 text-sm font-semibold text-[#25314A]">
