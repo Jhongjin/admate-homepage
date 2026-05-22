@@ -8,12 +8,13 @@
     "start": "next start",
     "lint": "eslint",
     "check:command-center-contract": "node scripts/check-command-center-contract.mjs",
+    "check:access-request-policy": "node scripts/check-access-request-policy.mjs",
     "check:command-center-fixture": "node scripts/check-command-center-fixture.mjs",
     "check:command-center-responsive": "node scripts/check-command-center-responsive.mjs",
     "check:command-center-static": "node scripts/check-command-center-static.mjs",
     "smoke:command-center": "node scripts/smoke-command-center.mjs",
     "smoke:command-center:states": "node scripts/smoke-command-center.mjs --state=all",
-    "verify:harness": "npm run check:command-center-contract"
+    "verify:harness": "npm run check:command-center-contract && npm run check:access-request-policy"
   },
   "dependencies": {
     "@radix-ui/react-navigation-menu": "^1.2.14",

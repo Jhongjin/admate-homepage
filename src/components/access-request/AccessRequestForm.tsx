@@ -191,7 +191,7 @@ export function AccessRequestForm() {
         usage_purposes: usagePurposes,
         requested_platforms: form.requested_platforms,
         requested_permission_level: form.requested_permission_level,
-        requested_hermes_reviewer: teamOperationsRequested,
+        requested_hermes_reviewer: false,
         request_note: "",
         metadata: {
           form_version: "v2",
