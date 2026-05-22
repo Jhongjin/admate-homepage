@@ -10,6 +10,7 @@ import {
 } from "lucide-react"
 
 import { AccessRequestForm } from "@/components/access-request/AccessRequestForm"
+import { AccessRequestNameBurstPanel } from "@/components/access-request/AccessRequestNameBurstPanel"
 import { BrandMark } from "@/components/home/BrandMark"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -118,6 +119,8 @@ export default function AccessRequestRoute() {
               </div>
             </div>
           </div>
+
+          <AccessRequestNameBurstPanel />
         </div>
 
         <Suspense fallback={<AccessRequestFormFallback />}>
