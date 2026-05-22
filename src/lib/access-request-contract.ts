@@ -249,7 +249,7 @@ export function normalizeAccessRequestInput(input: AccessRequestInput): Normaliz
     ...organizationPolicyMetadata,
     usage_purposes: usagePurposes,
     requested_permission_role_hint: permissionRoleHint(normalizedPermissionLevel),
-    nasmedia_default_viewer_candidate: requesterDivision === "나스미디어",
+    nasmedia_default_viewer_candidate: requesterDivision === "나스미디어" || requesterDivision === "나스미디어(전사)",
   }
 
   return {

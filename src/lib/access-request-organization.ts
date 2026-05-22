@@ -41,6 +41,7 @@ export type AccessRequestScopeCandidate =
   | "company"
 
 const adPlannerCategory = "ad_planner" satisfies AccessRequestOrganizationCategory
+const executiveViewerCategory = "executive_viewer" satisfies AccessRequestOrganizationCategory
 const platformCategory = "platform" satisfies AccessRequestOrganizationCategory
 const managementCategory = "management" satisfies AccessRequestOrganizationCategory
 export const ACCESS_REQUEST_POLICY_VERSION = "org_access_2026_05_22"
@@ -51,6 +52,11 @@ export const ACCESS_REQUEST_APPROVAL_CHANNEL = {
 } as const
 
 export const ACCESS_REQUEST_ORGANIZATION_TREE: readonly AccessRequestOrganizationNode[] = [
+  {
+    name: "나스미디어(전사)",
+    code: "kt_nasmedia",
+    category: executiveViewerCategory,
+  },
   {
     name: "감사실",
     code: "audit_office",
