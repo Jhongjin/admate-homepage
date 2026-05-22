@@ -294,7 +294,7 @@ export function AccessRequestForm() {
                 value={form.email_local_part}
                 onChange={(event) => setField("email_local_part", event.target.value.replace(/@.*/, "").trim())}
                 placeholder="이메일 앞부분"
-                pattern="[a-zA-Z0-9._%+-]+"
+                pattern="[a-zA-Z0-9._%+\-]+"
                 className="min-h-11 min-w-0 border-0 bg-transparent px-3 text-sm font-medium text-[#101820] outline-none placeholder:text-[#9A9A9A]"
                 aria-describedby="email-help"
               />
