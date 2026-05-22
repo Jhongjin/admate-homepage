@@ -36,7 +36,7 @@ const siteLinks: SiteLink[] = [
   },
   {
     label: "이용 권한 요청",
-    description: "필요한 제품 권한 신청",
+    description: "필요한 제품 권한 요청",
     href: officialLinks.accessRequest,
     icon: UserPlus,
     matchPath: "/access-request",
@@ -49,13 +49,13 @@ const siteLinks: SiteLink[] = [
   },
   {
     label: "Sentinel",
-    description: "실시간 관제와 사전 검수",
+    description: "실시간 모니터링과 집행 전 점검",
     href: officialLinks.sentinel,
     icon: Radar,
   },
   {
     label: "Lens",
-    description: "캡처 검수와 작업 기록",
+    description: "캡처 기록과 작업 이력",
     href: officialLinks.lens,
     icon: ScanLine,
   },

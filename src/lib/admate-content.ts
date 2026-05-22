@@ -48,9 +48,9 @@ export type Product = {
 export const navLinks = [
   { label: "서비스 개요", href: "#top" },
   { label: "제품", href: "#suite" },
-  { label: "업무 흐름", href: "#flow" },
+  { label: "업무 순서", href: "#flow" },
   { label: "권한/보안", href: "#trust" },
-  { label: "이용 신청", href: "/access-request" },
+  { label: "권한 요청", href: "/access-request" },
 ]
 
 export const officialLinks = {
@@ -90,7 +90,7 @@ export const products: Product[] = [
     tagline: "캠페인 사고를 사전에 막고 실시간으로 감지하다",
     description:
       "캠페인 시작 전에는 미디어믹스와 실제 매체 세팅값을 비교하고, 집행 후에는 예산·성과·상태 이상을 실시간으로 감지합니다.",
-    features: ["사전 세팅 검수", "예산/기간/타겟/URL 오류 탐지", "실시간 KPI 이상 감지", "Slack/Email 알림"],
+    features: ["집행 전 세팅 점검", "예산/기간/타겟/URL 오류 탐지", "실시간 KPI 이상 감지", "Slack/Email 알림"],
     href: officialLinks.sentinel,
     linkLabel: "Sentinel 열기",
     color: "#177D4E",
@@ -103,10 +103,10 @@ export const products: Product[] = [
     name: "AdMate Lens",
     shortName: "Lens",
     subtitle: "Creative & Placement Capture Automation",
-    tagline: "광고 게재 화면과 증빙을 자동으로 만들다",
+    tagline: "광고 게재 화면과 보고 기록을 자동으로 만들다",
     description:
-      "광고 게재 화면과 지면 노출 이미지를 자동 생성해 캡처·증빙·보고 업무에 투입되는 반복 리소스를 줄입니다.",
-    features: ["광고 게재 화면 캡처", "모바일/데스크톱 광고 UI 렌더링", "보고서용 증빙 이미지 생성", "캡처 이력 관리"],
+      "광고 게재 화면과 지면 노출 이미지를 자동 생성해 캡처·보고 업무에 투입되는 반복 시간을 줄입니다.",
+    features: ["광고 게재 화면 캡처", "모바일/데스크톱 광고 UI 렌더링", "보고서용 화면 이미지 생성", "캡처 이력 관리"],
     href: officialLinks.lens,
     linkLabel: "Lens 열기",
     color: "#2B6D67",
@@ -137,8 +137,8 @@ export const products: Product[] = [
     subtitle: "Intelligence & Automation Engine",
     tagline: "지능과 자동화를 연결하다",
     description:
-      "Openclaw의 실행 자동화와 Hermes의 학습/기억 구조를 기반으로 AdMate 플랫폼 전반의 업무 흐름을 연결하고 고도화합니다.",
-    features: ["workflow 실행", "Slack action 처리", "운영자 피드백 학습", "감사 로그 기록", "LLM 비용/사용량 추적"],
+      "AdMate 플랫폼 전반의 업무 순서와 운영 기억을 연결해 정책 확인, 위험 감지, 화면 기록, 성과 예측을 함께 고도화합니다.",
+    features: ["업무 실행 관리", "Slack 요청 처리", "운영자 피드백 학습", "감사 로그 기록", "LLM 비용/사용량 추적"],
     color: "#111827",
     softColor: "#F4F4F4",
     borderColor: "#D4D4D4",
@@ -153,7 +153,7 @@ export const problemCards = [
     icon: FileCheck2,
   },
   {
-    title: "수작업 세팅 검수",
+    title: "수작업 세팅 점검",
     description: "미디어믹스와 실제 매체 세팅값을 사람이 직접 비교합니다.",
     icon: CheckCircle2,
   },
@@ -164,7 +164,7 @@ export const problemCards = [
   },
   {
     title: "반복 캡처 업무",
-    description: "광고 게재 화면과 보고서 증빙 이미지를 매번 수작업으로 준비합니다.",
+    description: "광고 게재 화면과 보고서용 이미지를 매번 수작업으로 준비합니다.",
     icon: Camera,
   },
   {
@@ -196,7 +196,7 @@ export const lifecycleSteps = [
   },
   {
     step: "03",
-    title: "세팅 검수",
+    title: "세팅 점검",
     product: "Sentinel",
     description: "미디어믹스와 실제 세팅값 비교",
     icon: FileCheck2,
@@ -212,7 +212,7 @@ export const lifecycleSteps = [
     step: "05",
     title: "캡처/보고",
     product: "Lens",
-    description: "광고 게재 화면과 증빙 이미지 생성",
+    description: "광고 게재 화면과 보고 이미지 생성",
     icon: Eye,
   },
   {
@@ -227,7 +227,7 @@ export const lifecycleSteps = [
 export const impactCards = [
   {
     title: "업무 효율 향상",
-    description: "정책 확인, 세팅 검수, 캡처, 운영 확인 시간을 줄입니다.",
+    description: "정책 확인, 세팅 점검, 캡처, 운영 확인 시간을 줄입니다.",
     icon: Gauge,
   },
   {
@@ -242,38 +242,38 @@ export const impactCards = [
   },
   {
     title: "회사 고유 지식 자산화",
-    description: "운영자 판단과 예외 기준이 Hermes에 축적됩니다.",
+    description: "운영자 판단과 예외 기준이 AdMate의 운영 기억에 축적됩니다.",
     icon: DatabaseZap,
   },
   {
-    title: "AI 비용 통제",
-    description: "LLM Cost Center로 플랫폼별/모델별 비용을 관리합니다.",
+    title: "AI 사용량 관리",
+    description: "제품별 AI 사용량과 비용 기준을 확인할 수 있게 관리합니다.",
     icon: CircleDollarSign,
   },
   {
-    title: "지속적 기술 고도화",
-    description: "Weekly Intelligence Loop로 최신 기술을 반영합니다.",
+    title: "지속적인 개선",
+    description: "매주 광고 운영과 AI 활용 변화를 검토해 적용 가능한 개선점을 반영합니다.",
     icon: RefreshCw,
   },
 ]
 
 export const operations = [
   {
-    title: "LLM Cost Center",
+    title: "AI 사용량 관리",
     description:
-      "유료 LLM과 AI API 사용량을 플랫폼별, 모델별, 기능별로 추적합니다. AI 활용을 확대하면서도 비용 구조와 ROI를 관리할 수 있습니다.",
+      "유료 AI 사용량을 제품별, 기능별로 확인합니다. AI 활용을 확대하면서도 비용 구조와 효과를 함께 관리할 수 있습니다.",
     icon: CircleDollarSign,
   },
   {
-    title: "Weekly Intelligence Loop",
+    title: "주간 개선 검토",
     description:
-      "매주 최신 AI·MarTech·광고 플랫폼 변화를 조사하고, 적용 가능한 개선 후보를 선별해 플랫폼을 지속적으로 고도화합니다.",
+      "매주 AI·MarTech·광고 플랫폼 변화를 확인하고, 실제 운영에 적용할 개선 후보를 선별합니다.",
     icon: Sparkles,
   },
   {
-    title: "Business Opportunity Discovery Loop",
+    title: "신규 업무 기회 검토",
     description:
-      "장기적으로 내부 업무 데이터와 시장 정보를 기반으로 신규 솔루션 기회를 탐색하고 PoC 개발로 연결할 수 있습니다.",
+      "장기적으로 내부 업무 데이터와 시장 정보를 바탕으로 새롭게 자동화할 업무와 서비스 기회를 찾습니다.",
     icon: Lightbulb,
   },
 ]
@@ -281,23 +281,23 @@ export const operations = [
 export const roadmap = [
   { phase: "Phase 1", goal: "Compass / Sentinel / Lens / Foresight 브랜드와 제품 구조 정리" },
   { phase: "Phase 2", goal: "Agent Core 기반 Sentinel Live Monitoring 안정화" },
-  { phase: "Phase 3", goal: "Lens와 Compass UI/UX 정렬 및 Tool API화" },
+  { phase: "Phase 3", goal: "Lens와 Compass 화면 경험 정렬 및 작업 도구화" },
   { phase: "Phase 4", goal: "Foresight Meta PoC 설계 및 데이터 기준 정리" },
-  { phase: "Phase 5", goal: "LLM Cost Center와 Weekly Intelligence Loop 구축" },
-  { phase: "Phase 6", goal: "Business Opportunity Discovery Loop 장기 확장" },
+  { phase: "Phase 5", goal: "AI 사용량 관리와 주간 개선 검토 구축" },
+  { phase: "Phase 6", goal: "신규 업무 기회 검토 장기 확장" },
 ]
 
 export const corePillars = [
   {
-    title: "Openclaw",
-    subtitle: "Automation Execution",
+    title: "업무 실행 엔진",
+    subtitle: "Automation",
     description:
       "스케줄과 조건에 따라 업무를 실행하고 외부 시스템을 연결하는 자동화 실행 엔진입니다.",
     icon: Bot,
   },
   {
-    title: "Hermes",
-    subtitle: "Intelligence / Memory",
+    title: "운영 기억 엔진",
+    subtitle: "Intelligence",
     description:
       "AI와 사용자 이벤트를 학습해 운영 지식과 판단 기준을 축적하는 지능/메모리 엔진입니다.",
     icon: BrainCircuit,

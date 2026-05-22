@@ -18,10 +18,10 @@ import { HeroMotionCanvas, type HeroMotionLineMode } from "./HeroMotionCanvas"
 const platformChapters = [
   {
     name: "Compass",
-    role: "Policy intelligence",
-    verb: "Find the rule",
+    role: "정책 기준 확인",
+    verb: "출처와 기준 확인",
     korean: "광고 정책과 매체 기준을 근거와 함께 확인합니다.",
-    signal: "RAG evidence",
+    signal: "Policy source",
     accent: "#7DD3FC",
     readableAccent: "#0875A8",
     href: officialLinks.compass,
@@ -29,10 +29,10 @@ const platformChapters = [
   },
   {
     name: "Sentinel",
-    role: "Validation & monitoring",
-    verb: "Guard the launch",
+    role: "위험 감지/모니터링",
+    verb: "운영 위험 감지",
     korean: "세팅 오류, 예산 이상, 운영 리스크를 관제합니다.",
-    signal: "Risk gate",
+    signal: "Risk signal",
     accent: "#34D399",
     readableAccent: "#087A52",
     href: officialLinks.sentinel,
@@ -40,10 +40,10 @@ const platformChapters = [
   },
   {
     name: "Lens",
-    role: "Capture & proof",
-    verb: "Prove the delivery",
-    korean: "광고 소재와 노출 화면, 검수 결과를 작업 기록으로 남깁니다.",
-    signal: "Proof capture",
+    role: "화면 캡처/기록",
+    verb: "화면 기록 남기기",
+    korean: "광고 소재와 노출 화면, 확인 결과를 작업 기록으로 남깁니다.",
+    signal: "Screen record",
     accent: "#99F6E4",
     readableAccent: "#007D73",
     href: officialLinks.lens,
@@ -51,13 +51,13 @@ const platformChapters = [
   },
   {
     name: "Foresight",
-    role: "Planning intelligence",
-    verb: "Predict the next move",
+    role: "성과 예측",
+    verb: "다음 성과 예상",
     korean: "성과 예측과 기준 데이터를 바탕으로 예산 판단을 돕습니다.",
     signal: "Forecast",
     accent: "#F6C35B",
     readableAccent: "#A76500",
-    href: "",
+    href: officialLinks.foresight,
     icon: LineChart,
   },
 ]
@@ -65,50 +65,50 @@ const platformChapters = [
 const operatingSequence = [
   {
     code: "01",
-    title: "Brief",
+    title: "정리",
     detail: "목표, 예산, 매체 조건이 하나의 작업 좌표로 정리됩니다.",
-    signal: "Input map",
+    signal: "조건 정리",
     accent: "#D8F6EA",
     frameClass: "homepage-flow-frame-1",
   },
   {
     code: "02",
-    title: "Policy",
+    title: "정책",
     detail: "Compass가 질문에 필요한 정책 기준과 확인 항목을 정리합니다.",
-    signal: "Evidence lock",
+    signal: "근거 확인",
     accent: "#7DD3FC",
     frameClass: "homepage-flow-frame-2",
   },
   {
     code: "03",
-    title: "Gate",
-    detail: "Sentinel이 집행 전 위험과 승인 경계를 먼저 멈춥니다.",
-    signal: "Risk hold",
+    title: "점검",
+    detail: "Sentinel이 집행 전 위험과 수정이 필요한 항목을 먼저 보여줍니다.",
+    signal: "위험 확인",
     accent: "#34D399",
     frameClass: "homepage-flow-frame-3",
   },
   {
     code: "04",
-    title: "Proof",
-    detail: "Lens가 게재 화면과 보고 증빙을 운영 기억에 남깁니다.",
-    signal: "Capture proof",
+    title: "기록",
+    detail: "Lens가 게재 화면과 보고 자료를 운영 기억에 남깁니다.",
+    signal: "화면 기록",
     accent: "#99F6E4",
     frameClass: "homepage-flow-frame-4",
   },
   {
     code: "05",
-    title: "Forecast",
+    title: "예측",
     detail: "Foresight가 다음 예산 판단과 성과 기준선을 넘깁니다.",
-    signal: "Next budget",
+    signal: "예산 판단",
     accent: "#F6C35B",
     frameClass: "homepage-flow-frame-5",
   },
 ]
 
 const operatingLayers = [
-  { label: "Memory", value: "shared context" },
-  { label: "Audit", value: "decision trail" },
-  { label: "Cost", value: "signal budget" },
+  { label: "운영 기억", value: "공유 맥락" },
+  { label: "확인 기록", value: "결정 이력" },
+  { label: "사용량", value: "AI 사용 기준" },
 ]
 
 const trustSignals = [
@@ -116,35 +116,35 @@ const trustSignals = [
     code: "01",
     title: "정책 기준과 출처 확인",
     detail: "Compass는 답변에 사용한 정책 기준과 출처를 함께 보여줍니다.",
-    status: "Source lock",
+    status: "출처 확인",
     accent: "#7DD3FC",
   },
   {
     code: "02",
     title: "작업 기록과 승인 이력",
     detail: "주요 변경과 승인 내역을 남겨 이후 확인에 사용할 수 있게 합니다.",
-    status: "Audit trail",
+    status: "기록 보관",
     accent: "#D8F6EA",
   },
   {
     code: "03",
     title: "역할별 접근 권한",
     detail: "제품과 역할에 따라 필요한 화면과 기능만 사용할 수 있게 구분합니다.",
-    status: "Access scope",
+    status: "권한 구분",
     accent: "#34D399",
   },
   {
     code: "04",
     title: "민감 정보 보호",
     detail: "공유 전에 노출 범위와 보관 기준을 확인해 불필요한 정보 노출을 줄입니다.",
-    status: "PII shield",
+    status: "민감정보 보호",
     accent: "#99F6E4",
   },
   {
     code: "05",
     title: "제품별 처리 기록",
     detail: "Compass, Sentinel, Lens, Foresight에서 발생한 주요 처리 과정을 제품별로 확인할 수 있습니다.",
-    status: "Product audit",
+    status: "제품별 기록",
     accent: "#F6C35B",
   },
 ]
@@ -197,7 +197,7 @@ function HeroWorld({ heroMotionLineMode }: HeroWorldProps) {
           </h1>
 
           <p className="mt-7 max-w-[620px] text-lg font-medium leading-8 text-white/72 sm:text-xl">
-            <span className="block">정책 확인, 위험 감지, 캡처 검수, 성과 예측을 한 흐름으로 연결해</span>
+            <span className="block">정책 확인, 위험 감지, 캡처 기록, 성과 예측을 한 흐름으로 연결해</span>
             <span className="block">캠페인 운영의 다음 판단을 빠르게 돕습니다.</span>
           </p>
 
@@ -360,12 +360,12 @@ function OperatingFilm() {
             <div className="relative z-10 flex flex-col gap-5 border-b border-white/[0.07] pb-5 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#9DB0A8]">Campaign signal film</div>
-                <div className="mt-2 max-w-[430px] text-2xl font-semibold leading-tight">one campaign, routed through five live decisions</div>
+                <div className="mt-2 max-w-[430px] text-2xl font-semibold leading-tight">하나의 캠페인이 다섯 가지 운영 판단으로 이어집니다</div>
               </div>
               <div className="grid grid-cols-3 gap-2 text-right font-mono text-[10px] uppercase tracking-[0.14em] text-white/48">
-                <span>policy</span>
-                <span>risk</span>
-                <span>proof</span>
+                <span>정책</span>
+                <span>위험</span>
+                <span>기록</span>
               </div>
             </div>
 
@@ -436,16 +436,16 @@ function TrustLayer() {
 
         <div className="homepage-trust-rail mt-10 grid gap-3 sm:grid-cols-3" aria-label="AdMate trust anchors">
           <div>
-            <span>policy</span>
-            <strong>grounded</strong>
+            <span>정책</span>
+            <strong>출처 확인</strong>
           </div>
           <div>
-            <span>risk</span>
-            <strong>gated</strong>
+            <span>위험</span>
+            <strong>사전 확인</strong>
           </div>
           <div>
-            <span>proof</span>
-            <strong>auditable</strong>
+            <span>기록</span>
+            <strong>확인 가능</strong>
           </div>
         </div>
 
@@ -453,12 +453,12 @@ function TrustLayer() {
           <div className="homepage-trust-spine" aria-hidden="true" />
           <div className="homepage-trust-stack-head">
             <div>
-              <span>boundary assurance stack</span>
-              <strong>permissioned AI handoff</strong>
+              <span>operating trust layer</span>
+              <strong>권한에 맞춘 AI 확인</strong>
             </div>
             <div className="homepage-trust-live">
               <span aria-hidden="true" />
-              guarded
+              checked
             </div>
           </div>
 
@@ -481,7 +481,7 @@ function TrustLayer() {
                   <p>{signal.detail}</p>
                 </div>
                 <div className="homepage-trust-state" aria-hidden="true">
-                  <span>verified boundary</span>
+                  <span>checked record</span>
                   <strong>{signal.status}</strong>
                   <i />
                 </div>
@@ -490,7 +490,7 @@ function TrustLayer() {
           </div>
 
           <div className="homepage-trust-lock">
-            <span>operator handoff</span>
+            <span>operator record</span>
             <strong>확인 기준과 기록이 남은 뒤 다음 운영 단계로 이어집니다.</strong>
           </div>
         </div>
@@ -506,13 +506,13 @@ function HomeFinalCta() {
       <div className="section-shell relative xl:max-w-[1400px]">
         <div className="homepage-final-panel grid gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(390px,0.55fr)] lg:items-center">
           <div className="homepage-final-copy">
-            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#60706A]">Today&apos;s operating handoff</div>
+            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#60706A]">오늘의 운영판</div>
             <h2 className="mt-5 max-w-[780px] text-balance text-4xl font-semibold leading-[1.02] sm:text-6xl">
               <span className="block">회의 전에,</span>
               <span className="block">오늘 결정할 것부터 정리하세요.</span>
             </h2>
             <p className="homepage-final-support mt-6 max-w-[670px] text-lg font-medium leading-8 text-[#46564F]">
-              <span className="block">AdMate는 정책 근거, 리스크 신호, 증빙 이력을 한 운영판에 모아</span>
+              <span className="block">AdMate는 정책 근거, 리스크 신호, 화면 기록을 한 운영판에 모아</span>
               <span className="block"> 승인·수정·공유가 필요한 일을 먼저 보여줍니다.</span>
             </p>
             <div className="homepage-final-signal mt-8" aria-hidden="true">
@@ -520,7 +520,7 @@ function HomeFinalCta() {
               <span />
               <span />
             </div>
-            <div className="homepage-final-flow-table mt-8" aria-label="AdMate operating handoff scope">
+            <div className="homepage-final-flow-table mt-8" aria-label="AdMate operating board scope">
               <div>
                 <span>01</span>
                 <strong>근거</strong>
@@ -534,7 +534,7 @@ function HomeFinalCta() {
               <div>
                 <span>03</span>
                 <strong>기록</strong>
-                <p>공유 가능한 결과</p>
+                <p>공유 가능한 기록</p>
               </div>
             </div>
             <div className="homepage-final-floor" aria-hidden="true" />
@@ -543,8 +543,8 @@ function HomeFinalCta() {
             <div className="homepage-final-preview homepage-final-handoff-board">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <div className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-[#6C8178]">handoff board</div>
-                  <div className="mt-2 text-2xl font-semibold leading-tight">오늘의 운영 인계</div>
+                  <div className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-[#6C8178]">operating board</div>
+                  <div className="mt-2 text-2xl font-semibold leading-tight">오늘의 운영 정리</div>
                 </div>
                 <div className="homepage-final-pulse" aria-hidden="true" />
               </div>
@@ -571,7 +571,7 @@ function HomeFinalCta() {
                 <div className="homepage-final-handoff-row">
                   <span>03</span>
                   <div>
-                    <strong>증빙 기록</strong>
+                    <strong>화면 기록</strong>
                     <p>공유 가능한 상태</p>
                   </div>
                 </div>
