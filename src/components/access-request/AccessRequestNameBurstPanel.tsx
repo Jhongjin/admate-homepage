@@ -5,13 +5,16 @@ import { useEffect, useRef } from "react"
 import { accessRequestEmployeeNames } from "./access-request-name-pool"
 
 const INITIAL_CHARGE_DELAY_MS = 820
-const INITIAL_FUSE_MS = 760
-const POINTER_FUSE_MS = 180
-const BLAST_WAVE_MS = 620
-const BURST_MS = 820
-const RETURN_MS = 780
-const GRAVITY = 220
-const DRAG_PER_FRAME = 0.968
+const INITIAL_FUSE_MS = 1500
+const POINTER_FUSE_MS = 1500
+const BLAST_WAVE_MS = 500
+const BURST_MS = 1200
+const RETURN_MS = 600
+const GRAVITY = 600
+const DRAG_PER_FRAME = 0.98
+const BLAST_RADIUS = 250
+const BLAST_WAVE_MAX_RADIUS = 400
+const FORCE_MULTIPLIER = 40000
 
 const INITIAL_CHARGE_POINT = { x: 0.58, y: 0.42 } as const
 
@@ -85,12 +88,6 @@ type PointerState = {
 
 function clamp(value: number, min = 0, max = 1) {
   return Math.min(max, Math.max(min, value))
-}
-
-function easeOutCubic(value: number) {
-  const next = 1 - clamp(value)
-
-  return 1 - next * next * next
 }
 
 function elasticOut(value: number) {
@@ -228,16 +225,20 @@ function plantCharge(
   y: number,
   now: number,
   fuseMs: number,
-  blastRadius = Math.min(field.width, field.height) * 0.72,
+  blastRadius = Math.min(BLAST_RADIUS, Math.max(180, Math.min(field.width, field.height) * 0.86)),
 ) {
   if (field.charges.length >= 3) return
+  const maxWaveRadius = Math.max(
+    blastRadius * 1.35,
+    Math.min(BLAST_WAVE_MAX_RADIUS, Math.max(field.width, field.height) * 0.72),
+  )
 
   field.charges.push({
     blastRadius,
     detonatedAt: null,
     doneAt: 0,
     fuseMs,
-    maxWaveRadius: blastRadius * 1.16,
+    maxWaveRadius,
     plantedAt: now,
     x: clamp(x, 12, field.width - 12),
     y: clamp(y, 12, field.height - 12),
@@ -245,21 +246,42 @@ function plantCharge(
 }
 
 function spawnSparks(field: AmbientField, x: number, y: number) {
-  const colors = ["#d99a20", "#b9533d", "#0f766e", "#fff7e8"]
+  const colors = ["#ffcc00", "#ff8800", "#ff4400", "#ffffff", "#ffaa22"]
 
-  for (let index = 0; index < 34; index += 1) {
+  for (let index = 0; index < 80; index += 1) {
     const seed = hashNumber(field.sparks.length * 19 + index * 29 + x + y)
     const angle = seed * Math.PI * 2
-    const speed = 64 + hashNumber(index * 43 + y) * 210
-    const life = 320 + hashNumber(index * 37 + x) * 420
+    const speed = 100 + hashNumber(index * 43 + y) * 400
+    const life = 300 + hashNumber(index * 37 + x) * 700
 
     field.sparks.push({
       color: colors[index % colors.length] ?? "#d99a20",
       life,
       maxLife: life,
-      size: 0.8 + hashNumber(index * 23 + x) * 2.4,
+      size: 1.5 + hashNumber(index * 23 + x) * 3,
       vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed - 28,
+      vy: Math.sin(angle) * speed - 50,
+      x,
+      y,
+    })
+  }
+}
+
+function spawnFuseSparks(field: AmbientField, x: number, y: number, now: number) {
+  if (hashNumber(now * 0.071 + x * 0.13 + y * 0.17) > 0.3) return
+
+  for (let index = 0; index < 3; index += 1) {
+    const seed = hashNumber(now * 0.093 + index * 37 + x + y)
+    const angle = seed * Math.PI * 2
+    const speed = 20 + hashNumber(now * 0.057 + index * 19 + y) * 60
+
+    field.sparks.push({
+      color: seed > 0.5 ? "#ffcc00" : "#ff8800",
+      life: 150 + hashNumber(now * 0.041 + index * 23 + x) * 200,
+      maxLife: 350,
+      size: 1 + hashNumber(index * 17 + x) * 2,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed - 30,
       x,
       y,
     })
@@ -269,35 +291,39 @@ function spawnSparks(field: AmbientField, x: number, y: number) {
 function detonate(field: AmbientField, charge: Charge, now: number) {
   let affected = 0
   const radius = charge.blastRadius
+  const radiusSq = radius * radius
 
   for (const particle of field.particles) {
     const centerX = particle.x + particle.width * 0.5
     const centerY = particle.y + field.lineHeight * 0.42
     const dx = centerX - charge.x
     const dy = centerY - charge.y
-    const distance = Math.hypot(dx, dy)
 
-    if (distance > radius) continue
+    if (dx > radius || dx < -radius || dy > radius || dy < -radius) continue
 
-    const normalized = Math.max(distance, 12) / radius
-    const pressure = (1 - normalized) ** 1.65
-    const angle = Math.atan2(dy, dx) + (particle.seed - 0.5) * 0.78
-    const force = (210 + pressure * 640) * (0.72 + particle.seed * 0.58)
+    const distanceSq = dx * dx + dy * dy
+    if (distanceSq > radiusSq) continue
+
+    const distance = Math.sqrt(distanceSq)
+    const normalizedDistance = Math.max(distance, 30)
+    const force = (FORCE_MULTIPLIER / (normalizedDistance * normalizedDistance)) * radius
+    const spread = (hashNumber(now * 0.01 + particle.seed * 997) - 0.5) * 0.8
+    const angle = Math.atan2(dy, dx) + spread
 
     particle.state = "burst"
     particle.burstAt = now
-    particle.returnAt = now + BURST_MS + particle.seed * 380
-    particle.returnDuration = RETURN_MS + pressure * 240
+    particle.returnAt = now + BURST_MS
+    particle.returnDuration = RETURN_MS + Math.min(distance * 0.2, 300)
     particle.vx = Math.cos(angle) * force
-    particle.vy = Math.sin(angle) * force - 42 - pressure * 86
-    particle.spin = (particle.seed - 0.5) * 15
+    particle.vy = Math.sin(angle) * force - 100 - hashNumber(now * 0.013 + particle.seed * 571) * 150
+    particle.spin = (hashNumber(now * 0.017 + particle.seed * 337) - 0.5) * 15
     affected += 1
   }
 
   if (affected > 0) {
     spawnSparks(field, charge.x, charge.y)
-    field.shakePower = clamp(affected / Math.max(1, field.particles.length), 0.12, 0.46)
-    field.shakeUntil = now + 360
+    field.shakePower = 1
+    field.shakeUntil = now + 400
   }
 }
 
@@ -308,9 +334,9 @@ function applyPointerRepel(
   dt: number,
   now: number,
 ) {
-  if (!pointer.active || now - pointer.lastSeen > 180) return
+  if (!pointer.active || now - pointer.lastSeen > 260) return
 
-  const radius = Math.min(92, Math.max(58, field.width * 0.22))
+  const radius = Math.min(128, Math.max(78, field.width * 0.24))
   const centerX = particle.x + particle.width * 0.5
   const centerY = particle.y + field.lineHeight * 0.42
   const dx = centerX - pointer.x
@@ -328,9 +354,9 @@ function applyPointerRepel(
     particle.spin = (particle.seed - 0.5) * 8
   }
 
-  particle.vx += (dx / safeDistance) * pressure * 1180 * dt
-  particle.vy += (dy / safeDistance) * pressure * 1180 * dt
-  particle.returnAt = Math.max(particle.returnAt, now + 220)
+  particle.vx += (dx / safeDistance) * pressure * 1900 * dt
+  particle.vy += (dy / safeDistance) * pressure * 1900 * dt
+  particle.returnAt = Math.max(particle.returnAt, now + 360)
   particle.returnDuration = RETURN_MS * 0.78
 }
 
@@ -405,6 +431,22 @@ function updateCharges(field: AmbientField, now: number) {
       charge.detonatedAt = now
       charge.doneAt = now + BLAST_WAVE_MS
       detonate(field, charge, now)
+    } else if (charge.detonatedAt === null) {
+      const progress = clamp((now - charge.plantedAt) / charge.fuseMs)
+      const elapsed = now - charge.plantedAt
+      const pulse = 1 + 0.3 * Math.sin(elapsed * 0.02)
+      const radius = 14 * pulse
+      const fuseLength = 20 * (1 - progress)
+      const fuseAngle = -Math.PI / 4
+      const fuseX = charge.x + Math.cos(fuseAngle) * radius
+      const fuseY = charge.y + Math.sin(fuseAngle) * radius
+
+      spawnFuseSparks(
+        field,
+        fuseX + Math.cos(fuseAngle) * fuseLength,
+        fuseY + Math.sin(fuseAngle) * fuseLength,
+        now,
+      )
     }
 
     if (charge.detonatedAt === null || now < charge.doneAt) {
@@ -479,21 +521,38 @@ function drawBackground(context: CanvasRenderingContext2D, field: AmbientField) 
 function drawCharge(context: CanvasRenderingContext2D, charge: Charge, now: number) {
   if (charge.detonatedAt === null) {
     const progress = clamp((now - charge.plantedAt) / charge.fuseMs)
-    const pulse = 1 + Math.sin(progress * Math.PI * 8) * 0.12
-    const radius = 5.4 * pulse
-    const fuseLength = 18 * (1 - progress)
+    const elapsed = now - charge.plantedAt
+    const pulse = 1 + 0.3 * Math.sin(elapsed * 0.02)
+    const radius = 14 * pulse
+    const fuseLength = 20 * (1 - progress)
     const fuseAngle = -Math.PI / 4
     const fuseX = charge.x + Math.cos(fuseAngle) * radius
     const fuseY = charge.y + Math.sin(fuseAngle) * radius
 
     context.save()
-    context.globalAlpha = 0.86
+    const glowRadius = 30 * pulse
+    const glow = context.createRadialGradient(
+      charge.x,
+      charge.y,
+      radius,
+      charge.x,
+      charge.y,
+      glowRadius,
+    )
+
+    glow.addColorStop(0, `rgba(255, 68, 0, ${0.3 * pulse})`)
+    glow.addColorStop(1, "rgba(255, 68, 0, 0)")
+    context.beginPath()
+    context.arc(charge.x, charge.y, glowRadius, 0, Math.PI * 2)
+    context.fillStyle = glow
+    context.fill()
+
     context.beginPath()
     context.arc(charge.x, charge.y, radius, 0, Math.PI * 2)
-    context.fillStyle = "#17211f"
+    context.fillStyle = "#1a1a1a"
     context.fill()
-    context.strokeStyle = "#b9533d"
-    context.lineWidth = 1.5
+    context.strokeStyle = "#ff4400"
+    context.lineWidth = 2.5
     context.stroke()
 
     context.beginPath()
@@ -502,44 +561,71 @@ function drawCharge(context: CanvasRenderingContext2D, charge: Charge, now: numb
       fuseX + Math.cos(fuseAngle) * fuseLength,
       fuseY + Math.sin(fuseAngle) * fuseLength,
     )
-    context.strokeStyle = "#d99a20"
-    context.lineWidth = 1.3
+    context.strokeStyle = "#ff8800"
+    context.lineWidth = 2
     context.stroke()
 
-    context.beginPath()
-    context.arc(
-      fuseX + Math.cos(fuseAngle) * fuseLength,
-      fuseY + Math.sin(fuseAngle) * fuseLength,
-      2.4 + Math.sin(progress * Math.PI * 14) * 1.1,
-      0,
-      Math.PI * 2,
-    )
-    context.fillStyle = "#d99a20"
-    context.fill()
+    if (fuseLength > 1) {
+      const sparkSize = 4 + hashNumber(now * 0.07) * 4
+      const sparkX = fuseX + Math.cos(fuseAngle) * fuseLength
+      const sparkY = fuseY + Math.sin(fuseAngle) * fuseLength
+      const gradient = context.createRadialGradient(sparkX, sparkY, 0, sparkX, sparkY, sparkSize)
+
+      gradient.addColorStop(0, "#ffffff")
+      gradient.addColorStop(0.4, "#ffcc00")
+      gradient.addColorStop(1, "rgba(255, 68, 0, 0)")
+      context.beginPath()
+      context.arc(sparkX, sparkY, sparkSize, 0, Math.PI * 2)
+      context.fillStyle = gradient
+      context.fill()
+    }
     context.restore()
 
     return
   }
 
   const progress = clamp((now - charge.detonatedAt) / BLAST_WAVE_MS)
-  const waveRadius = easeOutCubic(progress) * charge.maxWaveRadius
-  const alpha = (1 - progress) * 0.56
+  const waveRadius = progress * charge.maxWaveRadius
+  const alpha = 0.6 * (1 - progress)
+  const ringWidth = 30 * (1 - progress * 0.5)
 
   context.save()
+  if (progress < 0.15) {
+    const flashAlpha = 1 - progress / 0.15
+    const flashRadius = 60 * (progress / 0.15)
+    const flash = context.createRadialGradient(charge.x, charge.y, 0, charge.x, charge.y, flashRadius)
+
+    flash.addColorStop(0, `rgba(255, 255, 255, ${flashAlpha})`)
+    flash.addColorStop(0.5, `rgba(255, 200, 50, ${flashAlpha * 0.7})`)
+    flash.addColorStop(1, "rgba(255, 68, 0, 0)")
+    context.beginPath()
+    context.arc(charge.x, charge.y, flashRadius, 0, Math.PI * 2)
+    context.fillStyle = flash
+    context.fill()
+  }
+
   context.beginPath()
   context.arc(charge.x, charge.y, waveRadius, 0, Math.PI * 2)
-  context.strokeStyle = `rgba(185, 83, 61, ${alpha})`
-  context.lineWidth = 14 * (1 - progress) + 1
+  context.strokeStyle = `rgba(255, 140, 0, ${alpha})`
+  context.lineWidth = ringWidth
   context.stroke()
 
-  if (progress < 0.18) {
-    const flash = context.createRadialGradient(charge.x, charge.y, 0, charge.x, charge.y, 58)
-    flash.addColorStop(0, `rgba(255, 247, 232, ${(1 - progress / 0.18) * 0.64})`)
-    flash.addColorStop(0.5, `rgba(217, 154, 32, ${(1 - progress / 0.18) * 0.28})`)
-    flash.addColorStop(1, "rgba(185, 83, 61, 0)")
-    context.fillStyle = flash
-    context.fillRect(charge.x - 58, charge.y - 58, 116, 116)
-  }
+  const innerGlow = context.createRadialGradient(
+    charge.x,
+    charge.y,
+    Math.max(0, waveRadius - ringWidth),
+    charge.x,
+    charge.y,
+    waveRadius,
+  )
+
+  innerGlow.addColorStop(0, "rgba(255, 200, 50, 0)")
+  innerGlow.addColorStop(0.5, `rgba(255, 140, 0, ${alpha * 0.3})`)
+  innerGlow.addColorStop(1, "rgba(255, 68, 0, 0)")
+  context.beginPath()
+  context.arc(charge.x, charge.y, waveRadius, 0, Math.PI * 2)
+  context.fillStyle = innerGlow
+  context.fill()
 
   context.restore()
 }
@@ -602,19 +688,16 @@ function drawScene(
     const progress = 1 - (field.shakeUntil - now) / 360
     const decay = 1 - clamp(progress)
     const shake = field.shakePower * decay * 7
-    context.translate(
-      (hashNumber(now * 0.09) - 0.5) * shake,
-      (hashNumber(now * 0.13) - 0.5) * shake,
-    )
+    context.translate((hashNumber(now * 0.09) - 0.5) * shake * 2, (hashNumber(now * 0.13) - 0.5) * shake * 2)
   }
 
   drawBackground(context, field)
+  drawParticles(context, field, now, reduceMotion)
 
   for (const charge of field.charges) {
     drawCharge(context, charge, now)
   }
 
-  drawParticles(context, field, now, reduceMotion)
   drawSparks(context, field)
   context.restore()
 }
@@ -641,6 +724,7 @@ export function AccessRequestNameBurstPanel() {
     let field: AmbientField | null = null
     let hasPlayedInitialCharge = false
     let isRunning = false
+    let lastPointerPlantAt = 0
     let lastTimestamp = 0
     let reduceMotion = motionQuery.matches
 
@@ -684,7 +768,7 @@ export function AccessRequestNameBurstPanel() {
     }
 
     const run = () => {
-      if (reduceMotion || isRunning) return
+      if (isRunning) return
 
       isRunning = true
       lastTimestamp = 0
@@ -714,8 +798,6 @@ export function AccessRequestNameBurstPanel() {
     }
 
     const handlePointerMove = (event: PointerEvent) => {
-      if (reduceMotion) return
-
       const point = getCanvasPoint(event)
       pointer.active = true
       pointer.lastSeen = performance.now()
@@ -725,14 +807,30 @@ export function AccessRequestNameBurstPanel() {
     }
 
     const handlePointerDown = (event: PointerEvent) => {
-      if (reduceMotion || !field) return
+      if (!field) return
 
       const point = getCanvasPoint(event)
+      event.preventDefault()
       pointer.active = true
       pointer.lastSeen = performance.now()
       pointer.x = point.x
       pointer.y = point.y
-      plantCharge(field, point.x, point.y, performance.now(), POINTER_FUSE_MS, Math.min(field.width, field.height) * 0.86)
+      plantCharge(field, point.x, point.y, performance.now(), POINTER_FUSE_MS)
+      lastPointerPlantAt = performance.now()
+      canvas.dataset.burstLastInteraction = String(Math.round(lastPointerPlantAt))
+      run()
+    }
+
+    const handleClick = (event: MouseEvent) => {
+      if (!field || performance.now() - lastPointerPlantAt < 260) return
+
+      const point = getCanvasPoint(event as unknown as PointerEvent)
+      pointer.active = true
+      pointer.lastSeen = performance.now()
+      pointer.x = point.x
+      pointer.y = point.y
+      plantCharge(field, point.x, point.y, performance.now(), POINTER_FUSE_MS)
+      canvas.dataset.burstLastInteraction = String(Math.round(performance.now()))
       run()
     }
 
@@ -764,11 +862,12 @@ export function AccessRequestNameBurstPanel() {
     start()
 
     const resizeObserver = new ResizeObserver(resize)
-    const pointerTarget = canvas.parentElement ?? canvas
+    const pointerTarget = canvas
 
     resizeObserver.observe(canvas.parentElement ?? canvas)
     pointerTarget.addEventListener("pointermove", handlePointerMove)
     pointerTarget.addEventListener("pointerdown", handlePointerDown)
+    pointerTarget.addEventListener("click", handleClick)
     pointerTarget.addEventListener("pointerleave", handlePointerLeave)
     motionQuery.addEventListener("change", handleMotionChange)
 
@@ -777,6 +876,7 @@ export function AccessRequestNameBurstPanel() {
       resizeObserver.disconnect()
       pointerTarget.removeEventListener("pointermove", handlePointerMove)
       pointerTarget.removeEventListener("pointerdown", handlePointerDown)
+      pointerTarget.removeEventListener("click", handleClick)
       pointerTarget.removeEventListener("pointerleave", handlePointerLeave)
       motionQuery.removeEventListener("change", handleMotionChange)
     }
@@ -785,10 +885,10 @@ export function AccessRequestNameBurstPanel() {
   return (
     <div
       aria-hidden="true"
-      className="relative mt-4 min-h-[360px] overflow-hidden rounded-[8px] border border-[#DDE2E8] bg-[#FFFDF7] shadow-[0_24px_80px_rgba(16,24,32,0.08)] sm:min-h-[430px] lg:min-h-[460px]"
+      className="relative mt-4 min-h-[320px] flex-1 overflow-hidden rounded-[8px] border border-[#DDE2E8] bg-[#FFFDF7] shadow-[0_24px_80px_rgba(16,24,32,0.08)] sm:min-h-[360px] lg:min-h-0"
       data-access-name-burst
     >
-      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full cursor-pointer" />
+      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full cursor-pointer touch-none" />
     </div>
   )
 }

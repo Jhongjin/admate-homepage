@@ -77,8 +77,8 @@ export default function AccessRequestRoute() {
         </div>
       </header>
 
-      <section className="section-shell grid gap-8 pb-16 pt-12 lg:grid-cols-[minmax(0,0.82fr)_minmax(420px,0.58fr)] lg:items-start lg:pb-24 lg:pt-16">
-        <div className="min-w-0">
+      <section className="section-shell grid gap-8 pb-16 pt-12 lg:grid-cols-[minmax(0,0.82fr)_minmax(420px,0.58fr)] lg:items-stretch lg:pb-24 lg:pt-16">
+        <div className="min-w-0 lg:flex lg:h-full lg:flex-col">
           <div className="inline-flex rounded-full border border-[#C9D2DC] bg-white px-3 py-1 text-xs font-semibold text-[#54616D]">
             AdMate 신청
           </div>
