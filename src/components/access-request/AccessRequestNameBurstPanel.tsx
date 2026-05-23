@@ -15,27 +15,60 @@ const DRAG_PER_FRAME = 0.98
 const BLAST_RADIUS = 250
 const BLAST_WAVE_MAX_RADIUS = 400
 const FORCE_MULTIPLIER = 40000
+const NAME_LAYOUT_SEED = 20260523
+const MIN_NAME_FONT_SIZE = 10
+const MAX_NAME_FONT_SIZE = 18
+const MIN_VISIBLE_NAMES = 26
+const MAX_VISIBLE_NAMES = 62
+const NAME_PALETTE = [
+  "#17211f",
+  "#0f766e",
+  "#177d4e",
+  "#536171",
+  "#8a621c",
+  "#9e5700",
+  "#2f6f5d",
+  "#32485a",
+] as const
 
 const INITIAL_CHARGE_POINT = { x: 0.58, y: 0.42 } as const
 
 type ParticleState = "rest" | "burst" | "returning"
+
+type GlyphTarget = {
+  accent: number
+  char: string
+  color: string
+  font: string
+  fontSize: number
+  homeRotation: number
+  lineHeight: number
+  width: number
+  x: number
+  y: number
+}
 
 type TextParticle = {
   accent: number
   burstAt: number
   char: string
   color: string
+  font: string
+  fontSize: number
   fromRotation: number
   fromX: number
   fromY: number
+  homeRotation: number
   homeX: number
   homeY: number
+  lineHeight: number
   returnAt: number
   returnDuration: number
   rotation: number
   seed: number
   spin: number
   state: ParticleState
+  visible: boolean
   vx: number
   vy: number
   width: number
@@ -71,6 +104,7 @@ type AmbientField = {
   fontSize: number
   height: number
   initialChargeAt: number
+  layoutSeed: number
   lineHeight: number
   particles: TextParticle[]
   shakePower: number
@@ -111,112 +145,241 @@ function splitGlyphs(text: string) {
   return Array.from(text)
 }
 
-function getParticleColor(row: number, column: number, char: string) {
-  if (/[0-9]/.test(char)) return "#9e5700"
-  if (char === "/" || char === ":" || char === "-") return "#b9533d"
-  if ((row + column) % 7 === 0) return "#0f766e"
-  if (row % 4 === 2) return "#625f58"
-
-  return "#17211f"
-}
-
 function getName(index: number) {
   return accessRequestEmployeeNames[index % accessRequestEmployeeNames.length] ?? "AdMate"
 }
 
-function buildReadableLine(
-  context: CanvasRenderingContext2D,
-  row: number,
-  maxWidth: number,
-) {
-  let text = ""
-  let cursor = (row * 17) % accessRequestEmployeeNames.length
-
-  while (context.measureText(text).width < maxWidth + 120) {
-    const names = Array.from({ length: 8 }, (_, index) => getName(cursor + index * 3))
-    text += `${text ? "  /  " : ""}${names.join("  ")}`
-    cursor = (cursor + 29) % accessRequestEmployeeNames.length
-  }
-
-  return text
+function getNameFont(fontSize: number) {
+  return `760 ${fontSize.toFixed(1)}px "Geist Mono", "Noto Sans KR", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`
 }
 
-function buildField(
-  context: CanvasRenderingContext2D,
-  width: number,
-  height: number,
-  now: number,
-): AmbientField {
-  const fontSize = clamp(Math.min(width / 31, height / 15.5), 9, 12)
-  const lineHeight = Math.max(14, fontSize * 1.48)
-  const font = `800 ${fontSize.toFixed(1)}px "Geist Mono", "Noto Sans KR", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`
-  const padX = clamp(width * 0.055, 14, 22)
-  const padY = clamp(height * 0.1, 15, 22)
-  const rows = Math.max(5, Math.floor((height - padY * 2) / lineHeight))
-  const maxWidth = Math.max(80, width - padX * 2)
-  const particles: TextParticle[] = []
+function randomFromSeed(seed: number) {
+  return hashNumber(seed * 97.13 + NAME_LAYOUT_SEED)
+}
 
-  context.font = font
+function getGlyphWidth(char: string, fontSize: number) {
+  if (char === "/") return fontSize * 0.74
+  if (/[0-9]/.test(char)) return fontSize * 0.64
+  if (/[A-Za-z]/.test(char)) return fontSize * 0.62
 
-  for (let row = 0; row < rows; row += 1) {
-    const text = buildReadableLine(context, row, maxWidth)
-    const glyphs = splitGlyphs(text)
-    let x = padX + ((row % 3) - 1) * fontSize * 0.35
-    const y = padY + row * lineHeight + (row % 2) * 0.7
+  return fontSize * 0.9
+}
 
-    for (let column = 0; column < glyphs.length; column += 1) {
-      const char = glyphs[column] ?? ""
-      const widthMeasure = context.measureText(char).width
-      const charWidth = Math.max(widthMeasure, char === " " ? fontSize * 0.45 : fontSize * 0.5)
+function boxesOverlap(
+  box: { bottom: number; left: number; right: number; top: number },
+  boxes: Array<{ bottom: number; left: number; right: number; top: number }>,
+) {
+  return boxes.some(
+    (placed) =>
+      box.left < placed.right &&
+      box.right > placed.left &&
+      box.top < placed.bottom &&
+      box.bottom > placed.top,
+  )
+}
 
-      if (x > width - padX + 2) break
+function buildRandomGlyphLayout(field: Pick<AmbientField, "width" | "height">, seed: number) {
+  const minFontSize = clamp(Math.min(field.width / 54, field.height / 30), MIN_NAME_FONT_SIZE, 12)
+  const maxFontSize = clamp(Math.min(field.width / 34, field.height / 18), 14, MAX_NAME_FONT_SIZE)
+  const padX = clamp(field.width * 0.045, 16, 28)
+  const padY = clamp(field.height * 0.065, 18, 32)
+  const panelArea = field.width * field.height
+  const nameCount = Math.floor(clamp(panelArea / 6200, MIN_VISIBLE_NAMES, MAX_VISIBLE_NAMES))
+  const placedBoxes: Array<{ bottom: number; left: number; right: number; top: number }> = []
+  const targets: GlyphTarget[] = []
 
-      if (char !== " ") {
-        const codePoint = char.codePointAt(0) ?? 0
-        const seed = hashNumber((row + 1) * 61 + (column + 3) * 17 + codePoint)
-        const homeY = y + (seed - 0.5) * 0.8
+  for (let attempt = 0; attempt < nameCount * 18 && placedBoxes.length < nameCount; attempt += 1) {
+    const nameSeed = seed + attempt * 43
+    const nameIndex = Math.floor(randomFromSeed(nameSeed + 5) * accessRequestEmployeeNames.length)
+    const name = getName(nameIndex + attempt * 17)
+    const fontSize = mix(minFontSize, maxFontSize, randomFromSeed(nameSeed + 11))
+    const lineHeight = fontSize * 1.5
+    const font = getNameFont(fontSize)
+    const glyphs = splitGlyphs(name)
+    const nameWidth = glyphs.reduce((sum, char) => sum + getGlyphWidth(char, fontSize), 0)
+    const nameHeight = lineHeight
 
-        particles.push({
-          accent: seed,
-          burstAt: 0,
-          char,
-          color: getParticleColor(row, column, char),
-          fromRotation: 0,
-          fromX: x,
-          fromY: homeY,
-          homeX: x,
-          homeY,
-          returnAt: 0,
-          returnDuration: RETURN_MS,
-          rotation: 0,
-          seed,
-          spin: 0,
-          state: "rest",
-          vx: 0,
-          vy: 0,
-          width: charWidth,
-          x,
-          y: homeY,
-        })
-      }
+    if (nameWidth > field.width - padX * 2) continue
 
-      x += charWidth + (char === "/" ? 1.2 : 0)
+    const x = mix(padX, field.width - padX - nameWidth, randomFromSeed(nameSeed + 13))
+    const y = mix(padY, field.height - padY - nameHeight, randomFromSeed(nameSeed + 17))
+    const rotation = mix(-0.2, 0.2, randomFromSeed(nameSeed + 19))
+    const rotationBuffer = Math.abs(rotation) * Math.max(nameWidth, nameHeight) * 0.45 + 4
+    const box = {
+      bottom: y + nameHeight + rotationBuffer,
+      left: x - rotationBuffer,
+      right: x + nameWidth + rotationBuffer,
+      top: y - rotationBuffer,
+    }
+
+    if (attempt < nameCount * 12 && boxesOverlap(box, placedBoxes)) continue
+
+    placedBoxes.push(box)
+
+    const color = NAME_PALETTE[Math.floor(randomFromSeed(nameSeed + 23) * NAME_PALETTE.length)] ?? "#17211f"
+    let cursorX = x
+
+    for (let index = 0; index < glyphs.length; index += 1) {
+      const char = glyphs[index] ?? ""
+      const width = getGlyphWidth(char, fontSize)
+      const accent = randomFromSeed(nameSeed + index * 29)
+
+      targets.push({
+        accent,
+        char,
+        color,
+        font,
+        fontSize,
+        homeRotation: rotation,
+        lineHeight,
+        width,
+        x: cursorX,
+        y,
+      })
+
+      cursorX += width
     }
   }
 
-  return {
+  if (targets.length === 0) {
+    const fallbackSize = clamp(Math.min(field.width / 32, field.height / 16), 12, 16)
+    const fallbackFont = getNameFont(fallbackSize)
+    const fallbackNames = accessRequestEmployeeNames.slice(0, 8)
+    let y = padY
+
+    for (const name of fallbackNames) {
+      let x = padX
+
+      for (const char of splitGlyphs(name)) {
+        const width = getGlyphWidth(char, fallbackSize)
+
+        targets.push({
+          accent: randomFromSeed(seed + x + y),
+          char,
+          color: "#17211f",
+          font: fallbackFont,
+          fontSize: fallbackSize,
+          homeRotation: 0,
+          lineHeight: fallbackSize * 1.5,
+          width,
+          x,
+          y,
+        })
+
+        x += width
+      }
+
+      y += fallbackSize * 1.8
+    }
+  }
+
+  return targets
+}
+
+function applyRandomLayout(field: AmbientField, seed: number, resetPosition: boolean) {
+  const targets = buildRandomGlyphLayout(field, seed)
+  const targetCount = resetPosition ? targets.length : Math.min(targets.length, field.particles.length)
+
+  for (let index = 0; index < targetCount; index += 1) {
+    const target = targets[index]
+    let particle = field.particles[index]
+
+    if (!target) {
+      if (particle) {
+        particle.state = "rest"
+        particle.visible = false
+      }
+      continue
+    }
+
+    if (!particle) {
+      particle = {
+        accent: target.accent,
+        burstAt: 0,
+        char: target.char,
+        color: target.color,
+        font: target.font,
+        fontSize: target.fontSize,
+        fromRotation: target.homeRotation,
+        fromX: target.x,
+        fromY: target.y,
+        homeRotation: target.homeRotation,
+        homeX: target.x,
+        homeY: target.y,
+        lineHeight: target.lineHeight,
+        returnAt: 0,
+        returnDuration: RETURN_MS,
+        rotation: target.homeRotation,
+        seed: randomFromSeed(seed + index * 31),
+        spin: 0,
+        state: "rest",
+        visible: true,
+        vx: 0,
+        vy: 0,
+        width: target.width,
+        x: target.x,
+        y: target.y,
+      }
+      field.particles.push(particle)
+    }
+
+    particle.accent = target.accent
+    particle.char = target.char
+    particle.color = target.color
+    particle.font = target.font
+    particle.fontSize = target.fontSize
+    particle.homeRotation = target.homeRotation
+    particle.homeX = target.x
+    particle.homeY = target.y
+    particle.lineHeight = target.lineHeight
+    particle.seed = randomFromSeed(seed + index * 31)
+    particle.visible = true
+    particle.width = target.width
+
+    if (resetPosition) {
+      particle.fromRotation = target.homeRotation
+      particle.fromX = target.x
+      particle.fromY = target.y
+      particle.rotation = target.homeRotation
+      particle.spin = 0
+      particle.state = "rest"
+      particle.vx = 0
+      particle.vy = 0
+      particle.x = target.x
+      particle.y = target.y
+    }
+  }
+
+  for (let index = targetCount; index < field.particles.length; index += 1) {
+    const particle = field.particles[index]!
+
+    particle.state = "rest"
+    particle.visible = false
+  }
+}
+
+function buildField(width: number, height: number, now: number): AmbientField {
+  const fontSize = clamp(Math.min(width / 31, height / 15.5), 9, 12)
+  const lineHeight = Math.max(14, fontSize * 1.48)
+  const font = getNameFont(fontSize)
+  const field: AmbientField = {
     charges: [],
     font,
     fontSize,
     height,
     initialChargeAt: now + INITIAL_CHARGE_DELAY_MS,
+    layoutSeed: NAME_LAYOUT_SEED + Math.floor(width * 11 + height * 17),
     lineHeight,
-    particles,
+    particles: [],
     shakePower: 0,
     shakeUntil: 0,
     sparks: [],
     width,
   }
+
+  applyRandomLayout(field, field.layoutSeed, true)
+
+  return field
 }
 
 function plantCharge(
@@ -294,8 +457,10 @@ function detonate(field: AmbientField, charge: Charge, now: number) {
   const radiusSq = radius * radius
 
   for (const particle of field.particles) {
+    if (!particle.visible) continue
+
     const centerX = particle.x + particle.width * 0.5
-    const centerY = particle.y + field.lineHeight * 0.42
+    const centerY = particle.y + particle.lineHeight * 0.42
     const dx = centerX - charge.x
     const dy = centerY - charge.y
 
@@ -321,6 +486,8 @@ function detonate(field: AmbientField, charge: Charge, now: number) {
   }
 
   if (affected > 0) {
+    field.layoutSeed += 1 + Math.floor(hashNumber(now * 0.017 + affected * 31) * 10000)
+    applyRandomLayout(field, field.layoutSeed, false)
     spawnSparks(field, charge.x, charge.y)
     field.shakePower = 1
     field.shakeUntil = now + 400
@@ -334,11 +501,12 @@ function applyPointerRepel(
   dt: number,
   now: number,
 ) {
+  if (!particle.visible) return
   if (!pointer.active || now - pointer.lastSeen > 260) return
 
   const radius = Math.min(128, Math.max(78, field.width * 0.24))
   const centerX = particle.x + particle.width * 0.5
-  const centerY = particle.y + field.lineHeight * 0.42
+  const centerY = particle.y + particle.lineHeight * 0.42
   const dx = centerX - pointer.x
   const dy = centerY - pointer.y
   const distance = Math.hypot(dx, dy)
@@ -364,6 +532,8 @@ function updateParticles(field: AmbientField, pointer: PointerState, dt: number,
   const drag = DRAG_PER_FRAME ** (dt * 60)
 
   for (const particle of field.particles) {
+    if (!particle.visible) continue
+
     applyPointerRepel(field, pointer, particle, dt, now)
 
     if (particle.state === "rest") continue
@@ -390,7 +560,7 @@ function updateParticles(field: AmbientField, pointer: PointerState, dt: number,
 
     particle.x = mix(particle.fromX, particle.homeX, eased)
     particle.y = mix(particle.fromY, particle.homeY, eased)
-    particle.rotation = mix(particle.fromRotation, 0, eased)
+    particle.rotation = mix(particle.fromRotation, particle.homeRotation, eased)
     particle.vx = 0
     particle.vy = 0
 
@@ -398,7 +568,7 @@ function updateParticles(field: AmbientField, pointer: PointerState, dt: number,
       particle.state = "rest"
       particle.x = particle.homeX
       particle.y = particle.homeY
-      particle.rotation = 0
+      particle.rotation = particle.homeRotation
       particle.spin = 0
     }
   }
@@ -466,7 +636,7 @@ function hasActiveMotion(
     !hasPlayedInitialCharge ||
     field.charges.length > 0 ||
     field.sparks.length > 0 ||
-    field.particles.some((particle) => particle.state !== "rest")
+    field.particles.some((particle) => particle.visible && particle.state !== "rest")
   )
 }
 
@@ -636,10 +806,11 @@ function drawParticles(
   now: number,
   reduceMotion: boolean,
 ) {
-  context.font = field.font
   context.textBaseline = "top"
 
   for (const particle of field.particles) {
+    if (!particle.visible) continue
+
     const isBurst = particle.state === "burst"
     const isReturning = particle.state === "returning"
     const fade = isBurst ? clamp((now - particle.burstAt - BURST_MS * 0.46) / (BURST_MS * 0.76)) : 0
@@ -650,14 +821,15 @@ function drawParticles(
         : isReturning
           ? 0.82
           : 0.7 + particle.accent * 0.18
-    const color = isBurst ? (particle.accent > 0.62 ? "#d99a20" : "#b9533d") : isReturning ? "#0f766e" : particle.color
+    const color = isBurst ? (particle.accent > 0.62 ? "#d99a20" : "#8a621c") : particle.color
 
     context.save()
-    context.translate(particle.x + particle.width * 0.5, particle.y + field.lineHeight * 0.38)
+    context.font = particle.font
+    context.translate(particle.x + particle.width * 0.5, particle.y + particle.lineHeight * 0.38)
     context.rotate(particle.rotation)
     context.globalAlpha = alpha
     context.fillStyle = color
-    context.fillText(particle.char, -particle.width * 0.5, -field.lineHeight * 0.38)
+    context.fillText(particle.char, -particle.width * 0.5, -particle.lineHeight * 0.38)
     context.restore()
   }
 }
@@ -737,7 +909,7 @@ export function AccessRequestNameBurstPanel() {
       canvas.width = Math.floor(width * dpr)
       canvas.height = Math.floor(height * dpr)
       context.setTransform(dpr, 0, 0, dpr, 0, 0)
-      field = buildField(context, width, height, performance.now())
+      field = buildField(width, height, performance.now())
 
       if (field) {
         drawScene(context, field, performance.now(), reduceMotion)
@@ -849,7 +1021,7 @@ export function AccessRequestNameBurstPanel() {
           particle.state = "rest"
           particle.x = particle.homeX
           particle.y = particle.homeY
-          particle.rotation = 0
+          particle.rotation = particle.homeRotation
           particle.vx = 0
           particle.vy = 0
         }
