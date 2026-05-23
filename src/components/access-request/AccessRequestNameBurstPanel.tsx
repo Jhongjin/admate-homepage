@@ -16,10 +16,10 @@ const BLAST_RADIUS = 250
 const BLAST_WAVE_MAX_RADIUS = 400
 const FORCE_MULTIPLIER = 40000
 const NAME_LAYOUT_SEED = 20260523
-const MIN_NAME_FONT_SIZE = 10
-const MAX_NAME_FONT_SIZE = 18
-const MIN_VISIBLE_NAMES = 26
-const MAX_VISIBLE_NAMES = 62
+const MIN_NAME_FONT_SIZE = 9
+const MAX_NAME_FONT_SIZE = 28
+const MIN_VISIBLE_NAMES = 86
+const MAX_VISIBLE_NAMES = 156
 const NAME_PALETTE = [
   "#17211f",
   "#0f766e",
@@ -141,10 +141,6 @@ function hashNumber(value: number) {
   return next - Math.floor(next)
 }
 
-function splitGlyphs(text: string) {
-  return Array.from(text)
-}
-
 function getName(index: number) {
   return accessRequestEmployeeNames[index % accessRequestEmployeeNames.length] ?? "AdMate"
 }
@@ -165,80 +161,66 @@ function getGlyphWidth(char: string, fontSize: number) {
   return fontSize * 0.9
 }
 
-function boxesOverlap(
-  box: { bottom: number; left: number; right: number; top: number },
-  boxes: Array<{ bottom: number; left: number; right: number; top: number }>,
-) {
-  return boxes.some(
-    (placed) =>
-      box.left < placed.right &&
-      box.right > placed.left &&
-      box.top < placed.bottom &&
-      box.bottom > placed.top,
-  )
+function getTextWidth(text: string, fontSize: number) {
+  return Array.from(text).reduce((sum, char) => sum + getGlyphWidth(char, fontSize), 0)
 }
 
 function buildRandomGlyphLayout(field: Pick<AmbientField, "width" | "height">, seed: number) {
-  const minFontSize = clamp(Math.min(field.width / 54, field.height / 30), MIN_NAME_FONT_SIZE, 12)
-  const maxFontSize = clamp(Math.min(field.width / 34, field.height / 18), 14, MAX_NAME_FONT_SIZE)
-  const padX = clamp(field.width * 0.045, 16, 28)
-  const padY = clamp(field.height * 0.065, 18, 32)
+  const minFontSize = clamp(Math.min(field.width / 74, field.height / 45), MIN_NAME_FONT_SIZE, 11)
+  const maxFontSize = clamp(Math.min(field.width / 24, field.height / 14), 20, MAX_NAME_FONT_SIZE)
+  const padX = clamp(field.width * 0.038, 12, 24)
+  const padY = clamp(field.height * 0.045, 12, 24)
   const panelArea = field.width * field.height
-  const nameCount = Math.floor(clamp(panelArea / 6200, MIN_VISIBLE_NAMES, MAX_VISIBLE_NAMES))
-  const placedBoxes: Array<{ bottom: number; left: number; right: number; top: number }> = []
+  const nameCount = Math.floor(clamp(panelArea / 2450, MIN_VISIBLE_NAMES, MAX_VISIBLE_NAMES))
   const targets: GlyphTarget[] = []
+  let y = padY
+  let row = 0
 
-  for (let attempt = 0; attempt < nameCount * 18 && placedBoxes.length < nameCount; attempt += 1) {
-    const nameSeed = seed + attempt * 43
-    const nameIndex = Math.floor(randomFromSeed(nameSeed + 5) * accessRequestEmployeeNames.length)
-    const name = getName(nameIndex + attempt * 17)
-    const fontSize = mix(minFontSize, maxFontSize, randomFromSeed(nameSeed + 11))
-    const lineHeight = fontSize * 1.5
-    const font = getNameFont(fontSize)
-    const glyphs = splitGlyphs(name)
-    const nameWidth = glyphs.reduce((sum, char) => sum + getGlyphWidth(char, fontSize), 0)
-    const nameHeight = lineHeight
+  while (y < field.height - padY && targets.length < nameCount) {
+    const rowSeed = seed + row * 71
+    let x = padX + randomFromSeed(rowSeed + 3) * minFontSize * 1.4
+    let rowHeight = 0
+    let column = 0
 
-    if (nameWidth > field.width - padX * 2) continue
+    while (x < field.width - padX && targets.length < nameCount) {
+      const nameSeed = rowSeed + column * 43
+      const nameIndex = Math.floor(randomFromSeed(nameSeed + 5) * accessRequestEmployeeNames.length)
+      const name = getName(nameIndex + row * 19 + column * 11)
+      const sizeBias = randomFromSeed(nameSeed + 11)
+      const fontSize = mix(minFontSize, maxFontSize, sizeBias ** 2.15)
+      const lineHeight = fontSize * mix(1.16, 1.34, randomFromSeed(nameSeed + 13))
+      const width = getTextWidth(name, fontSize)
 
-    const x = mix(padX, field.width - padX - nameWidth, randomFromSeed(nameSeed + 13))
-    const y = mix(padY, field.height - padY - nameHeight, randomFromSeed(nameSeed + 17))
-    const rotation = mix(-0.2, 0.2, randomFromSeed(nameSeed + 19))
-    const rotationBuffer = Math.abs(rotation) * Math.max(nameWidth, nameHeight) * 0.45 + 4
-    const box = {
-      bottom: y + nameHeight + rotationBuffer,
-      left: x - rotationBuffer,
-      right: x + nameWidth + rotationBuffer,
-      top: y - rotationBuffer,
-    }
+      if (width > field.width - padX * 2) {
+        column += 1
+        continue
+      }
 
-    if (attempt < nameCount * 12 && boxesOverlap(box, placedBoxes)) continue
+      if (x + width > field.width - padX) break
 
-    placedBoxes.push(box)
-
-    const color = NAME_PALETTE[Math.floor(randomFromSeed(nameSeed + 23) * NAME_PALETTE.length)] ?? "#17211f"
-    let cursorX = x
-
-    for (let index = 0; index < glyphs.length; index += 1) {
-      const char = glyphs[index] ?? ""
-      const width = getGlyphWidth(char, fontSize)
-      const accent = randomFromSeed(nameSeed + index * 29)
+      const color = NAME_PALETTE[Math.floor(randomFromSeed(nameSeed + 17) * NAME_PALETTE.length)] ?? "#17211f"
+      const yJitter = mix(-0.24, 0.2, randomFromSeed(nameSeed + 19)) * lineHeight
 
       targets.push({
-        accent,
-        char,
+        accent: randomFromSeed(nameSeed + 23),
+        char: name,
         color,
-        font,
+        font: getNameFont(fontSize),
         fontSize,
-        homeRotation: rotation,
+        homeRotation: mix(-0.18, 0.18, randomFromSeed(nameSeed + 29)),
         lineHeight,
         width,
-        x: cursorX,
-        y,
+        x,
+        y: clamp(y + yJitter, padY, field.height - padY - lineHeight),
       })
 
-      cursorX += width
+      rowHeight = Math.max(rowHeight, lineHeight)
+      x += width + mix(minFontSize * 0.55, fontSize * 1.08, randomFromSeed(nameSeed + 31))
+      column += 1
     }
+
+    y += Math.max(rowHeight * mix(0.7, 0.86, randomFromSeed(rowSeed + 37)), minFontSize * 1.18)
+    row += 1
   }
 
   if (targets.length === 0) {
@@ -248,26 +230,18 @@ function buildRandomGlyphLayout(field: Pick<AmbientField, "width" | "height">, s
     let y = padY
 
     for (const name of fallbackNames) {
-      let x = padX
-
-      for (const char of splitGlyphs(name)) {
-        const width = getGlyphWidth(char, fallbackSize)
-
-        targets.push({
-          accent: randomFromSeed(seed + x + y),
-          char,
-          color: "#17211f",
-          font: fallbackFont,
-          fontSize: fallbackSize,
-          homeRotation: 0,
-          lineHeight: fallbackSize * 1.5,
-          width,
-          x,
-          y,
-        })
-
-        x += width
-      }
+      targets.push({
+        accent: randomFromSeed(seed + y),
+        char: name,
+        color: "#17211f",
+        font: fallbackFont,
+        fontSize: fallbackSize,
+        homeRotation: 0,
+        lineHeight: fallbackSize * 1.5,
+        width: getTextWidth(name, fallbackSize),
+        x: padX,
+        y,
+      })
 
       y += fallbackSize * 1.8
     }
@@ -488,6 +462,20 @@ function detonate(field: AmbientField, charge: Charge, now: number) {
   if (affected > 0) {
     field.layoutSeed += 1 + Math.floor(hashNumber(now * 0.017 + affected * 31) * 10000)
     applyRandomLayout(field, field.layoutSeed, false)
+
+    for (const particle of field.particles) {
+      if (!particle.visible || particle.state === "burst") continue
+
+      particle.state = "returning"
+      particle.fromX = particle.x
+      particle.fromY = particle.y
+      particle.fromRotation = particle.rotation
+      particle.returnAt = now + 90 + particle.accent * 170
+      particle.returnDuration = RETURN_MS + particle.accent * 260
+      particle.vx = 0
+      particle.vy = 0
+    }
+
     spawnSparks(field, charge.x, charge.y)
     field.shakePower = 1
     field.shakeUntil = now + 400
