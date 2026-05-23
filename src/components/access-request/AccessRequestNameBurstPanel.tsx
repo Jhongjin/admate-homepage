@@ -18,8 +18,6 @@ const FORCE_MULTIPLIER = 40000
 const NAME_LAYOUT_SEED = 20260523
 const MIN_NAME_FONT_SIZE = 9
 const MAX_NAME_FONT_SIZE = 28
-const MIN_VISIBLE_NAMES = 86
-const MAX_VISIBLE_NAMES = 156
 const NAME_PALETTE = [
   "#17211f",
   "#0f766e",
@@ -170,19 +168,19 @@ function buildRandomGlyphLayout(field: Pick<AmbientField, "width" | "height">, s
   const maxFontSize = clamp(Math.min(field.width / 24, field.height / 14), 20, MAX_NAME_FONT_SIZE)
   const padX = clamp(field.width * 0.038, 12, 24)
   const padY = clamp(field.height * 0.045, 12, 24)
-  const panelArea = field.width * field.height
-  const nameCount = Math.floor(clamp(panelArea / 2450, MIN_VISIBLE_NAMES, MAX_VISIBLE_NAMES))
+  const usableHeight = Math.max(1, field.height - padY * 2)
+  const desiredRows = Math.max(6, Math.ceil(usableHeight / (minFontSize * 1.72)))
+  const rowStep = desiredRows > 1 ? usableHeight / (desiredRows - 1) : usableHeight
   const targets: GlyphTarget[] = []
-  let y = padY
-  let row = 0
 
-  while (y < field.height - padY && targets.length < nameCount) {
+  for (let row = 0; row < desiredRows; row += 1) {
     const rowSeed = seed + row * 71
+    const y = padY + row * rowStep
     let x = padX + randomFromSeed(rowSeed + 3) * minFontSize * 1.4
     let rowHeight = 0
     let column = 0
 
-    while (x < field.width - padX && targets.length < nameCount) {
+    while (x < field.width - padX) {
       const nameSeed = rowSeed + column * 43
       const nameIndex = Math.floor(randomFromSeed(nameSeed + 5) * accessRequestEmployeeNames.length)
       const name = getName(nameIndex + row * 19 + column * 11)
@@ -219,8 +217,23 @@ function buildRandomGlyphLayout(field: Pick<AmbientField, "width" | "height">, s
       column += 1
     }
 
-    y += Math.max(rowHeight * mix(0.7, 0.86, randomFromSeed(rowSeed + 37)), minFontSize * 1.18)
-    row += 1
+    if (rowHeight === 0) {
+      const fallbackSize = minFontSize
+      const fallbackName = getName(row)
+
+      targets.push({
+        accent: randomFromSeed(rowSeed + 41),
+        char: fallbackName,
+        color: NAME_PALETTE[Math.floor(randomFromSeed(rowSeed + 43) * NAME_PALETTE.length)] ?? "#17211f",
+        font: getNameFont(fallbackSize),
+        fontSize: fallbackSize,
+        homeRotation: mix(-0.12, 0.12, randomFromSeed(rowSeed + 47)),
+        lineHeight: fallbackSize * 1.28,
+        width: getTextWidth(fallbackName, fallbackSize),
+        x: padX,
+        y: clamp(y, padY, field.height - padY - fallbackSize * 1.28),
+      })
+    }
   }
 
   if (targets.length === 0) {
@@ -252,7 +265,7 @@ function buildRandomGlyphLayout(field: Pick<AmbientField, "width" | "height">, s
 
 function applyRandomLayout(field: AmbientField, seed: number, resetPosition: boolean) {
   const targets = buildRandomGlyphLayout(field, seed)
-  const targetCount = resetPosition ? targets.length : Math.min(targets.length, field.particles.length)
+  const targetCount = targets.length
 
   for (let index = 0; index < targetCount; index += 1) {
     const target = targets[index]
