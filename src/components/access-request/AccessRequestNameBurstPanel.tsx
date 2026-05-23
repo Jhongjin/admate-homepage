@@ -4,34 +4,35 @@ import { useEffect, useRef } from "react"
 
 import { accessRequestEmployeeNames } from "./access-request-name-pool"
 
-const INITIAL_CHARGE_DELAY_MS = 720
-const INITIAL_FUSE_MS = 640
-const POINTER_FUSE_MS = 160
+const INITIAL_CHARGE_DELAY_MS = 820
+const INITIAL_FUSE_MS = 760
+const POINTER_FUSE_MS = 180
 const BLAST_WAVE_MS = 620
-const BURST_MS = 860
-const RETURN_MS = 820
-const GRAVITY = 175
-const DRAG_PER_FRAME = 0.965
+const BURST_MS = 820
+const RETURN_MS = 780
+const GRAVITY = 220
+const DRAG_PER_FRAME = 0.968
 
-type TokenState = "rest" | "burst" | "returning"
+const INITIAL_CHARGE_POINT = { x: 0.58, y: 0.42 } as const
 
-type NameToken = {
-  accent: string
+type ParticleState = "rest" | "burst" | "returning"
+
+type TextParticle = {
+  accent: number
   burstAt: number
+  char: string
+  color: string
   fromRotation: number
   fromX: number
   fromY: number
-  height: number
   homeX: number
   homeY: number
-  label: string
   returnAt: number
   returnDuration: number
   rotation: number
   seed: number
   spin: number
-  state: TokenState
-  textWidth: number
+  state: ParticleState
   vx: number
   vy: number
   width: number
@@ -62,22 +63,17 @@ type Spark = {
 }
 
 type AmbientField = {
-  canvasHeight: number
-  canvasWidth: number
   charges: Charge[]
-  columnCount: number
   font: string
   fontSize: number
+  height: number
   initialChargeAt: number
-  initialPlayed: boolean
-  layoutSeed: number
-  padX: number
-  padY: number
-  rowHeight: number
+  lineHeight: number
+  particles: TextParticle[]
   shakePower: number
   shakeUntil: number
   sparks: Spark[]
-  tokens: NameToken[]
+  width: number
 }
 
 type PointerState = {
@@ -93,7 +89,15 @@ function clamp(value: number, min = 0, max = 1) {
 
 function easeOutCubic(value: number) {
   const next = 1 - clamp(value)
+
   return 1 - next * next * next
+}
+
+function elasticOut(value: number) {
+  const t = clamp(value)
+  if (t === 0 || t === 1) return t
+
+  return 2 ** (-9 * t) * Math.sin((t * 10 - 0.75) * ((2 * Math.PI) / 3)) + 1
 }
 
 function mix(start: number, end: number, progress: number) {
@@ -101,106 +105,43 @@ function mix(start: number, end: number, progress: number) {
 }
 
 function hashNumber(value: number) {
-  const next = Math.sin(value * 127.1) * 43758.5453123
+  const next = Math.sin(value * 127.1) * 43758.5453
 
   return next - Math.floor(next)
 }
 
-function seededRandom(seed: number) {
-  let state = seed >>> 0
-
-  return () => {
-    state = (state * 1664525 + 1013904223) >>> 0
-
-    return state / 4294967296
-  }
+function splitGlyphs(text: string) {
+  return Array.from(text)
 }
 
-function shuffle<T>(items: readonly T[], seed: number) {
-  const random = seededRandom(seed)
-  const next = [...items]
+function getParticleColor(row: number, column: number, char: string) {
+  if (/[0-9]/.test(char)) return "#9e5700"
+  if (char === "/" || char === ":" || char === "-") return "#b9533d"
+  if ((row + column) % 7 === 0) return "#0f766e"
+  if (row % 4 === 2) return "#625f58"
 
-  for (let index = next.length - 1; index > 0; index -= 1) {
-    const swapIndex = Math.floor(random() * (index + 1))
-    const value = next[index] as T
-
-    next[index] = next[swapIndex] as T
-    next[swapIndex] = value
-  }
-
-  return next
+  return "#17211f"
 }
 
-function drawRoundRect(
+function getName(index: number) {
+  return accessRequestEmployeeNames[index % accessRequestEmployeeNames.length] ?? "AdMate"
+}
+
+function buildReadableLine(
   context: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-  radius: number,
+  row: number,
+  maxWidth: number,
 ) {
-  const r = Math.min(radius, width / 2, height / 2)
+  let text = ""
+  let cursor = (row * 17) % accessRequestEmployeeNames.length
 
-  context.beginPath()
-  context.moveTo(x + r, y)
-  context.arcTo(x + width, y, x + width, y + height, r)
-  context.arcTo(x + width, y + height, x, y + height, r)
-  context.arcTo(x, y + height, x, y, r)
-  context.arcTo(x, y, x + width, y, r)
-  context.closePath()
-}
-
-function getTokenAccent(index: number) {
-  const colors = ["#0F766E", "#177D4E", "#536171", "#9E5700", "#B9533D"]
-
-  return colors[index % colors.length] ?? "#0F766E"
-}
-
-function createLayoutMetrics(width: number, height: number) {
-  const fontSize = clamp(Math.min(width / 52, height / 32), 11, 13.5)
-  const rowHeight = clamp(fontSize * 2.28, 28, 34)
-  const padX = clamp(width * 0.05, 18, 28)
-  const padY = clamp(height * 0.08, 22, 34)
-  const cellWidth = clamp(width / 8.4, 68, 88)
-  const columnCount = Math.max(3, Math.floor((width - padX * 2) / cellWidth))
-  const font = `600 ${fontSize.toFixed(1)}px "Geist", "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont, sans-serif`
-
-  return {
-    columnCount,
-    font,
-    fontSize,
-    padX,
-    padY,
-    rowHeight,
+  while (context.measureText(text).width < maxWidth + 120) {
+    const names = Array.from({ length: 8 }, (_, index) => getName(cursor + index * 3))
+    text += `${text ? "  /  " : ""}${names.join("  ")}`
+    cursor = (cursor + 29) % accessRequestEmployeeNames.length
   }
-}
 
-function getCellHome(field: AmbientField, cellIndex: number, token: NameToken, seed: number) {
-  const row = Math.floor(cellIndex / field.columnCount)
-  const column = cellIndex % field.columnCount
-  const cellWidth = (field.canvasWidth - field.padX * 2) / field.columnCount
-  const randomA = hashNumber(seed * 11 + cellIndex * 23 + token.seed * 17)
-  const randomB = hashNumber(seed * 29 + cellIndex * 7 + token.seed * 31)
-  const baseX = field.padX + column * cellWidth + cellWidth / 2
-  const baseY = field.padY + row * field.rowHeight + field.rowHeight / 2
-  const jitterX = (randomA - 0.5) * Math.min(18, cellWidth * 0.22)
-  const jitterY = (randomB - 0.5) * Math.min(8, field.rowHeight * 0.24)
-
-  return {
-    x: clamp(baseX + jitterX, field.padX + token.width / 2, field.canvasWidth - field.padX - token.width / 2),
-    y: clamp(baseY + jitterY, field.padY + token.height / 2, field.canvasHeight - field.padY - token.height / 2),
-  }
-}
-
-function assignRandomHomes(field: AmbientField, seed: number) {
-  const tokens = shuffle(field.tokens, seed)
-
-  tokens.forEach((token, index) => {
-    const home = getCellHome(field, index, token, seed)
-
-    token.homeX = home.x
-    token.homeY = home.y
-  })
+  return text
 }
 
 function buildField(
@@ -209,70 +150,76 @@ function buildField(
   height: number,
   now: number,
 ): AmbientField {
-  const metrics = createLayoutMetrics(width, height)
-  const rowCount = Math.max(4, Math.floor((height - metrics.padY * 2) / metrics.rowHeight))
-  const visibleCount = Math.min(accessRequestEmployeeNames.length, rowCount * metrics.columnCount)
-  const selectedNames = shuffle(accessRequestEmployeeNames, 20260523).slice(0, visibleCount)
-  const field: AmbientField = {
-    canvasHeight: height,
-    canvasWidth: width,
+  const fontSize = clamp(Math.min(width / 31, height / 15.5), 9, 12)
+  const lineHeight = Math.max(14, fontSize * 1.48)
+  const font = `800 ${fontSize.toFixed(1)}px "Geist Mono", "Noto Sans KR", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`
+  const padX = clamp(width * 0.055, 14, 22)
+  const padY = clamp(height * 0.1, 15, 22)
+  const rows = Math.max(5, Math.floor((height - padY * 2) / lineHeight))
+  const maxWidth = Math.max(80, width - padX * 2)
+  const particles: TextParticle[] = []
+
+  context.font = font
+
+  for (let row = 0; row < rows; row += 1) {
+    const text = buildReadableLine(context, row, maxWidth)
+    const glyphs = splitGlyphs(text)
+    let x = padX + ((row % 3) - 1) * fontSize * 0.35
+    const y = padY + row * lineHeight + (row % 2) * 0.7
+
+    for (let column = 0; column < glyphs.length; column += 1) {
+      const char = glyphs[column] ?? ""
+      const widthMeasure = context.measureText(char).width
+      const charWidth = Math.max(widthMeasure, char === " " ? fontSize * 0.45 : fontSize * 0.5)
+
+      if (x > width - padX + 2) break
+
+      if (char !== " ") {
+        const codePoint = char.codePointAt(0) ?? 0
+        const seed = hashNumber((row + 1) * 61 + (column + 3) * 17 + codePoint)
+        const homeY = y + (seed - 0.5) * 0.8
+
+        particles.push({
+          accent: seed,
+          burstAt: 0,
+          char,
+          color: getParticleColor(row, column, char),
+          fromRotation: 0,
+          fromX: x,
+          fromY: homeY,
+          homeX: x,
+          homeY,
+          returnAt: 0,
+          returnDuration: RETURN_MS,
+          rotation: 0,
+          seed,
+          spin: 0,
+          state: "rest",
+          vx: 0,
+          vy: 0,
+          width: charWidth,
+          x,
+          y: homeY,
+        })
+      }
+
+      x += charWidth + (char === "/" ? 1.2 : 0)
+    }
+  }
+
+  return {
     charges: [],
-    columnCount: metrics.columnCount,
-    font: metrics.font,
-    fontSize: metrics.fontSize,
+    font,
+    fontSize,
+    height,
     initialChargeAt: now + INITIAL_CHARGE_DELAY_MS,
-    initialPlayed: false,
-    layoutSeed: 20260523,
-    padX: metrics.padX,
-    padY: metrics.padY,
-    rowHeight: metrics.rowHeight,
+    lineHeight,
+    particles,
     shakePower: 0,
     shakeUntil: 0,
     sparks: [],
-    tokens: [],
+    width,
   }
-
-  context.font = metrics.font
-  context.textBaseline = "middle"
-  context.textAlign = "center"
-
-  selectedNames.forEach((name, index) => {
-    const textWidth = context.measureText(name).width
-    const seed = hashNumber((index + 3) * 41 + name.length * 19)
-    const widthMeasure = Math.max(textWidth + 19, metrics.fontSize * 3.8)
-    const token: NameToken = {
-      accent: getTokenAccent(index),
-      burstAt: 0,
-      fromRotation: 0,
-      fromX: 0,
-      fromY: 0,
-      height: metrics.fontSize + 12,
-      homeX: 0,
-      homeY: 0,
-      label: name,
-      returnAt: 0,
-      returnDuration: RETURN_MS,
-      rotation: 0,
-      seed,
-      spin: 0,
-      state: "rest",
-      textWidth,
-      vx: 0,
-      vy: 0,
-      width: widthMeasure,
-      x: 0,
-      y: 0,
-    }
-    const home = getCellHome(field, index, token, field.layoutSeed)
-
-    token.homeX = home.x
-    token.homeY = home.y
-    token.x = home.x
-    token.y = home.y
-    field.tokens.push(token)
-  })
-
-  return field
 }
 
 function plantCharge(
@@ -281,7 +228,7 @@ function plantCharge(
   y: number,
   now: number,
   fuseMs: number,
-  blastRadius = Math.min(field.canvasWidth, field.canvasHeight) * 0.82,
+  blastRadius = Math.min(field.width, field.height) * 0.72,
 ) {
   if (field.charges.length >= 3) return
 
@@ -290,29 +237,29 @@ function plantCharge(
     detonatedAt: null,
     doneAt: 0,
     fuseMs,
-    maxWaveRadius: blastRadius * 1.2,
+    maxWaveRadius: blastRadius * 1.16,
     plantedAt: now,
-    x: clamp(x, 18, field.canvasWidth - 18),
-    y: clamp(y, 18, field.canvasHeight - 18),
+    x: clamp(x, 12, field.width - 12),
+    y: clamp(y, 12, field.height - 12),
   })
 }
 
 function spawnSparks(field: AmbientField, x: number, y: number) {
-  const colors = ["#D99A20", "#B9533D", "#0F766E", "#9FE5C1", "#FFF7E8"]
+  const colors = ["#d99a20", "#b9533d", "#0f766e", "#fff7e8"]
 
-  for (let index = 0; index < 30; index += 1) {
+  for (let index = 0; index < 34; index += 1) {
     const seed = hashNumber(field.sparks.length * 19 + index * 29 + x + y)
     const angle = seed * Math.PI * 2
-    const speed = 68 + hashNumber(index * 43 + y) * 190
-    const life = 300 + hashNumber(index * 37 + x) * 430
+    const speed = 64 + hashNumber(index * 43 + y) * 210
+    const life = 320 + hashNumber(index * 37 + x) * 420
 
     field.sparks.push({
-      color: colors[index % colors.length] ?? "#D99A20",
+      color: colors[index % colors.length] ?? "#d99a20",
       life,
       maxLife: life,
-      size: 1.2 + hashNumber(index * 13 + x) * 2.8,
+      size: 0.8 + hashNumber(index * 23 + x) * 2.4,
       vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed,
+      vy: Math.sin(angle) * speed - 28,
       x,
       y,
     })
@@ -320,282 +267,356 @@ function spawnSparks(field: AmbientField, x: number, y: number) {
 }
 
 function detonate(field: AmbientField, charge: Charge, now: number) {
-  charge.detonatedAt = now
-  charge.doneAt = now + BLAST_WAVE_MS
-  field.layoutSeed += 97
-  field.shakePower = Math.min(7, charge.blastRadius / 62)
-  field.shakeUntil = now + 260
-  assignRandomHomes(field, field.layoutSeed)
-  spawnSparks(field, charge.x, charge.y)
+  let affected = 0
+  const radius = charge.blastRadius
 
-  field.tokens.forEach((token) => {
-    const dx = token.x - charge.x
-    const dy = token.y - charge.y
-    const distance = Math.max(1, Math.hypot(dx, dy))
-    const pressure = Math.max(0.14, 1 - distance / charge.blastRadius)
-    const angle = Math.atan2(dy, dx) + (token.seed - 0.5) * 0.58
-    const speed = (185 + pressure * 480) * (0.68 + token.seed * 0.62)
+  for (const particle of field.particles) {
+    const centerX = particle.x + particle.width * 0.5
+    const centerY = particle.y + field.lineHeight * 0.42
+    const dx = centerX - charge.x
+    const dy = centerY - charge.y
+    const distance = Math.hypot(dx, dy)
 
-    token.burstAt = now
-    token.fromRotation = token.rotation
-    token.fromX = token.x
-    token.fromY = token.y
-    token.returnAt = now + BURST_MS + token.seed * 270
-    token.returnDuration = RETURN_MS + pressure * 210
-    token.spin = (token.seed - 0.5) * 5.2
-    token.state = "burst"
-    token.vx = Math.cos(angle) * speed + (token.seed - 0.5) * 72
-    token.vy = Math.sin(angle) * speed - pressure * 96
-  })
-}
+    if (distance > radius) continue
 
-function updateCharge(field: AmbientField, charge: Charge, now: number) {
-  if (charge.detonatedAt === null && now - charge.plantedAt >= charge.fuseMs) {
-    detonate(field, charge, now)
+    const normalized = Math.max(distance, 12) / radius
+    const pressure = (1 - normalized) ** 1.65
+    const angle = Math.atan2(dy, dx) + (particle.seed - 0.5) * 0.78
+    const force = (210 + pressure * 640) * (0.72 + particle.seed * 0.58)
+
+    particle.state = "burst"
+    particle.burstAt = now
+    particle.returnAt = now + BURST_MS + particle.seed * 380
+    particle.returnDuration = RETURN_MS + pressure * 240
+    particle.vx = Math.cos(angle) * force
+    particle.vy = Math.sin(angle) * force - 42 - pressure * 86
+    particle.spin = (particle.seed - 0.5) * 15
+    affected += 1
+  }
+
+  if (affected > 0) {
+    spawnSparks(field, charge.x, charge.y)
+    field.shakePower = clamp(affected / Math.max(1, field.particles.length), 0.12, 0.46)
+    field.shakeUntil = now + 360
   }
 }
 
-function updateSparks(field: AmbientField, deltaSeconds: number) {
-  field.sparks.forEach((spark) => {
-    spark.x += spark.vx * deltaSeconds
-    spark.y += spark.vy * deltaSeconds
-    spark.vx *= 0.975
-    spark.vy = spark.vy * 0.975 + 42 * deltaSeconds
-    spark.life -= deltaSeconds * 1000
-  })
+function applyPointerRepel(
+  field: AmbientField,
+  pointer: PointerState,
+  particle: TextParticle,
+  dt: number,
+  now: number,
+) {
+  if (!pointer.active || now - pointer.lastSeen > 180) return
 
-  field.sparks = field.sparks.filter((spark) => spark.life > 0)
+  const radius = Math.min(92, Math.max(58, field.width * 0.22))
+  const centerX = particle.x + particle.width * 0.5
+  const centerY = particle.y + field.lineHeight * 0.42
+  const dx = centerX - pointer.x
+  const dy = centerY - pointer.y
+  const distance = Math.hypot(dx, dy)
+
+  if (distance > radius) return
+
+  const pressure = (1 - distance / radius) ** 2
+  const safeDistance = Math.max(distance, 8)
+
+  if (particle.state === "rest") {
+    particle.state = "burst"
+    particle.burstAt = now
+    particle.spin = (particle.seed - 0.5) * 8
+  }
+
+  particle.vx += (dx / safeDistance) * pressure * 1180 * dt
+  particle.vy += (dy / safeDistance) * pressure * 1180 * dt
+  particle.returnAt = Math.max(particle.returnAt, now + 220)
+  particle.returnDuration = RETURN_MS * 0.78
 }
 
-function startTokenReturn(token: NameToken, now: number, duration = RETURN_MS) {
-  token.fromX = token.x
-  token.fromY = token.y
-  token.fromRotation = token.rotation
-  token.returnAt = now
-  token.returnDuration = duration
-  token.state = "returning"
-}
+function updateParticles(field: AmbientField, pointer: PointerState, dt: number, now: number) {
+  const drag = DRAG_PER_FRAME ** (dt * 60)
 
-function updateTokens(field: AmbientField, deltaSeconds: number, now: number) {
-  field.tokens.forEach((token) => {
-    if (token.state === "burst") {
-      token.x += token.vx * deltaSeconds
-      token.y += token.vy * deltaSeconds
-      token.vy += GRAVITY * deltaSeconds
-      token.vx *= DRAG_PER_FRAME
-      token.vy *= DRAG_PER_FRAME
-      token.rotation += token.spin * deltaSeconds
+  for (const particle of field.particles) {
+    applyPointerRepel(field, pointer, particle, dt, now)
 
-      const minX = token.width / 2 + 6
-      const maxX = field.canvasWidth - token.width / 2 - 6
-      const minY = token.height / 2 + 6
-      const maxY = field.canvasHeight - token.height / 2 - 6
+    if (particle.state === "rest") continue
 
-      if (token.x < minX || token.x > maxX) {
-        token.x = clamp(token.x, minX, maxX)
-        token.vx *= -0.42
+    if (particle.state === "burst") {
+      particle.vx *= drag
+      particle.vy = particle.vy * drag + GRAVITY * dt
+      particle.x += particle.vx * dt
+      particle.y += particle.vy * dt
+      particle.rotation += particle.spin * dt
+
+      if (now >= particle.returnAt) {
+        particle.state = "returning"
+        particle.fromX = particle.x
+        particle.fromY = particle.y
+        particle.fromRotation = particle.rotation
       }
 
-      if (token.y < minY || token.y > maxY) {
-        token.y = clamp(token.y, minY, maxY)
-        token.vy *= -0.38
-      }
-
-      if (now >= token.returnAt) {
-        startTokenReturn(token, now, token.returnDuration)
-      }
-
-      return
+      continue
     }
 
-    if (token.state === "returning") {
-      const progress = easeOutCubic((now - token.returnAt) / token.returnDuration)
+    const progress = (now - particle.returnAt) / particle.returnDuration
+    const eased = elasticOut(progress)
 
-      token.x = mix(token.fromX, token.homeX, progress)
-      token.y = mix(token.fromY, token.homeY, progress)
-      token.rotation = mix(token.fromRotation, 0, progress)
+    particle.x = mix(particle.fromX, particle.homeX, eased)
+    particle.y = mix(particle.fromY, particle.homeY, eased)
+    particle.rotation = mix(particle.fromRotation, 0, eased)
+    particle.vx = 0
+    particle.vy = 0
 
-      if (progress >= 1) {
-        token.x = token.homeX
-        token.y = token.homeY
-        token.rotation = 0
-        token.spin = 0
-        token.state = "rest"
-      }
-
-      return
+    if (progress >= 1) {
+      particle.state = "rest"
+      particle.x = particle.homeX
+      particle.y = particle.homeY
+      particle.rotation = 0
+      particle.spin = 0
     }
-
-    token.x = mix(token.x, token.homeX, 0.07)
-    token.y = mix(token.y, token.homeY, 0.07)
-    token.rotation = mix(token.rotation, 0, 0.08)
-  })
+  }
 }
 
-function applyPointerRepel(field: AmbientField, pointer: PointerState, now: number) {
-  if (!pointer.active || now - pointer.lastSeen > 2200) return
+function updateSparks(field: AmbientField, dt: number) {
+  let writeIndex = 0
 
-  const radius = Math.min(105, Math.max(72, field.canvasWidth * 0.15))
+  for (const spark of field.sparks) {
+    spark.x += spark.vx * dt
+    spark.y += spark.vy * dt
+    spark.vx *= DRAG_PER_FRAME ** (dt * 60)
+    spark.vy += GRAVITY * 0.55 * dt
+    spark.life -= dt * 1000
 
-  field.tokens.forEach((token) => {
-    if (token.state !== "rest") return
+    if (spark.life > 0) {
+      field.sparks[writeIndex] = spark
+      writeIndex += 1
+    }
+  }
 
-    const dx = token.x - pointer.x
-    const dy = token.y - pointer.y
-    const distance = Math.hypot(dx, dy)
+  field.sparks.length = writeIndex
+}
 
-    if (distance > radius) return
+function updateCharges(field: AmbientField, now: number) {
+  let writeIndex = 0
 
-    const angle = distance < 1 ? token.seed * Math.PI * 2 : Math.atan2(dy, dx)
-    const pressure = (1 - distance / radius) ** 2
-    const push = pressure * 18
+  for (const charge of field.charges) {
+    if (charge.detonatedAt === null && now - charge.plantedAt >= charge.fuseMs) {
+      charge.detonatedAt = now
+      charge.doneAt = now + BLAST_WAVE_MS
+      detonate(field, charge, now)
+    }
 
-    token.x += Math.cos(angle) * push
-    token.y += Math.sin(angle) * push
-    token.rotation += (token.seed - 0.5) * pressure * 0.1
-  })
+    if (charge.detonatedAt === null || now < charge.doneAt) {
+      field.charges[writeIndex] = charge
+      writeIndex += 1
+    }
+  }
+
+  field.charges.length = writeIndex
+}
+
+function hasActiveMotion(
+  field: AmbientField,
+  hasPlayedInitialCharge: boolean,
+) {
+  return (
+    !hasPlayedInitialCharge ||
+    field.charges.length > 0 ||
+    field.sparks.length > 0 ||
+    field.particles.some((particle) => particle.state !== "rest")
+  )
+}
+
+function maybePlantInitialCharge(
+  field: AmbientField,
+  now: number,
+  hasPlayedInitialCharge: boolean,
+) {
+  if (hasPlayedInitialCharge || now < field.initialChargeAt) return false
+
+  plantCharge(
+    field,
+    INITIAL_CHARGE_POINT.x * field.width,
+    INITIAL_CHARGE_POINT.y * field.height,
+    now,
+    INITIAL_FUSE_MS,
+  )
+
+  return true
 }
 
 function drawBackground(context: CanvasRenderingContext2D, field: AmbientField) {
-  const { canvasHeight, canvasWidth } = field
-  const gradient = context.createRadialGradient(
-    canvasWidth * 0.48,
-    canvasHeight * 0.36,
-    canvasWidth * 0.04,
-    canvasWidth * 0.5,
-    canvasHeight * 0.46,
-    Math.max(canvasWidth, canvasHeight) * 0.8,
-  )
+  context.clearRect(0, 0, field.width, field.height)
+  context.fillStyle = "rgba(255, 253, 247, 0.94)"
+  context.fillRect(0, 0, field.width, field.height)
 
-  gradient.addColorStop(0, "#FFFDF8")
-  gradient.addColorStop(0.48, "#FCFAF5")
-  gradient.addColorStop(1, "#F1F5F7")
-  context.fillStyle = gradient
-  context.fillRect(0, 0, canvasWidth, canvasHeight)
-
-  context.save()
-  context.strokeStyle = "rgba(16, 24, 32, 0.045)"
   context.lineWidth = 1
+  context.strokeStyle = "rgba(23, 33, 31, 0.055)"
 
-  for (let x = 0; x <= canvasWidth; x += 32) {
-    context.beginPath()
-    context.moveTo(x, 0)
-    context.lineTo(x, canvasHeight)
-    context.stroke()
-  }
-
-  for (let y = 0; y <= canvasHeight; y += 32) {
+  for (let y = 18; y < field.height; y += 18) {
     context.beginPath()
     context.moveTo(0, y)
-    context.lineTo(canvasWidth, y)
+    context.lineTo(field.width, y)
     context.stroke()
   }
 
-  context.strokeStyle = "rgba(15, 118, 110, 0.08)"
-  context.lineWidth = 1.4
-  context.beginPath()
-  context.ellipse(canvasWidth * 0.76, canvasHeight * 0.24, canvasWidth * 0.36, canvasHeight * 0.22, -0.14, 0, Math.PI * 2)
-  context.stroke()
-  context.restore()
+  const glow = context.createRadialGradient(
+    field.width * 0.66,
+    field.height * 0.34,
+    0,
+    field.width * 0.66,
+    field.height * 0.34,
+    Math.max(field.width, field.height) * 0.62,
+  )
+  glow.addColorStop(0, "rgba(15, 118, 110, 0.11)")
+  glow.addColorStop(0.48, "rgba(217, 154, 32, 0.055)")
+  glow.addColorStop(1, "rgba(255, 253, 247, 0)")
+  context.fillStyle = glow
+  context.fillRect(0, 0, field.width, field.height)
 }
 
 function drawCharge(context: CanvasRenderingContext2D, charge: Charge, now: number) {
   if (charge.detonatedAt === null) {
     const progress = clamp((now - charge.plantedAt) / charge.fuseMs)
     const pulse = 1 + Math.sin(progress * Math.PI * 8) * 0.12
+    const radius = 5.4 * pulse
+    const fuseLength = 18 * (1 - progress)
+    const fuseAngle = -Math.PI / 4
+    const fuseX = charge.x + Math.cos(fuseAngle) * radius
+    const fuseY = charge.y + Math.sin(fuseAngle) * radius
 
     context.save()
-    context.translate(charge.x, charge.y)
-    context.fillStyle = "rgba(16, 24, 32, 0.72)"
+    context.globalAlpha = 0.86
     context.beginPath()
-    context.arc(0, 0, 8.5 * pulse, 0, Math.PI * 2)
+    context.arc(charge.x, charge.y, radius, 0, Math.PI * 2)
+    context.fillStyle = "#17211f"
     context.fill()
-    context.strokeStyle = "rgba(185, 83, 61, 0.78)"
-    context.lineWidth = 2
-    context.beginPath()
-    context.arc(0, 0, 15 + progress * 10, -Math.PI / 2, -Math.PI / 2 + progress * Math.PI * 2)
+    context.strokeStyle = "#b9533d"
+    context.lineWidth = 1.5
     context.stroke()
+
+    context.beginPath()
+    context.moveTo(fuseX, fuseY)
+    context.lineTo(
+      fuseX + Math.cos(fuseAngle) * fuseLength,
+      fuseY + Math.sin(fuseAngle) * fuseLength,
+    )
+    context.strokeStyle = "#d99a20"
+    context.lineWidth = 1.3
+    context.stroke()
+
+    context.beginPath()
+    context.arc(
+      fuseX + Math.cos(fuseAngle) * fuseLength,
+      fuseY + Math.sin(fuseAngle) * fuseLength,
+      2.4 + Math.sin(progress * Math.PI * 14) * 1.1,
+      0,
+      Math.PI * 2,
+    )
+    context.fillStyle = "#d99a20"
+    context.fill()
     context.restore()
 
     return
   }
 
-  const waveProgress = clamp((now - charge.detonatedAt) / BLAST_WAVE_MS)
-  const radius = charge.maxWaveRadius * easeOutCubic(waveProgress)
+  const progress = clamp((now - charge.detonatedAt) / BLAST_WAVE_MS)
+  const waveRadius = easeOutCubic(progress) * charge.maxWaveRadius
+  const alpha = (1 - progress) * 0.56
 
   context.save()
-  context.strokeStyle = `rgba(185, 83, 61, ${0.44 * (1 - waveProgress)})`
-  context.lineWidth = 2.4
   context.beginPath()
-  context.arc(charge.x, charge.y, radius, 0, Math.PI * 2)
+  context.arc(charge.x, charge.y, waveRadius, 0, Math.PI * 2)
+  context.strokeStyle = `rgba(185, 83, 61, ${alpha})`
+  context.lineWidth = 14 * (1 - progress) + 1
   context.stroke()
-  context.fillStyle = `rgba(217, 154, 32, ${0.12 * (1 - waveProgress)})`
-  context.beginPath()
-  context.arc(charge.x, charge.y, radius * 0.54, 0, Math.PI * 2)
-  context.fill()
+
+  if (progress < 0.18) {
+    const flash = context.createRadialGradient(charge.x, charge.y, 0, charge.x, charge.y, 58)
+    flash.addColorStop(0, `rgba(255, 247, 232, ${(1 - progress / 0.18) * 0.64})`)
+    flash.addColorStop(0.5, `rgba(217, 154, 32, ${(1 - progress / 0.18) * 0.28})`)
+    flash.addColorStop(1, "rgba(185, 83, 61, 0)")
+    context.fillStyle = flash
+    context.fillRect(charge.x - 58, charge.y - 58, 116, 116)
+  }
+
   context.restore()
+}
+
+function drawParticles(
+  context: CanvasRenderingContext2D,
+  field: AmbientField,
+  now: number,
+  reduceMotion: boolean,
+) {
+  context.font = field.font
+  context.textBaseline = "top"
+
+  for (const particle of field.particles) {
+    const isBurst = particle.state === "burst"
+    const isReturning = particle.state === "returning"
+    const fade = isBurst ? clamp((now - particle.burstAt - BURST_MS * 0.46) / (BURST_MS * 0.76)) : 0
+    const alpha = reduceMotion
+      ? 0.68
+      : isBurst
+        ? mix(0.96, 0.48, fade)
+        : isReturning
+          ? 0.82
+          : 0.7 + particle.accent * 0.18
+    const color = isBurst ? (particle.accent > 0.62 ? "#d99a20" : "#b9533d") : isReturning ? "#0f766e" : particle.color
+
+    context.save()
+    context.translate(particle.x + particle.width * 0.5, particle.y + field.lineHeight * 0.38)
+    context.rotate(particle.rotation)
+    context.globalAlpha = alpha
+    context.fillStyle = color
+    context.fillText(particle.char, -particle.width * 0.5, -field.lineHeight * 0.38)
+    context.restore()
+  }
 }
 
 function drawSparks(context: CanvasRenderingContext2D, field: AmbientField) {
-  field.sparks.forEach((spark) => {
-    const opacity = clamp(spark.life / spark.maxLife)
+  for (const spark of field.sparks) {
+    const alpha = clamp(spark.life / spark.maxLife)
 
     context.save()
-    context.globalAlpha = opacity
-    context.fillStyle = spark.color
-    context.beginPath()
-    context.arc(spark.x, spark.y, spark.size * (0.65 + opacity * 0.65), 0, Math.PI * 2)
-    context.fill()
-    context.restore()
-  })
-}
-
-function drawTokens(context: CanvasRenderingContext2D, field: AmbientField) {
-  context.save()
-  context.font = field.font
-  context.textAlign = "center"
-  context.textBaseline = "middle"
-
-  field.tokens.forEach((token) => {
-    context.save()
-    context.translate(token.x, token.y)
-    context.rotate(token.rotation)
-
-    const alpha = token.state === "burst" ? 0.92 : 0.98
-    const left = -token.width / 2
-    const top = -token.height / 2
-
     context.globalAlpha = alpha
-    context.fillStyle = "rgba(255, 255, 255, 0.86)"
-    drawRoundRect(context, left, top, token.width, token.height, 999)
+    context.beginPath()
+    context.arc(spark.x, spark.y, spark.size, 0, Math.PI * 2)
+    context.fillStyle = spark.color
     context.fill()
-    context.strokeStyle = token.state === "burst" ? "rgba(185, 83, 61, 0.38)" : "rgba(16, 24, 32, 0.13)"
-    context.lineWidth = 1
-    context.stroke()
-    context.fillStyle = token.accent
-    context.fillRect(left + 7, top + 6, 2.4, token.height - 12)
-    context.fillStyle = "#26323B"
-    context.fillText(token.label, 0, 0.8)
     context.restore()
-  })
-
-  context.restore()
+  }
 }
 
-function drawStatic(context: CanvasRenderingContext2D, width: number, height: number) {
-  const field = buildField(context, width, height, performance.now())
+function drawScene(
+  context: CanvasRenderingContext2D,
+  field: AmbientField,
+  now: number,
+  reduceMotion: boolean,
+) {
+  context.save()
+
+  if (!reduceMotion && now < field.shakeUntil) {
+    const progress = 1 - (field.shakeUntil - now) / 360
+    const decay = 1 - clamp(progress)
+    const shake = field.shakePower * decay * 7
+    context.translate(
+      (hashNumber(now * 0.09) - 0.5) * shake,
+      (hashNumber(now * 0.13) - 0.5) * shake,
+    )
+  }
 
   drawBackground(context, field)
-  drawTokens(context, field)
-}
 
-function getLocalPoint(canvas: HTMLCanvasElement, event: PointerEvent) {
-  const rect = canvas.getBoundingClientRect()
-
-  return {
-    x: event.clientX - rect.left,
-    y: event.clientY - rect.top,
+  for (const charge of field.charges) {
+    drawCharge(context, charge, now)
   }
+
+  drawParticles(context, field, now, reduceMotion)
+  drawSparks(context, field)
+  context.restore()
 }
 
 export function AccessRequestNameBurstPanel() {
@@ -608,131 +629,163 @@ export function AccessRequestNameBurstPanel() {
     const context = canvas.getContext("2d")
     if (!context) return
 
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
     const pointer: PointerState = {
       active: false,
       lastSeen: 0,
       x: 0,
       y: 0,
     }
+
+    let animationId = 0
     let field: AmbientField | null = null
-    let animationFrame = 0
-    let lastTime = performance.now()
+    let hasPlayedInitialCharge = false
+    let isRunning = false
+    let lastTimestamp = 0
+    let reduceMotion = motionQuery.matches
 
-    const resizeCanvas = () => {
+    const resize = () => {
       const rect = canvas.getBoundingClientRect()
-      const width = Math.max(280, rect.width)
-      const height = Math.max(320, rect.height)
-      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2)
+      const dpr = Math.min(window.devicePixelRatio || 1, 2)
+      const width = Math.max(1, rect.width)
+      const height = Math.max(1, rect.height)
 
-      canvas.width = Math.floor(width * pixelRatio)
-      canvas.height = Math.floor(height * pixelRatio)
-      context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0)
-
-      if (reducedMotion) {
-        drawStatic(context, width, height)
-        return
-      }
-
+      canvas.width = Math.floor(width * dpr)
+      canvas.height = Math.floor(height * dpr)
+      context.setTransform(dpr, 0, 0, dpr, 0, 0)
       field = buildField(context, width, height, performance.now())
-      lastTime = performance.now()
+
+      if (field) {
+        drawScene(context, field, performance.now(), reduceMotion)
+      }
     }
 
-    const render = (now: number) => {
-      if (!field) {
-        animationFrame = window.requestAnimationFrame(render)
-        return
+    const render = (timestamp: number) => {
+      if (!field) resize()
+      if (!field) return
+
+      const dt = lastTimestamp === 0 ? 0.016 : Math.min((timestamp - lastTimestamp) / 1000, 0.05)
+      lastTimestamp = timestamp
+
+      if (maybePlantInitialCharge(field, timestamp, hasPlayedInitialCharge)) {
+        hasPlayedInitialCharge = true
       }
 
-      const deltaSeconds = Math.min((now - lastTime) / 1000, 0.034)
-      lastTime = now
+      updateCharges(field, timestamp)
+      updateParticles(field, pointer, dt, timestamp)
+      updateSparks(field, dt)
+      drawScene(context, field, timestamp, reduceMotion)
 
-      if (!field.initialPlayed && now >= field.initialChargeAt) {
-        plantCharge(
-          field,
-          field.canvasWidth * 0.57,
-          field.canvasHeight * 0.38,
-          now,
-          INITIAL_FUSE_MS,
-          Math.min(field.canvasWidth, field.canvasHeight) * 0.96,
-        )
-        field.initialPlayed = true
+      if (hasActiveMotion(field, hasPlayedInitialCharge)) {
+        animationId = window.requestAnimationFrame(render)
+      } else {
+        isRunning = false
       }
+    }
 
-      field.charges.forEach((charge) => updateCharge(field as AmbientField, charge, now))
-      field.charges = field.charges.filter((charge) => charge.detonatedAt === null || now <= charge.doneAt)
+    const run = () => {
+      if (reduceMotion || isRunning) return
 
-      updateSparks(field, deltaSeconds)
-      updateTokens(field, deltaSeconds, now)
-      applyPointerRepel(field, pointer, now)
+      isRunning = true
+      lastTimestamp = 0
+      animationId = window.requestAnimationFrame(render)
+    }
 
-      context.save()
-      if (field.shakeUntil > now) {
-        const shakeProgress = (field.shakeUntil - now) / 260
-        const shakeX = (hashNumber(now * 0.05) - 0.5) * field.shakePower * shakeProgress
-        const shakeY = (hashNumber(now * 0.07 + 3) - 0.5) * field.shakePower * shakeProgress
+    const start = () => {
+      window.cancelAnimationFrame(animationId)
+      isRunning = false
+      lastTimestamp = 0
 
-        context.translate(shakeX, shakeY)
+      if (!field) resize()
+      if (!field) return
+
+      drawScene(context, field, performance.now(), reduceMotion)
+
+      run()
+    }
+
+    const getCanvasPoint = (event: PointerEvent) => {
+      const rect = canvas.getBoundingClientRect()
+
+      return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top,
       }
-
-      drawBackground(context, field)
-      drawSparks(context, field)
-      drawTokens(context, field)
-      field.charges.forEach((charge) => drawCharge(context, charge, now))
-      context.restore()
-
-      animationFrame = window.requestAnimationFrame(render)
     }
 
     const handlePointerMove = (event: PointerEvent) => {
-      const point = getLocalPoint(canvas, event)
+      if (reduceMotion) return
 
+      const point = getCanvasPoint(event)
       pointer.active = true
       pointer.lastSeen = performance.now()
       pointer.x = point.x
       pointer.y = point.y
+      run()
+    }
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (reduceMotion || !field) return
+
+      const point = getCanvasPoint(event)
+      pointer.active = true
+      pointer.lastSeen = performance.now()
+      pointer.x = point.x
+      pointer.y = point.y
+      plantCharge(field, point.x, point.y, performance.now(), POINTER_FUSE_MS, Math.min(field.width, field.height) * 0.86)
+      run()
     }
 
     const handlePointerLeave = () => {
       pointer.active = false
     }
 
-    const handlePointerDown = (event: PointerEvent) => {
-      if (!field || reducedMotion) return
+    const handleMotionChange = (event: MediaQueryListEvent) => {
+      reduceMotion = event.matches
 
-      const point = getLocalPoint(canvas, event)
-      pointer.active = true
-      pointer.lastSeen = performance.now()
-      pointer.x = point.x
-      pointer.y = point.y
-      plantCharge(field, point.x, point.y, performance.now(), POINTER_FUSE_MS)
+      if (field) {
+        field.charges.length = 0
+        field.sparks.length = 0
+
+        for (const particle of field.particles) {
+          particle.state = "rest"
+          particle.x = particle.homeX
+          particle.y = particle.homeY
+          particle.rotation = 0
+          particle.vx = 0
+          particle.vy = 0
+        }
+      }
+
+      start()
     }
 
-    const resizeObserver = new ResizeObserver(resizeCanvas)
+    resize()
+    start()
 
-    resizeObserver.observe(canvas)
-    resizeCanvas()
+    const resizeObserver = new ResizeObserver(resize)
+    const pointerTarget = canvas.parentElement ?? canvas
 
-    if (!reducedMotion) {
-      canvas.addEventListener("pointermove", handlePointerMove)
-      canvas.addEventListener("pointerleave", handlePointerLeave)
-      canvas.addEventListener("pointerdown", handlePointerDown)
-      animationFrame = window.requestAnimationFrame(render)
-    }
+    resizeObserver.observe(canvas.parentElement ?? canvas)
+    pointerTarget.addEventListener("pointermove", handlePointerMove)
+    pointerTarget.addEventListener("pointerdown", handlePointerDown)
+    pointerTarget.addEventListener("pointerleave", handlePointerLeave)
+    motionQuery.addEventListener("change", handleMotionChange)
 
     return () => {
+      window.cancelAnimationFrame(animationId)
       resizeObserver.disconnect()
-      canvas.removeEventListener("pointermove", handlePointerMove)
-      canvas.removeEventListener("pointerleave", handlePointerLeave)
-      canvas.removeEventListener("pointerdown", handlePointerDown)
-      window.cancelAnimationFrame(animationFrame)
+      pointerTarget.removeEventListener("pointermove", handlePointerMove)
+      pointerTarget.removeEventListener("pointerdown", handlePointerDown)
+      pointerTarget.removeEventListener("pointerleave", handlePointerLeave)
+      motionQuery.removeEventListener("change", handleMotionChange)
     }
   }, [])
 
   return (
     <div
-      aria-label="직원 이름 움직임 패널"
-      className="relative mt-4 min-h-[360px] overflow-hidden rounded-[8px] border border-[#DDE2E8] bg-white shadow-[0_24px_80px_rgba(16,24,32,0.08)] sm:min-h-[430px] lg:min-h-[460px]"
+      aria-hidden="true"
+      className="relative mt-4 min-h-[360px] overflow-hidden rounded-[8px] border border-[#DDE2E8] bg-[#FFFDF7] shadow-[0_24px_80px_rgba(16,24,32,0.08)] sm:min-h-[430px] lg:min-h-[460px]"
       data-access-name-burst
     >
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full cursor-pointer" />
