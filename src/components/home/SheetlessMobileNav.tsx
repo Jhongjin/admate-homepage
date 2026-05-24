@@ -2,8 +2,9 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { ArrowUpRight, LogIn, Menu, X } from "lucide-react"
+import { ArrowUpRight, Menu, X } from "lucide-react"
 
+import { HomeAuthAction } from "@/components/home/HomeAuthAction"
 import { navLinks, officialLinks } from "@/lib/admate-content"
 
 const mobileSiteLinks = [
@@ -73,16 +74,7 @@ export function SheetlessMobileNav() {
                 </Link>
               )
             })}
-            <Link
-              href={officialLinks.login}
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => setOpen(false)}
-              className="flex items-center justify-between rounded-[7px] border border-[#C9BFAF] px-3 py-2 text-sm font-semibold text-[#101820] transition duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-white"
-            >
-              로그인
-              <LogIn className="h-3.5 w-3.5" aria-hidden="true" />
-            </Link>
+            <HomeAuthAction mobile onNavigate={() => setOpen(false)} />
           </div>
         </div>
       ) : null}

@@ -58,6 +58,7 @@ export const officialLinks = {
   commandCenter: "https://home.admate.ai.kr/command-center",
   login: "https://sentinel.admate.ai.kr/login",
   account: "https://sentinel.admate.ai.kr/account",
+  logout: "https://sentinel.admate.ai.kr/auth/logout",
   compass: "https://sentinel.admate.ai.kr/auth/product/start?product=compass&next=/desk",
   sentinel: "https://sentinel.admate.ai.kr/auth/product/start?product=sentinel&next=/dashboard",
   lens: "https://sentinel.admate.ai.kr/auth/product/start?product=lens&next=/",
