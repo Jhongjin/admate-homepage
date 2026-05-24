@@ -58,10 +58,10 @@ export const officialLinks = {
   commandCenter: "https://home.admate.ai.kr/command-center",
   login: "https://sentinel.admate.ai.kr/login",
   account: "https://sentinel.admate.ai.kr/account",
-  compass: "https://compass.admate.ai.kr",
-  sentinel: "https://sentinel.admate.ai.kr",
-  lens: "https://lens.admate.ai.kr",
-  foresight: "https://foresight.admate.ai.kr",
+  compass: "https://sentinel.admate.ai.kr/auth/product/start?product=compass&next=/desk",
+  sentinel: "https://sentinel.admate.ai.kr/auth/product/start?product=sentinel&next=/dashboard",
+  lens: "https://sentinel.admate.ai.kr/auth/product/start?product=lens&next=/",
+  foresight: "https://sentinel.admate.ai.kr/auth/product/start?product=foresight&next=/",
   accessRequest: "/access-request",
 }
 
