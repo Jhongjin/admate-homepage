@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Link from "next/link"
 import { LogIn, LogOut, UserRound } from "lucide-react"
 
@@ -22,7 +22,8 @@ type HomeAuthActionProps = {
 }
 
 const AUTH_STATUS_URL = "https://sentinel.admate.ai.kr/api/auth/me"
-const LOGOUT_URL = `${officialLinks.logout}?next=${encodeURIComponent(officialLinks.home)}`
+const HOME_NEXT_URL = "https://home.admate.ai.kr/"
+const LOGOUT_URL = `${officialLinks.logout}?next=${encodeURIComponent(HOME_NEXT_URL)}`
 
 function displayName(status: AuthStatus | null) {
   const name = status?.profile?.name?.trim()
@@ -36,38 +37,82 @@ export function HomeAuthAction({ mobile = false, onNavigate }: HomeAuthActionPro
   const [status, setStatus] = useState<AuthStatus | null>(null)
   const [checking, setChecking] = useState(true)
   const [open, setOpen] = useState(false)
+  const mountedRef = useRef(false)
+  const requestIdRef = useRef(0)
 
-  useEffect(() => {
-    let mounted = true
-    const controller = new AbortController()
+  const checkAuthStatus = useCallback((signal?: AbortSignal) => {
+    if (!mountedRef.current) return
+    const requestId = requestIdRef.current + 1
+    requestIdRef.current = requestId
+    setChecking(true)
 
     fetch(AUTH_STATUS_URL, {
       cache: "no-store",
       credentials: "include",
-      signal: controller.signal,
+      headers: {
+        Accept: "application/json",
+      },
+      signal,
     })
       .then((response) => (response.ok ? response.json() : null))
       .then((json: AuthStatus | null) => {
-        if (!mounted) return
+        if (!mountedRef.current || requestId !== requestIdRef.current) return
         setStatus(json?.authenticated ? json : null)
       })
-      .catch(() => {
-        if (mounted) setStatus(null)
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") return
+        if (!mountedRef.current || requestId !== requestIdRef.current) return
+        setStatus(null)
       })
       .finally(() => {
-        if (mounted) setChecking(false)
+        if (!mountedRef.current || requestId !== requestIdRef.current) return
+        setChecking(false)
       })
+  }, [])
+
+  useEffect(() => {
+    mountedRef.current = true
+    const controller = new AbortController()
+    checkAuthStatus(controller.signal)
+
+    const handleRefresh = () => checkAuthStatus()
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") checkAuthStatus()
+    }
+
+    window.addEventListener("focus", handleRefresh)
+    window.addEventListener("pageshow", handleRefresh)
+    document.addEventListener("visibilitychange", handleVisibilityChange)
 
     return () => {
-      mounted = false
+      mountedRef.current = false
       controller.abort()
+      window.removeEventListener("focus", handleRefresh)
+      window.removeEventListener("pageshow", handleRefresh)
+      document.removeEventListener("visibilitychange", handleVisibilityChange)
     }
-  }, [])
+  }, [checkAuthStatus])
+
+  useEffect(() => {
+    if (!status) setOpen(false)
+  }, [status])
 
   const name = useMemo(() => displayName(status), [status])
 
   if (!status) {
     const label = checking ? "계정 확인" : "로그인"
+    const className = mobile
+      ? "flex items-center justify-between rounded-[7px] border border-[#C9BFAF] px-3 py-2 text-sm font-semibold text-[#101820] transition duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-white"
+      : "inline-flex h-10 min-w-[96px] items-center justify-center gap-2 rounded-[8px] bg-[#101820] px-4 text-[13px] font-semibold text-white shadow-[0_10px_24px_rgba(16,24,32,0.12)] transition duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[#26342E] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#101820]/35 focus-visible:ring-offset-2"
+
+    if (checking) {
+      return (
+        <button type="button" aria-busy="true" disabled className={`${className} cursor-wait opacity-75`}>
+          {label}
+          <LogIn className="h-3.5 w-3.5" aria-hidden="true" />
+        </button>
+      )
+    }
 
     return (
       <Link
@@ -75,9 +120,7 @@ export function HomeAuthAction({ mobile = false, onNavigate }: HomeAuthActionPro
         target="_blank"
         rel="noreferrer"
         onClick={onNavigate}
-        className={mobile
-          ? "flex items-center justify-between rounded-[7px] border border-[#C9BFAF] px-3 py-2 text-sm font-semibold text-[#101820] transition duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-white"
-          : "inline-flex h-10 min-w-[96px] items-center justify-center gap-2 rounded-[8px] bg-[#101820] px-4 text-[13px] font-semibold text-white shadow-[0_10px_24px_rgba(16,24,32,0.12)] transition duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[#26342E] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#101820]/35 focus-visible:ring-offset-2"}
+        className={className}
       >
         {label}
         <LogIn className="h-3.5 w-3.5" aria-hidden="true" />
