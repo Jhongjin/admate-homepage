@@ -2727,7 +2727,13 @@
     }
 
     .homepage-trust-list .homepage-trust-step:nth-child(n + 4) .homepage-trust-copy p {
-      display: none;
+      display: -webkit-box;
+      margin-top: 6px;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      font-size: 0.82rem;
+      line-height: 1.5;
     }
 
     .homepage-scene-grid {

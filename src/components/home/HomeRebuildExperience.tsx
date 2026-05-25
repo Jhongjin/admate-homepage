@@ -20,7 +20,7 @@ const platformChapters = [
     name: "Compass",
     role: "정책 기준 확인",
     verb: "출처와 기준 확인",
-    korean: "광고 정책과 매체 기준을 근거와 함께 확인합니다.",
+    korean: "광고 정책과 매체 기준을 출처와 함께 확인합니다.",
     signal: "Policy source",
     accent: "#7DD3FC",
     readableAccent: "#0875A8",
@@ -75,7 +75,7 @@ const operatingSequence = [
     code: "02",
     title: "정책",
     detail: "Compass가 질문에 필요한 정책 기준과 확인 항목을 정리합니다.",
-    signal: "근거 확인",
+    signal: "출처 확인",
     accent: "#7DD3FC",
     frameClass: "homepage-flow-frame-2",
   },
@@ -188,7 +188,7 @@ function HeroWorld({ heroMotionLineMode }: HeroWorldProps) {
       <div className="section-shell relative z-10 flex min-h-[92dvh] items-center pb-20 pt-24 xl:max-w-[1440px]">
         <div className="relative z-20 max-w-[900px]">
           <div className="font-mono text-[11px] font-semibold uppercase tracking-[0.28em] text-[#9FE7C8]">
-            AdMate intelligence layer
+            AdMate AI Operating System
           </div>
 
           <h1 className="homepage-hero-title mt-7 max-w-[920px] text-balance text-[46px] font-semibold leading-[0.9] tracking-normal sm:text-[84px] lg:text-[112px]">
@@ -197,8 +197,8 @@ function HeroWorld({ heroMotionLineMode }: HeroWorldProps) {
           </h1>
 
           <p className="mt-7 max-w-[620px] text-lg font-medium leading-8 text-white/72 sm:text-xl">
-            <span className="block">정책 확인, 위험 감지, 캡처 기록, 성과 예측을 한 흐름으로 연결해</span>
-            <span className="block">캠페인 운영의 다음 판단을 빠르게 돕습니다.</span>
+            <span className="block">Agent Core가 Compass, Sentinel, Lens, Foresight의 신호를 맞춰</span>
+            <span className="block">오늘 캠페인 운영에 필요한 판단을 빠르게 돕습니다.</span>
           </p>
 
           <div className="mt-8 flex">
@@ -271,14 +271,14 @@ function SuiteManifest() {
       <div className="section-shell xl:max-w-[1400px]">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,0.62fr)_minmax(0,1fr)] lg:items-end">
           <div>
-            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#60706A]">Platform suite</div>
+            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#60706A]">AdMate 운영 지능</div>
             <h2 className="mt-5 max-w-[620px] text-balance text-4xl font-semibold leading-[1.02] sm:text-6xl">
-              캠페인 운영의 네 가지 판단을 연결합니다.
+              네 가지 신호가 오늘의 운영 판단으로 모입니다.
             </h2>
           </div>
           <p className="max-w-[620px] text-lg font-medium leading-8 text-[#465650] lg:justify-self-end">
-            AdMate는 캠페인 운영에 필요한 정책 확인, 사전 점검, 캡처 기록, 성과 예측을 하나의
-            흐름으로 연결합니다. 각 플랫폼은 서로 다른 역할을 맡지만, 같은 운영 맥락 안에서 함께 작동합니다.
+            Compass는 정책 기준을 확인하고 Sentinel은 위험을 살피며 Lens는 화면과 작업 내용을 남깁니다.
+            Foresight는 다음 성과를 가늠하고, Agent Core는 이 신호들을 맞춰 오늘의 운영 판단으로 정리합니다.
           </p>
         </div>
 
@@ -341,15 +341,15 @@ function OperatingFilm() {
       <div className="section-shell relative xl:max-w-[1400px]">
         <div className="grid gap-12 xl:grid-cols-[minmax(0,0.68fr)_minmax(640px,1.12fr)] xl:items-center">
           <div>
-            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#6B6258]">Operating sequence</div>
+            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#6B6258]">운영 판단 순서</div>
             <h2 className="mt-5 max-w-[620px] text-balance text-4xl font-semibold leading-[1.02] sm:text-6xl">
               <span className="block">캠페인 운영은</span>
-              <span className="block">한 흐름으로 이어집니다.</span>
+              <span className="block">판단의 순서가 중요합니다.</span>
             </h2>
             <p className="mt-6 max-w-[560px] text-lg font-medium leading-8 text-[#4E4A43]">
               <span className="block">하나의 캠페인은 목표와 예산을 정리하는 일에서 시작해,</span>
               <span className="block">정책 확인과 사전 점검, 캡처 기록, 성과 예측으로 이어집니다.</span>
-              <span className="block">AdMate는 이 과정을 한 흐름으로 연결해 다음 판단을 빠르게 돕습니다.</span>
+              <span className="block">Agent Core는 각 단계의 신호를 맞춰 다음 결정을 더 분명하게 만듭니다.</span>
             </p>
           </div>
 
@@ -359,8 +359,8 @@ function OperatingFilm() {
 
             <div className="relative z-10 flex flex-col gap-5 border-b border-white/[0.07] pb-5 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#9DB0A8]">Campaign signal film</div>
-                <div className="mt-2 max-w-[430px] text-2xl font-semibold leading-tight">하나의 캠페인이 다섯 가지 운영 판단으로 이어집니다</div>
+                <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#9DB0A8]">캠페인 운영 판단</div>
+                <div className="mt-2 max-w-[430px] text-2xl font-semibold leading-tight">Agent Core가 오늘 필요한 판단을 순서대로 맞춥니다</div>
               </div>
               <div className="grid grid-cols-3 gap-2 text-right font-mono text-[10px] uppercase tracking-[0.14em] text-white/48">
                 <span>정책</span>
@@ -422,7 +422,7 @@ function TrustLayer() {
       <div className="section-shell relative xl:max-w-[1400px]">
         <div className="homepage-trust-intro">
           <div>
-            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#93A59E]">Trust layer</div>
+            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#93A59E]">확인 가능한 운영 기준</div>
             <h2 className="mt-5 max-w-[980px] text-balance text-4xl font-semibold leading-[1.02] sm:text-6xl">
               <span className="block">AI가 처리한 일도</span>
               <span className="block">사람이 확인할 수 있어야 합니다.</span>
@@ -453,12 +453,12 @@ function TrustLayer() {
           <div className="homepage-trust-spine" aria-hidden="true" />
           <div className="homepage-trust-stack-head">
             <div>
-              <span>operating trust layer</span>
+              <span>사람이 살피는 운영 기준</span>
               <strong>권한에 맞춘 AI 확인</strong>
             </div>
             <div className="homepage-trust-live">
               <span aria-hidden="true" />
-              checked
+              확인 중
             </div>
           </div>
 
@@ -481,7 +481,7 @@ function TrustLayer() {
                   <p>{signal.detail}</p>
                 </div>
                 <div className="homepage-trust-state" aria-hidden="true">
-                  <span>checked record</span>
+                  <span>확인 기록</span>
                   <strong>{signal.status}</strong>
                   <i />
                 </div>
@@ -490,7 +490,7 @@ function TrustLayer() {
           </div>
 
           <div className="homepage-trust-lock">
-            <span>operator record</span>
+            <span>운영자가 확인할 수 있는 기록</span>
             <strong>확인 기준과 기록이 남은 뒤 다음 운영 단계로 이어집니다.</strong>
           </div>
         </div>
@@ -512,9 +512,36 @@ function HomeFinalCta() {
               <span className="block">오늘 결정할 것부터 정리하세요.</span>
             </h2>
             <p className="homepage-final-support mt-6 max-w-[670px] text-lg font-medium leading-8 text-[#46564F]">
-              <span className="block">AdMate는 정책 근거, 리스크 신호, 화면 기록을 한 운영판에 모아</span>
+              <span className="block">AdMate는 정책 기준, 리스크 신호, 화면 기록을 한 운영판에 모아</span>
               <span className="block"> 승인·수정·공유가 필요한 일을 먼저 보여줍니다.</span>
             </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Button
+                asChild
+                size="lg"
+                className="group h-12 rounded-full bg-[#101820] px-5 font-semibold text-white transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[#26342E] active:scale-[0.98]"
+              >
+                <Link href={officialLinks.commandCenter}>
+                  운영판 열기
+                  <span className="ml-2 flex h-7 w-7 items-center justify-center rounded-full bg-white/10 transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:bg-[#D8F6EA] group-hover:text-[#101820]">
+                    <MonitorCog className="h-4 w-4" aria-hidden="true" />
+                  </span>
+                </Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="group h-12 rounded-full border-[#BDB2A2] bg-[#F7F4EC]/70 px-5 font-semibold text-[#101820] transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-[#101820] hover:bg-white active:scale-[0.98]"
+              >
+                <Link href={officialLinks.accessRequest}>
+                  이용 권한 요청
+                  <span className="ml-2 flex h-7 w-7 items-center justify-center rounded-full bg-[#101820]/6 transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:bg-[#101820] group-hover:text-white">
+                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                  </span>
+                </Link>
+              </Button>
+            </div>
             <div className="homepage-final-signal mt-8" aria-hidden="true">
               <span />
               <span />
@@ -523,7 +550,7 @@ function HomeFinalCta() {
             <div className="homepage-final-flow-table mt-8" aria-label="AdMate operating board scope">
               <div>
                 <span>01</span>
-                <strong>근거</strong>
+                <strong>기준</strong>
                 <p>정책 기준과 출처</p>
               </div>
               <div>
@@ -557,7 +584,7 @@ function HomeFinalCta() {
                 <div className="homepage-final-handoff-row">
                   <span>01</span>
                   <div>
-                    <strong>정책 근거</strong>
+                    <strong>정책 기준</strong>
                     <p>확인 완료</p>
                   </div>
                 </div>
@@ -577,33 +604,6 @@ function HomeFinalCta() {
                 </div>
               </div>
               <div className="homepage-final-note mt-5">다음 회의는 설명이 아니라 판단에서 시작됩니다.</div>
-            </div>
-            <div className="mt-4 flex flex-col gap-3">
-              <Button
-                asChild
-                size="lg"
-                className="group h-12 rounded-full bg-[#101820] px-5 font-semibold text-white transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[#26342E] active:scale-[0.98]"
-              >
-                <Link href={officialLinks.commandCenter}>
-                  운영판 열기
-                  <span className="ml-2 flex h-7 w-7 items-center justify-center rounded-full bg-white/10 transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:bg-[#D8F6EA] group-hover:text-[#101820]">
-                    <MonitorCog className="h-4 w-4" aria-hidden="true" />
-                  </span>
-                </Link>
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="group h-12 rounded-full border-[#BDB2A2] bg-[#F7F4EC]/70 px-5 font-semibold text-[#101820] transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-[#101820] hover:bg-white active:scale-[0.98]"
-              >
-                <Link href={officialLinks.accessRequest}>
-                  이용 권한 요청
-                  <span className="ml-2 flex h-7 w-7 items-center justify-center rounded-full bg-[#101820]/6 transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:bg-[#101820] group-hover:text-white">
-                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                  </span>
-                </Link>
-              </Button>
             </div>
           </div>
         </div>
@@ -627,7 +627,7 @@ function CompanyFooter() {
               <div className="homepage-footer-team">Data Analytics Team</div>
             </div>
             <p className="mt-5 max-w-[520px] text-base font-medium leading-7 text-white/52">
-              AdMate is operated as an AI advertising operations platform by kt nasmedia.
+              AdMate는 kt nasmedia의 광고 운영 지능을 위한 AI Operating System입니다.
             </p>
           </div>
 

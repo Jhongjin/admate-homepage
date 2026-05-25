@@ -50,7 +50,7 @@ export function SheetlessMobileNav() {
               onClick={() => setOpen(false)}
               className="group flex items-center justify-between rounded-[7px] bg-[#101820] px-3 py-2 text-sm font-semibold text-white transition duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[#26342E]"
             >
-              대시보드
+              운영판 열기
               <ArrowUpRight className="h-3.5 w-3.5 transition duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
             </Link>
           </div>

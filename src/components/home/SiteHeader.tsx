@@ -41,9 +41,9 @@ export function SiteHeader() {
         <div className="hidden items-center gap-2 lg:flex">
           <Link
             href={officialLinks.commandCenter}
-            className="inline-flex h-9 w-[112px] items-center justify-center gap-2 rounded-[8px] border border-[#C9BFAF] bg-white/45 px-3 text-[13px] font-semibold text-[#101820] transition duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-[#101820]/25 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#101820]/35 focus-visible:ring-offset-2"
+            className="inline-flex h-9 w-[132px] items-center justify-center gap-2 rounded-[8px] border border-[#C9BFAF] bg-white/45 px-3 text-[13px] font-semibold text-[#101820] transition duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-[#101820]/25 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#101820]/35 focus-visible:ring-offset-2"
           >
-            대시보드
+            운영판 열기
             <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
           </Link>
           <SiteLinksDropdown />

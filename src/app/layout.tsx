@@ -21,16 +21,16 @@ const notoSansKr = Noto_Sans_KR({
 
 export const metadata: Metadata = {
   metadataBase: new URL(officialLinks.home),
-  title: "AdMate - AI Agent 기반 광고 운영 자동화 플랫폼",
+  title: "AdMate - 광고 운영을 위한 AI Operating System",
   description:
-    "AdMate는 광고 캠페인의 정책 확인, 세팅 검수, 실시간 모니터링, 캡처 자동화, 성과 예측을 하나의 AI Agent 운영 흐름으로 연결하는 광고 운영 자동화 플랫폼입니다.",
+    "AdMate는 광고 캠페인의 정책 확인, 위험 감지, 화면 기록, 성과 예측을 운영 지능으로 맞춰 오늘 필요한 판단을 돕는 AI Operating System입니다.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "AdMate - AI Agent 기반 광고 운영 자동화 플랫폼",
+    title: "AdMate - 광고 운영을 위한 AI Operating System",
     description:
-      "AdMate는 광고 캠페인의 정책 확인, 세팅 검수, 실시간 모니터링, 캡처 자동화, 성과 예측을 하나의 AI Agent 운영 흐름으로 연결하는 광고 운영 자동화 플랫폼입니다.",
+      "AdMate는 광고 캠페인의 정책 확인, 위험 감지, 화면 기록, 성과 예측을 운영 지능으로 맞춰 오늘 필요한 판단을 돕는 AI Operating System입니다.",
     url: officialLinks.home,
     siteName: "AdMate",
     type: "website",
@@ -43,9 +43,9 @@ export const metadata: Metadata = {
   },
   keywords: [
     "AdMate",
-    "광고 운영 자동화",
-    "AI Agent",
-    "미디어플래닝",
+    "AI Operating System",
+    "광고 운영 지능",
+    "캠페인 운영",
     "캠페인 모니터링",
     "광고 정책 검색",
     "광고 캡처 자동화",

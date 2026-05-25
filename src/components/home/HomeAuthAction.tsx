@@ -93,11 +93,8 @@ export function HomeAuthAction({ mobile = false, onNavigate }: HomeAuthActionPro
     }
   }, [checkAuthStatus])
 
-  useEffect(() => {
-    if (!status) setOpen(false)
-  }, [status])
-
   const name = useMemo(() => displayName(status), [status])
+  const menuOpen = Boolean(status) && open
 
   if (!status) {
     const label = checking ? "계정 확인" : "로그인"
@@ -159,14 +156,14 @@ export function HomeAuthAction({ mobile = false, onNavigate }: HomeAuthActionPro
     <div className="relative">
       <button
         type="button"
-        aria-expanded={open}
+        aria-expanded={menuOpen}
         onClick={() => setOpen((value) => !value)}
         className="inline-flex h-10 min-w-[96px] items-center justify-center gap-2 rounded-[8px] border border-[#C9BFAF] bg-white/55 px-4 text-[13px] font-semibold text-[#101820] transition duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-[#177D4E]/35 hover:bg-white active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#177D4E]/30 focus-visible:ring-offset-2"
       >
         <UserRound className="h-3.5 w-3.5 text-[#177D4E]" aria-hidden="true" />
         {name}
       </button>
-      {open ? (
+      {menuOpen ? (
         <div className="absolute right-0 top-12 z-50 w-[236px] overflow-hidden rounded-[10px] border border-[#C9BFAF] bg-[#FDFBF6] p-1.5 text-[#101820] shadow-[0_26px_70px_rgba(16,24,32,0.18)]">
           <div className="px-3 py-2">
             <p className="text-sm font-semibold">{name}</p>
