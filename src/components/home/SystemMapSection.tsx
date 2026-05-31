@@ -71,7 +71,7 @@ export function SystemMapSection() {
                   <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-[#101820] text-white">
                     <Network className="h-5 w-5" aria-hidden="true" />
                   </div>
-                  <div className="text-sm font-semibold">AdMate Agent Core</div>
+                  <div className="text-sm font-semibold">AdMate 운영 기억</div>
                   <div className="mt-1 text-xs leading-5 text-[#5B6B62]">
                     판단, 실행, 기록, 비용 통제의 공통 운영 계층
                   </div>
@@ -91,7 +91,7 @@ export function SystemMapSection() {
                 </div>
                 <div className="mt-4 text-2xl font-semibold">비용과 품질을 같이 보는 판단</div>
                 <p className="mt-2 text-xs leading-5 text-[#405149]">
-                  LLM 사용량, 자동화 실행, 운영 판단을 비용과 품질 기준 안에서 함께 추적합니다.
+                  AI 사용량, 자동화 실행, 운영 판단을 비용과 품질 기준 안에서 함께 추적합니다.
                 </p>
               </div>
 

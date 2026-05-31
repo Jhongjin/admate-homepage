@@ -65,13 +65,13 @@ const signalStream = [
   "Launch check",
   "Capture record",
   "Forecast curve",
-  "Agent memory",
+  "운영 기억",
 ]
 
 const coreSignals = [
-  { label: "AI Core", value: "4 platforms" },
-  { label: "Decision layer", value: "policy / risk / record / forecast" },
-  { label: "Operating memory", value: "auditable context" },
+  { label: "운영판", value: "4개 제품" },
+  { label: "판단 흐름", value: "정책 / 위험 / 기록 / 예측" },
+  { label: "운영 기억", value: "확인 가능한 맥락" },
 ]
 
 const heroMetrics = [
@@ -107,7 +107,7 @@ function HeroCopy() {
     <div className="relative min-w-0 lg:pr-4">
       <div className="inline-flex max-w-full items-center gap-2 border border-cyan-200/20 bg-white/[0.06] px-3 py-2 text-xs font-semibold text-cyan-100 shadow-[0_0_40px_rgba(56,189,248,0.12)] backdrop-blur-xl">
         <Gauge className="h-4 w-4 shrink-0 text-cyan-200" aria-hidden="true" />
-        <span className="min-w-0 break-words">Agent Core online · Compass · Sentinel · Lens · Foresight</span>
+        <span className="min-w-0 break-words">운영판 연결됨 · Compass · Sentinel · Lens · Foresight</span>
       </div>
 
       <h1 className="mt-6 max-w-[760px] text-balance text-[48px] font-semibold leading-[0.94] tracking-normal text-white sm:text-[76px] lg:text-[82px] xl:text-[96px]">
@@ -120,7 +120,7 @@ function HeroCopy() {
 
       <p className="mt-6 max-w-[660px] text-balance text-lg font-medium leading-8 text-slate-200 sm:text-xl">
         정책을 찾는 Compass, 운영을 지키는 Sentinel, 화면 기록을 만드는 Lens, 다음을 예측하는 Foresight.
-        AdMate는 네 플랫폼을 Agent Core로 연결해 광고 운영을 하나의 판단 흐름으로 정렬합니다.
+        AdMate는 네 플랫폼을 공통 운영 계층으로 연결해 광고 운영을 하나의 판단 흐름으로 정렬합니다.
       </p>
 
       <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -223,7 +223,7 @@ function AgentCore() {
       <div className="relative z-10 mx-auto flex h-16 w-16 items-center justify-center border border-cyan-200/[0.35] bg-cyan-200/10 text-cyan-100 shadow-[0_0_36px_rgba(125,211,252,0.22)]">
         <Waypoints className="h-8 w-8" aria-hidden="true" />
       </div>
-      <div className="relative z-10 mt-4 text-xs font-semibold text-cyan-100">AdMate Agent Core</div>
+      <div className="relative z-10 mt-4 text-xs font-semibold text-cyan-100">AdMate 운영판</div>
       <div className="relative z-10 mt-2 text-xl font-semibold leading-none text-white xl:text-2xl">AI Platform Quartet</div>
       <div className="relative z-10 mt-3 text-sm font-medium leading-6 text-slate-300">
         <span className="sm:hidden">네 플랫폼의 판단을 하나로 연결</span>

@@ -52,7 +52,7 @@ const lifecycleTones: Record<
     softColor: "#F7F0E8",
     borderColor: "#E8D2B8",
   },
-  "Agent Core": {
+  "운영 기억": {
     color: "#2F5D50",
     softColor: "#F6F8F7",
     borderColor: "#B8C7BE",
@@ -67,7 +67,7 @@ export function CampaignLifecycleSection() {
 
   const activeStep = lifecycleSteps[activeIndex]
   const nextStep = lifecycleSteps[(activeIndex + 1) % lifecycleSteps.length]
-  const activeTone = lifecycleTones[activeStep.product] ?? lifecycleTones["Agent Core"]
+  const activeTone = lifecycleTones[activeStep.product] ?? lifecycleTones["운영 기억"]
   const ActiveIcon = activeStep.icon
   const isPaused = manualPaused || interactionPaused || !allowsMotion
 
@@ -133,7 +133,7 @@ export function CampaignLifecycleSection() {
           <div className="flex min-w-max items-center rounded-lg border border-border bg-card p-2 shadow-sm">
             {lifecycleSteps.map((step, index) => {
               const isActive = index === activeIndex
-              const tone = lifecycleTones[step.product] ?? lifecycleTones["Agent Core"]
+              const tone = lifecycleTones[step.product] ?? lifecycleTones["운영 기억"]
 
               return (
                 <div key={step.step} className="flex items-center">
@@ -279,7 +279,7 @@ export function CampaignLifecycleSection() {
           >
             {lifecycleSteps.map((item, index) => {
               const isActive = index === activeIndex
-              const tone = lifecycleTones[item.product] ?? lifecycleTones["Agent Core"]
+              const tone = lifecycleTones[item.product] ?? lifecycleTones["운영 기억"]
 
               return (
                 <LifecycleStepButton

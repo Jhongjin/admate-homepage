@@ -29,7 +29,7 @@ const coreCapabilities = [
 
 const routingLedger = [
   { label: "Desk signal", value: "근거 · 리스크 · 기록 · 예산" },
-  { label: "Core memory", value: "판단 근거와 예외 기준" },
+  { label: "Operating memory", value: "판단 근거와 예외 기준" },
   { label: "Board action", value: "승인 · 수정 · 공유 · 투자" },
 ]
 
@@ -49,7 +49,7 @@ export function EcosystemSection() {
                 AdMate는 정책, 검수, 캡처, 예측 화면을 나열하지 않고 캠페인 판단이 흐르는 경로로 묶습니다.
               </span>
               <span className="block">
-                각 데스크에서 나온 근거, 리스크, 기록, 예산 판단은 Agent Core를 통해 다음 운영 회의의 기억이 됩니다.
+                각 데스크에서 나온 근거, 리스크, 기록, 예산 판단은 공통 운영 계층을 통해 다음 운영 회의의 기억이 됩니다.
               </span>
             </>
           }
@@ -105,7 +105,7 @@ export function EcosystemSection() {
               <div className="mt-5 flex flex-wrap items-center gap-1.5 rounded-md border border-[#D5DED8] bg-white px-2 py-2 text-[11px] font-semibold text-[#405149]">
                 <span className="whitespace-nowrap">데스크 신호</span>
                 <span className="text-[#2F5D50]" aria-hidden="true">→</span>
-                <span className="whitespace-nowrap">Agent Core</span>
+                <span className="whitespace-nowrap">운영 기억</span>
                 <span className="text-[#2F5D50]" aria-hidden="true">→</span>
                 <span className="whitespace-nowrap">다음 회의 안건</span>
               </div>

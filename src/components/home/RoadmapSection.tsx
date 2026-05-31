@@ -7,13 +7,13 @@ import { SectionHeading } from "./SectionHeading"
 const roadmapStages = [
   {
     title: "운영판 기준 확정",
-    subtitle: "제품 구조와 Agent Core 상태 기준을 경영 운영판의 공통 언어로 맞춥니다.",
+    subtitle: "제품 구조와 운영 기억 상태 기준을 경영 운영판의 공통 언어로 맞춥니다.",
     phase: "Phase 1-2",
     signal: "데스크 역할과 모니터링 기준",
     decision: "홈페이지와 Command Center가 같은 제품 상태를 말하는가",
     items: [
       "Compass / Sentinel / Lens / Foresight 데스크 책임 정리",
-      "Agent Core 기반 상태 기록 안정화",
+      "공통 운영 계층 기반 상태 기록 안정화",
     ],
   },
   {
@@ -23,20 +23,20 @@ const roadmapStages = [
     signal: "운영자가 매주 확인하는 승인/수정/공유 안건",
     decision: "각 데스크가 다음 회의에 올릴 근거를 남기는가",
     items: [
-      "UI/UX 정렬과 데스크별 Tool API 전환",
-      "Foresight PoC와 예산 판단 데이터 기준 정리",
+      "UI/UX 정렬과 데스크별 업무 도구 연동 전환",
+      "Foresight 시범 적용과 예산 판단 데이터 기준 정리",
       "비용/기술 인텔리전스 운영 체계 구축",
     ],
   },
   {
     title: "포트폴리오 투자 판단",
-    subtitle: "운영 데이터에서 반복 문제와 신규 솔루션 기회를 찾아 PoC 투자 안건으로 올립니다.",
+    subtitle: "운영 데이터에서 반복 문제와 신규 솔루션 기회를 찾아 제품화 검토 안건으로 올립니다.",
     phase: "Phase 6",
     signal: "반복 리스크, 비용 흐름, 시장 요구",
-    decision: "어떤 PoC를 제품화 검토로 넘길 것인가",
+    decision: "어떤 시범 적용 안건을 제품화 검토로 넘길 것인가",
     items: [
       "신규 솔루션 기회 탐색 루프 확장",
-      "PoC 후보를 제품화 검토로 연결",
+      "시범 적용 후보를 제품화 검토로 연결",
     ],
   },
 ]

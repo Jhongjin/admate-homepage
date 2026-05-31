@@ -23,7 +23,7 @@ export function FinalCTASection() {
                   정책 근거, 세팅 리스크, 화면 기록, 예산 판단을 제품 데스크별로 모으고
                 </span>
                 <span className="block">
-                  Agent Core의 운영 기억으로 다음 승인, 수정, 공유, 투자 안건을 정리합니다.
+                  AdMate 운영 기억으로 다음 승인, 수정, 공유, 투자 안건을 정리합니다.
                 </span>
                 <span className="block">
                   필요한 AdMate 이용 권한을 신청하고 운영판에서 포트폴리오 상태를 확인할 수 있습니다.

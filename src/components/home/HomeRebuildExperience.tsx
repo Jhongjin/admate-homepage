@@ -197,7 +197,7 @@ function HeroWorld({ heroMotionLineMode }: HeroWorldProps) {
           </h1>
 
           <p className="mt-7 max-w-[620px] text-lg font-medium leading-8 text-white/72 sm:text-xl">
-            <span className="block">Agent Core가 Compass, Sentinel, Lens, Foresight의 신호를 맞춰</span>
+            <span className="block">AdMate가 Compass, Sentinel, Lens, Foresight의 신호를 맞춰</span>
             <span className="block">오늘 캠페인 운영에 필요한 판단을 빠르게 돕습니다.</span>
           </p>
 
@@ -254,7 +254,7 @@ function HeroSignalScene({ lineMode }: HeroSignalSceneProps) {
         </svg>
 
         <div className="homepage-art-core">
-          <span>Agent Core</span>
+          <span>운영 기억</span>
         </div>
 
       </div>
@@ -278,7 +278,7 @@ function SuiteManifest() {
           </div>
           <p className="max-w-[620px] text-lg font-medium leading-8 text-[#465650] lg:justify-self-end">
             Compass는 정책 기준을 확인하고 Sentinel은 위험을 살피며 Lens는 화면과 작업 내용을 남깁니다.
-            Foresight는 다음 성과를 가늠하고, Agent Core는 이 신호들을 맞춰 오늘의 운영 판단으로 정리합니다.
+            Foresight는 다음 성과를 가늠하고, AdMate는 이 신호들을 맞춰 오늘의 운영 판단으로 정리합니다.
           </p>
         </div>
 
@@ -349,7 +349,7 @@ function OperatingFilm() {
             <p className="mt-6 max-w-[560px] text-lg font-medium leading-8 text-[#4E4A43]">
               <span className="block">하나의 캠페인은 목표와 예산을 정리하는 일에서 시작해,</span>
               <span className="block">정책 확인과 사전 점검, 캡처 기록, 성과 예측으로 이어집니다.</span>
-              <span className="block">Agent Core는 각 단계의 신호를 맞춰 다음 결정을 더 분명하게 만듭니다.</span>
+              <span className="block">운영 기억은 각 단계의 신호를 맞춰 다음 결정을 더 분명하게 만듭니다.</span>
             </p>
           </div>
 
@@ -360,7 +360,7 @@ function OperatingFilm() {
             <div className="relative z-10 flex flex-col gap-5 border-b border-white/[0.07] pb-5 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#9DB0A8]">캠페인 운영 판단</div>
-                <div className="mt-2 max-w-[430px] text-2xl font-semibold leading-tight">Agent Core가 오늘 필요한 판단을 순서대로 맞춥니다</div>
+                <div className="mt-2 max-w-[430px] text-2xl font-semibold leading-tight">운영 판단 흐름이 오늘 필요한 결정을 순서대로 맞춥니다</div>
               </div>
               <div className="grid grid-cols-3 gap-2 text-right font-mono text-[10px] uppercase tracking-[0.14em] text-white/48">
                 <span>정책</span>

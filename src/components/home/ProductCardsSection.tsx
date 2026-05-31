@@ -44,7 +44,7 @@ const productDeskCopy: Record<
     desk: "계획 판단",
     signal: "예산 배분과 매체 믹스 선택지가 필요할 때",
     evidence: "과거 성과, 업종 기준, 시나리오",
-    decision: "예산안, PoC 범위, 매체 믹스 확정",
+    decision: "예산안, 시범 적용 범위, 매체 믹스 확정",
     handoff: "Compass와 Sentinel의 선행 조건으로 전달",
     cadence: "기획 단계",
   },
@@ -61,7 +61,7 @@ const docketItems = [
   },
   {
     label: "남겨야 할 결정",
-    value: "집행 가능, 수정 요청, 공유 확정, PoC 착수",
+    value: "집행 가능, 수정 요청, 공유 확정, 실험 착수",
   },
 ]
 
@@ -207,7 +207,7 @@ export function ProductCardsSection() {
                 Operating memory
               </div>
               <h3 className="mt-2 text-2xl font-semibold leading-tight text-[#101820]">
-                {core.shortName}는 데스크별 결정을 다음 회의의 기준으로 보관합니다.
+                운영 기억은 데스크별 결정을 다음 회의의 기준으로 보관합니다.
               </h3>
             </div>
             <div className="grid gap-2 sm:grid-cols-2">

@@ -61,14 +61,14 @@ export function AgentCoreSection() {
           eyebrow="Decision memory"
           title={
             <>
-              <span className="block">Agent Core는 제품 데스크의 판단을</span>
+              <span className="block">운영 기억은 제품 데스크의 판단을</span>
               <span className="block">다음 운영 회의의 기억으로 바꿉니다</span>
             </>
           }
           description={
             <>
               <span className="block">
-                Core는 기능을 과시하는 엔진이 아니라, 승인과 수정과 공유 판단을 다시 꺼내는 운영 장부입니다.
+                공통 운영 계층은 기능을 과시하는 엔진이 아니라, 승인과 수정과 공유 판단을 다시 꺼내는 운영 장부입니다.
               </span>
               <span className="block">
                 자동화는 실행을 돕고, 기억은 다음 판단을 더 짧고 정확하게 만듭니다.
@@ -81,7 +81,7 @@ export function AgentCoreSection() {
           <div className="border border-[#101820] bg-[#101820] text-white">
             <div className="border-b border-white/15 px-5 py-5">
               <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#B8C7BE]">
-                Core ledger
+                Memory ledger
               </div>
               <h3 className="mt-3 text-3xl font-semibold leading-tight">
                 운영 판단을 흘려보내지 않고, 다시 꺼낼 수 있는 기준으로 묶습니다.

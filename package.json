@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "check:homepage-public-copy": "node scripts/check-homepage-public-copy.mjs",
     "check:command-center-contract": "node scripts/check-command-center-contract.mjs",
     "check:access-request-policy": "node scripts/check-access-request-policy.mjs",
     "check:command-center-fixture": "node scripts/check-command-center-fixture.mjs",

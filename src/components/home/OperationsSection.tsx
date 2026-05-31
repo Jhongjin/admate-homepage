@@ -10,7 +10,7 @@ const operationMeta = [
     docket: "Cost posture",
     meeting: "비용 집행 회의",
     cadence: "상시",
-    signal: "LLM과 AI API 사용량이 제품·업무흐름별로 쌓입니다.",
+    signal: "유료 AI 사용량과 자동화 실행량이 제품·업무 흐름별로 쌓입니다.",
     evidence: "플랫폼, 모델, 기능 단위 사용량과 비용 흐름",
     decision: "확대, 제한, 대체 모델 선택",
     owner: "운영/재무",
@@ -34,11 +34,11 @@ const operationMeta = [
   {
     step: "03",
     docket: "Opportunity queue",
-    meeting: "PoC 투자 회의",
+    meeting: "제품화 검토 회의",
     cadence: "장기",
     signal: "반복 업무 문제와 시장 요구가 신규 솔루션 후보로 모입니다.",
     evidence: "내부 업무 데이터와 시장 문제 패턴",
-    decision: "PoC 착수, 대기, 폐기",
+    decision: "실험 착수, 대기, 폐기",
     owner: "사업/전략",
     accent: "#1F6F8B",
     tint: "#EAF4F7",
@@ -46,7 +46,7 @@ const operationMeta = [
   },
 ]
 
-const meetingSequence = ["비용 확인", "변화 반영", "PoC 판단", "Command Center 기록"]
+const meetingSequence = ["비용 확인", "변화 반영", "제품화 검토", "Command Center 기록"]
 
 export function OperationsSection() {
   return (

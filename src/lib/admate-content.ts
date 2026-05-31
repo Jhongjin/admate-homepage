@@ -87,7 +87,7 @@ export const products: Product[] = [
     id: "sentinel",
     name: "AdMate Sentinel",
     shortName: "Sentinel",
-    subtitle: "Campaign Validation & Live Monitoring",
+    subtitle: "Campaign Validation & 운영 이상 감지",
     tagline: "캠페인 사고를 사전에 막고 실시간으로 감지하다",
     description:
       "캠페인 시작 전에는 미디어믹스와 실제 매체 세팅값을 비교하고, 집행 후에는 예산·성과·상태 이상을 실시간으로 감지합니다.",
@@ -123,7 +123,7 @@ export const products: Product[] = [
     tagline: "다음 캠페인의 성과를 미리 예측하다",
     description:
       "과거 캠페인 데이터와 시장 트렌드를 기반으로 캠페인 기획 단계에서 예상 성과와 전략 방향을 제안합니다.",
-    features: ["예상 CPM/CPC/CTR/VTR 제공", "업종/목표별 벤치마크", "예산 대비 성과 시뮬레이션", "Meta PoC 후 타 매체 확장"],
+    features: ["예상 CPM/CPC/CTR/VTR 제공", "업종/목표별 벤치마크", "예산 대비 성과 시뮬레이션", "Meta 시범 적용 후 타 매체 확장"],
     href: officialLinks.foresight,
     linkLabel: "Foresight 열기",
     color: "#B45309",
@@ -133,13 +133,13 @@ export const products: Product[] = [
   },
   {
     id: "agent-core",
-    name: "AdMate Agent Core",
-    shortName: "Agent Core",
-    subtitle: "Intelligence & Automation Engine",
-    tagline: "지능과 자동화를 연결하다",
+    name: "AdMate 운영 기억",
+    shortName: "운영 기억",
+    subtitle: "운영 판단 흐름",
+    tagline: "판단과 자동화를 연결하다",
     description:
       "AdMate 플랫폼 전반의 업무 순서와 운영 기억을 연결해 정책 확인, 위험 감지, 화면 기록, 성과 예측을 함께 고도화합니다.",
-    features: ["업무 실행 관리", "Slack 요청 처리", "운영자 피드백 학습", "감사 로그 기록", "LLM 비용/사용량 추적"],
+    features: ["업무 실행 관리", "Slack 요청 처리", "운영자 피드백 학습", "확인 가능한 기록", "AI 사용량/비용 기준 추적"],
     color: "#111827",
     softColor: "#F4F4F4",
     borderColor: "#D4D4D4",
@@ -219,7 +219,7 @@ export const lifecycleSteps = [
   {
     step: "06",
     title: "학습/고도화",
-    product: "Agent Core",
+    product: "운영 기억",
     description: "운영자 피드백을 운영 지식으로 축적",
     icon: BrainCircuit,
   },
@@ -281,9 +281,9 @@ export const operations = [
 
 export const roadmap = [
   { phase: "Phase 1", goal: "Compass / Sentinel / Lens / Foresight 브랜드와 제품 구조 정리" },
-  { phase: "Phase 2", goal: "Agent Core 기반 Sentinel Live Monitoring 안정화" },
+  { phase: "Phase 2", goal: "공통 운영 계층 기반 Sentinel 운영 이상 감지 안정화" },
   { phase: "Phase 3", goal: "Lens와 Compass 화면 경험 정렬 및 작업 도구화" },
-  { phase: "Phase 4", goal: "Foresight Meta PoC 설계 및 데이터 기준 정리" },
+  { phase: "Phase 4", goal: "Foresight Meta 시범 적용 설계 및 데이터 기준 정리" },
   { phase: "Phase 5", goal: "AI 사용량 관리와 주간 개선 검토 구축" },
   { phase: "Phase 6", goal: "신규 업무 기회 검토 장기 확장" },
 ]
