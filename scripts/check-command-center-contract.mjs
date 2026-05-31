@@ -6,7 +6,9 @@ const requiredProjectIds = ['compass', 'sentinel', 'lens', 'foresight']
 const sourcePath = path.join(process.cwd(), 'src', 'lib', 'command-center-data.ts')
 const publicCopyFiles = [
   path.join(process.cwd(), 'src', 'app', 'command-center', 'page.tsx'),
+  path.join(process.cwd(), 'src', 'app', 'command-center', 'design-preview', 'page.tsx'),
   path.join(process.cwd(), 'src', 'components', 'command-center', 'CommandCenterPage.tsx'),
+  path.join(process.cwd(), 'src', 'components', 'command-center', 'CommandCenterDesignPreview.tsx'),
   path.join(process.cwd(), 'src', 'components', 'command-center', 'ProjectProgressCard.tsx'),
   path.join(process.cwd(), 'src', 'components', 'command-center', 'SummaryCards.tsx'),
   path.join(process.cwd(), 'src', 'components', 'command-center', 'StatusBadge.tsx'),
@@ -18,7 +20,12 @@ const forbiddenPublicCopyPatterns = [
   /Learning Governance/i,
   /operator log/i,
   /audit log/i,
-  /LLM\/API/i,
+  /\b(?:LLM|PoC|IA)\b/i,
+  /Design Preview/i,
+  /Product lane/i,
+  /Planning room/i,
+  /시안/,
+  /검증 마커/,
 ]
 
 function fail(message) {

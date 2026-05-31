@@ -57,13 +57,13 @@ const productOperatingNotes: Record<
     operatingQuestion: "운영 비용을 줄이는 기록인가",
   },
   foresight: {
-    lane: "Planning room",
+    lane: "예측 운영실",
     decision: "예측 기준을 이번 주 안에 확정할 수 있는가",
     proof: "벤치마크 데이터와 입력 지표",
     operatingQuestion: "예산 판단에 쓸 수 있는가",
   },
   agent_core: {
-    lane: "Operating room",
+    lane: "공통 운영실",
     decision: "제품군 공통 기준이 흔들리지 않는가",
     proof: "권한, 상태 기준, 운영 기록",
     operatingQuestion: "임원 보고 기준이 일관적인가",
@@ -296,7 +296,7 @@ function ReadinessLedger({ projects }: { projects: CommandCenterProject[] }) {
             <div key={project.id} className="grid gap-3 rounded-md border border-[#E1E5DC] bg-white p-3 lg:grid-cols-[160px_minmax(0,1fr)_110px] lg:items-center">
               <div className="min-w-0">
                 <div className="truncate text-[13px] font-semibold text-[#0D0D0D]">{project.name}</div>
-                <div className="mt-1 truncate text-[11px] font-semibold text-[#6E7769]">{notes?.lane || "Product lane"}</div>
+                <div className="mt-1 truncate text-[11px] font-semibold text-[#6E7769]">{notes?.lane || "운영 라인"}</div>
               </div>
               <div className="min-w-0">
                 <div className="break-words text-[13px] font-semibold leading-5 text-[#0D0D0D]">

@@ -109,7 +109,7 @@ export function CommandCenterDesignPreview({
               <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             </Link>
             <div className="min-w-0">
-              <div className="truncate text-[13px] font-semibold">AdMate Command Center / 시안</div>
+              <div className="truncate text-[13px] font-semibold">AdMate Command Center</div>
               <div className="mt-0.5 flex flex-wrap gap-x-3 gap-y-1 text-[11px] font-medium text-[#657066]">
                 <span>{data.weekLabel}</span>
                 <span>{sourceLabel}</span>
@@ -121,7 +121,7 @@ export function CommandCenterDesignPreview({
             <span className="rounded-md border border-[#CBD8CF] bg-white px-2.5 py-1 text-[#405047]">{boardState}</span>
             {hasSmokeMarker ? (
               <span className="rounded-md border border-[#F1CC88] bg-[#FFF8EA] px-2.5 py-1 text-[#8D560D]">
-                검증 마커
+                운영 확인용 데이터
               </span>
             ) : null}
           </div>
@@ -273,7 +273,7 @@ function OperatingMemory({ project }: { project: CommandCenterProject }) {
     <aside className="min-w-0 rounded-lg border border-[#C9D1C8] bg-[#FAFAF7] p-4 sm:p-5">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <div className="text-[11px] font-semibold uppercase text-[#687267]">Agent Core</div>
+          <div className="text-[11px] font-semibold uppercase text-[#687267]">운영 기억</div>
           <h2 className="mt-1 break-words text-xl font-semibold leading-tight text-[#101412]">공통 운영 현황</h2>
         </div>
         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-[#101820] text-white">
@@ -289,7 +289,7 @@ function OperatingMemory({ project }: { project: CommandCenterProject }) {
 
       <div className="mt-5 border-t border-[#DDE2DA] pt-4">
         <div className="mb-2 flex items-center justify-between gap-3">
-          <span className="text-[11px] font-semibold uppercase text-[#687267]">Agent Core 진행률</span>
+          <span className="text-[11px] font-semibold uppercase text-[#687267]">운영 기억 진행률</span>
           <span className="text-xl font-semibold leading-none tabular-nums text-[#101412]">{project.progress}%</span>
         </div>
         <ProgressBar value={project.progress} />

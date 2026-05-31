@@ -1,15 +1,13 @@
 import type { Metadata } from "next"
-
-import { CommandCenterDesignPreview } from "@/components/command-center/CommandCenterDesignPreview"
-import { commandCenterData } from "@/lib/command-center-data"
+import { permanentRedirect } from "next/navigation"
 
 export const dynamic = "force-static"
 
 export const metadata: Metadata = {
-  title: "AdMate Command Center Design Preview",
-  description: "AdMate Command Center의 디자인 후보 화면입니다.",
+  title: "AdMate Command Center",
+  description: "AdMate 제품군의 주간 진행 현황을 확인하는 임원용 대시보드입니다.",
   alternates: {
-    canonical: "/command-center/design-preview",
+    canonical: "/command-center",
   },
   robots: {
     index: false,
@@ -17,6 +15,6 @@ export const metadata: Metadata = {
   },
 }
 
-export default function CommandCenterDesignPreviewRoute() {
-  return <CommandCenterDesignPreview data={commandCenterData} />
+export default function RetiredCommandCenterRoute() {
+  permanentRedirect("/command-center")
 }

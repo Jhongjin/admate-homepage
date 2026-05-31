@@ -7,7 +7,9 @@ const source = (...parts) => path.join(root, ...parts)
 
 const files = {
   route: source('src', 'app', 'command-center', 'page.tsx'),
+  previewRoute: source('src', 'app', 'command-center', 'design-preview', 'page.tsx'),
   page: source('src', 'components', 'command-center', 'CommandCenterPage.tsx'),
+  previewPage: source('src', 'components', 'command-center', 'CommandCenterDesignPreview.tsx'),
   projectCard: source('src', 'components', 'command-center', 'ProjectProgressCard.tsx'),
   summaryCards: source('src', 'components', 'command-center', 'SummaryCards.tsx'),
   statusBadge: source('src', 'components', 'command-center', 'StatusBadge.tsx'),
@@ -37,6 +39,12 @@ const forbiddenPublicPatterns = [
   /x-admate-command-center-read-key/i,
   /COMMAND_CENTER_(?:API_URL|READ_KEY|LIVE_DATA|CONTRACT_LIVE)/,
   /ADMATE_COMMAND_CENTER_READ_KEY/,
+  /\b(?:LLM|PoC|IA)\b/i,
+  /Design Preview/i,
+  /Product lane/i,
+  /Planning room/i,
+  /시안/,
+  /검증 마커/,
   /\btoken\b/i,
   /\bsecret\b/i,
 ]
@@ -69,6 +77,10 @@ function assertNoForbidden(text, label) {
   }
 }
 
+function assertNoMatches(text, pattern, label, reason) {
+  if (pattern.test(text)) fail(`${label}: ${reason}`)
+}
+
 function extractFallbackDataBlock(text) {
   const startMarker = 'export const commandCenterData'
   const endMarker = 'export function getCommandCenterSummary'
@@ -84,7 +96,9 @@ function extractFallbackDataBlock(text) {
 }
 
 const routeText = read(files.route)
+const previewRouteText = read(files.previewRoute)
 const pageText = read(files.page)
+const previewPageText = read(files.previewPage)
 const projectCardText = read(files.projectCard)
 const summaryText = read(files.summaryCards)
 const statusText = read(files.statusBadge)
@@ -99,11 +113,22 @@ assertIncludes(fallbackDataText, requiredProjectNames, rel('src', 'lib', 'comman
 assertIncludes(smokeText, requiredStateCopy, rel('scripts', 'smoke-command-center.mjs'))
 
 assertNoForbidden(routeText, rel('src', 'app', 'command-center', 'page.tsx'))
+assertNoForbidden(previewRouteText, rel('src', 'app', 'command-center', 'design-preview', 'page.tsx'))
 assertNoForbidden(pageText, rel('src', 'components', 'command-center', 'CommandCenterPage.tsx'))
+assertNoForbidden(previewPageText, rel('src', 'components', 'command-center', 'CommandCenterDesignPreview.tsx'))
 assertNoForbidden(projectCardText, rel('src', 'components', 'command-center', 'ProjectProgressCard.tsx'))
 assertNoForbidden(summaryText, rel('src', 'components', 'command-center', 'SummaryCards.tsx'))
 assertNoForbidden(statusText, rel('src', 'components', 'command-center', 'StatusBadge.tsx'))
 assertNoForbidden(fallbackDataText, rel('src', 'lib', 'command-center-data.ts:fallback'))
+
+assertIncludes(previewRouteText, ['permanentRedirect("/command-center")'], rel('src', 'app', 'command-center', 'design-preview', 'page.tsx'))
+assertIncludes(previewRouteText, ['canonical: "/command-center"'], rel('src', 'app', 'command-center', 'design-preview', 'page.tsx'))
+assertNoMatches(
+  previewRouteText,
+  /CommandCenterDesignPreview|commandCenterData|\/command-center\/design-preview/,
+  rel('src', 'app', 'command-center', 'design-preview', 'page.tsx'),
+  'retired design route should redirect to the canonical Command Center surface',
+)
 
 if (!pageText.includes('overflow-x-hidden')) {
   fail('CommandCenterPage.tsx: missing page-level horizontal overflow guard')
